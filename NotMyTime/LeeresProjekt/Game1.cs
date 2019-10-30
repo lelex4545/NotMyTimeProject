@@ -16,6 +16,8 @@ namespace LeeresProjekt
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
         }
 
