@@ -20,6 +20,8 @@ namespace LeeresProjekt
         float elapsedTime;
         float delay = 200f;
         int frames = 0;
+        //Stehenbleiben
+        KeyboardState standing;
 
         public Game1()
         {
@@ -91,6 +93,8 @@ namespace LeeresProjekt
 
             //Zeitlogik damit sich der Charakter nicht zu schnell bewegt
 
+            KeyboardState newState = Keyboard.GetState();
+
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (elapsedTime >= delay)
@@ -102,17 +106,24 @@ namespace LeeresProjekt
                 elapsedTime = 0;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) == true)
+            if (newState.IsKeyDown(Keys.Left) == true)
             {
                 mainChar = walkLeft[frames];
+                standing = newState;
+            } else if (standing.IsKeyDown(Keys.Left))
+            {
+                mainChar = walkLeft[0];
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right) == true)
             {
                 mainChar = walkRight[frames];
+                standing = newState;
             }
-
-
+            else if (standing.IsKeyDown(Keys.Right))
+            {
+                mainChar = walkRight[0];
+            }
 
             base.Update(gameTime);
         }
