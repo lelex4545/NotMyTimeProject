@@ -12,13 +12,25 @@ namespace LeeresProjekt
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Charakter Animation
+        Texture2D mainChar;
+        Texture2D[] walkLeft;
+        Texture2D[] walkRight;
+        //Zeitlogik für die Bewegung
+        float elapsedTime;
+        float delay = 200f;
+        int frames = 0;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1280;
+            graphics.IsFullScreen = false;                  //Fullscreen
+            graphics.PreferredBackBufferWidth = 1280;       //Auflösung
             graphics.PreferredBackBufferHeight = 720;
             Content.RootDirectory = "Content";
+
+            walkLeft = new Texture2D[3];
+            walkRight = new Texture2D[3];
         }
 
         /// <summary>
@@ -44,6 +56,16 @@ namespace LeeresProjekt
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+
+            mainChar = Content.Load<Texture2D>("figure_left");
+
+            walkLeft[0] = Content.Load<Texture2D>("figure_left");
+            walkLeft[1] = Content.Load<Texture2D>("figure_walk_left1");
+            walkLeft[2] = Content.Load<Texture2D>("figure_walk_left2");
+
+            walkRight[0] = Content.Load<Texture2D>("figure_right");
+            walkRight[1] = Content.Load<Texture2D>("figure_walk_right1");
+            walkRight[2] = Content.Load<Texture2D>("figure_walk_right2");
         }
 
         /// <summary>
@@ -67,6 +89,31 @@ namespace LeeresProjekt
 
             // TODO: Add your update logic here
 
+            //Zeitlogik damit sich der Charakter nicht zu schnell bewegt
+
+            elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            if (elapsedTime >= delay)
+            {
+                if (frames >= 2)
+                    frames = 1;
+                else
+                    frames++;
+                elapsedTime = 0;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) == true)
+            {
+                mainChar = walkLeft[frames];
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) == true)
+            {
+                mainChar = walkRight[frames];
+            }
+
+
+
             base.Update(gameTime);
         }
 
@@ -79,6 +126,11 @@ namespace LeeresProjekt
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            //Zeichne Charakter
+            spriteBatch.Begin();
+            spriteBatch.Draw(mainChar, new Vector2(GraphicsDevice.Viewport.Width / 2 , GraphicsDevice.Viewport.Height / 2), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
