@@ -16,12 +16,14 @@ namespace LeeresProjekt
         Texture2D mainChar;
         Texture2D[] walkLeft;
         Texture2D[] walkRight;
+        Texture2D[] walkUp;
+        Texture2D[] walkDown;
         //Zeitlogik für die Bewegung
         float elapsedTime;
         float delay = 200f;
         int frames = 0;
         //Stehenbleiben
-        KeyboardState standing;
+        KeyboardState oldState;
 
         public Game1()
         {
@@ -29,6 +31,9 @@ namespace LeeresProjekt
             graphics.IsFullScreen = false;                  //Fullscreen
             graphics.PreferredBackBufferWidth = 1280;       //Auflösung
             graphics.PreferredBackBufferHeight = 720;
+
+            IsMouseVisible = true;
+
             Content.RootDirectory = "Content";
 
             walkLeft = new Texture2D[3];
@@ -68,6 +73,17 @@ namespace LeeresProjekt
             walkRight[0] = Content.Load<Texture2D>("figure_right");
             walkRight[1] = Content.Load<Texture2D>("figure_walk_right1");
             walkRight[2] = Content.Load<Texture2D>("figure_walk_right2");
+
+            /*      ***TEMPLATE FÜR OBEN UND UNTEN BEWEGUNG***
+             * 
+            walkUp[0] = Content.Load<Texture2D>("figure_up");
+            walkUp[1] = Content.Load<Texture2D>("figure_walk_up1");
+            walkUp[2] = Content.Load<Texture2D>("figure_walk_up2");
+
+            walkDown[0] = Content.Load<Texture2D>("figure_down");
+            walkDown[1] = Content.Load<Texture2D>("figure_walk_down1");
+            walkDown[2] = Content.Load<Texture2D>("figure_walk_down2");
+            */
         }
 
         /// <summary>
@@ -91,9 +107,10 @@ namespace LeeresProjekt
 
             // TODO: Add your update logic here
 
-            //Zeitlogik damit sich der Charakter nicht zu schnell bewegt
 
-            KeyboardState newState = Keyboard.GetState();
+            KeyboardState newState = Keyboard.GetState();   //Status der Gedrückten Taste als Variable
+
+            //Zeitlogik damit sich der Charakter nicht zu schnell bewegt
 
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
@@ -106,11 +123,13 @@ namespace LeeresProjekt
                 elapsedTime = 0;
             }
 
+            //Animation der Bewegung
+
             if (newState.IsKeyDown(Keys.Left) == true)
             {
                 mainChar = walkLeft[frames];
-                standing = newState;
-            } else if (standing.IsKeyDown(Keys.Left))
+                oldState = newState;
+            } else if (oldState.IsKeyDown(Keys.Left))
             {
                 mainChar = walkLeft[0];
             }
@@ -118,12 +137,35 @@ namespace LeeresProjekt
             if (Keyboard.GetState().IsKeyDown(Keys.Right) == true)
             {
                 mainChar = walkRight[frames];
-                standing = newState;
+                oldState = newState;
             }
-            else if (standing.IsKeyDown(Keys.Right))
+            else if (oldState.IsKeyDown(Keys.Right))
             {
                 mainChar = walkRight[0];
             }
+
+            /*  ***TEMPLATE FÜR OBEN UND UNTEN BEWEGUNG***
+             *  
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
+            {
+                mainChar = walkUp[frames];
+                oldState = newState;
+            }
+            else if (oldState.IsKeyDown(Keys.Up))
+            {
+                mainChar = walkUp[0];
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) == true)
+            {
+                mainChar = walkDown[frames];
+                oldState = newState;
+            }
+            else if (oldState.IsKeyDown(Keys.Down))
+            {
+                mainChar = walkDown[0];
+            }
+            */
 
             base.Update(gameTime);
         }
