@@ -36,8 +36,9 @@ namespace LeeresProjekt
 
             Content.RootDirectory = "Content";
 
-            walkLeft = new Texture2D[3];
-            walkRight = new Texture2D[3];
+            walkLeft = new Texture2D[5];
+            walkRight = new Texture2D[5];
+            walkUp = new Texture2D[3];
         }
 
         /// <summary>
@@ -69,17 +70,21 @@ namespace LeeresProjekt
             walkLeft[0] = Content.Load<Texture2D>("figure_left");
             walkLeft[1] = Content.Load<Texture2D>("figure_walk_left1");
             walkLeft[2] = Content.Load<Texture2D>("figure_walk_left2");
+            walkLeft[3] = Content.Load<Texture2D>("figure_walk_left3");
+            walkLeft[4] = Content.Load<Texture2D>("figure_walk_left4");
 
             walkRight[0] = Content.Load<Texture2D>("figure_right");
             walkRight[1] = Content.Load<Texture2D>("figure_walk_right1");
             walkRight[2] = Content.Load<Texture2D>("figure_walk_right2");
+            walkRight[3] = Content.Load<Texture2D>("figure_walk_right3");
+            walkRight[4] = Content.Load<Texture2D>("figure_walk_right4");
 
-            /*      ***TEMPLATE FÜR OBEN UND UNTEN BEWEGUNG***
-             * 
             walkUp[0] = Content.Load<Texture2D>("figure_up");
             walkUp[1] = Content.Load<Texture2D>("figure_walk_up1");
             walkUp[2] = Content.Load<Texture2D>("figure_walk_up2");
 
+            /*      ***TEMPLATE FÜR OBEN UND UNTEN BEWEGUNG***
+             * 
             walkDown[0] = Content.Load<Texture2D>("figure_down");
             walkDown[1] = Content.Load<Texture2D>("figure_walk_down1");
             walkDown[2] = Content.Load<Texture2D>("figure_walk_down2");
@@ -116,7 +121,7 @@ namespace LeeresProjekt
 
             if (elapsedTime >= delay)
             {
-                if (frames >= 2)
+                if (frames >= 4)
                     frames = 1;
                 else
                     frames++;
@@ -144,10 +149,9 @@ namespace LeeresProjekt
                 mainChar = walkRight[0];
             }
 
-            /*  ***TEMPLATE FÜR OBEN UND UNTEN BEWEGUNG***
-             *  
             if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
             {
+                if (frames > 2) frames = 1;
                 mainChar = walkUp[frames];
                 oldState = newState;
             }
@@ -156,6 +160,8 @@ namespace LeeresProjekt
                 mainChar = walkUp[0];
             }
 
+            /*  ***TEMPLATE FÜR UNTEN BEWEGUNG***
+             *  
             if (Keyboard.GetState().IsKeyDown(Keys.Down) == true)
             {
                 mainChar = walkDown[frames];
