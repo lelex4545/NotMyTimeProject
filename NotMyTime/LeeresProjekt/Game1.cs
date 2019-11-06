@@ -132,6 +132,7 @@ namespace LeeresProjekt
 
             if (newState.IsKeyDown(Keys.Left) == true)
             {
+                frames = 1;
                 mainChar = walkLeft[frames];
                 oldState = newState;
             } else if (oldState.IsKeyDown(Keys.Left))
@@ -141,6 +142,7 @@ namespace LeeresProjekt
 
             if (Keyboard.GetState().IsKeyDown(Keys.Right) == true)
             {
+                frames = 1;
                 mainChar = walkRight[frames];
                 oldState = newState;
             }
