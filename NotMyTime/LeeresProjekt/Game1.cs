@@ -12,19 +12,6 @@ namespace NotMyTime
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //Charakter Animation
-        Texture2D mainChar;
-        Texture2D[] walkLeft;
-        Texture2D[] walkRight;
-        Texture2D[] walkUp;
-        Texture2D[] walkDown;
-        //Zeitlogik für die Bewegung
-        float elapsedTime;
-        float delay = 200f;
-        int frames = 0;
-        //Stehenbleiben
-        KeyboardState oldState;
-
         //Map und Spielcharakter
         Map map;
         Player player;
@@ -39,10 +26,6 @@ namespace NotMyTime
             IsMouseVisible = true;
 
             Content.RootDirectory = "Content";
-
-            walkLeft = new Texture2D[5];
-            walkRight = new Texture2D[5];
-            walkUp = new Texture2D[3];
         }
 
         /// <summary>
@@ -87,31 +70,6 @@ namespace NotMyTime
             }, 100);
             player.generatePlayer();
             // TODO: use this.Content to load your game content here
-            /*
-                        mainChar = Content.Load<Texture2D>("figure_left");
-
-                        walkLeft[0] = Content.Load<Texture2D>("figure_left");
-                        walkLeft[1] = Content.Load<Texture2D>("figure_walk_left1");
-                        walkLeft[2] = Content.Load<Texture2D>("figure_walk_left2");
-                        walkLeft[3] = Content.Load<Texture2D>("figure_walk_left3");
-                        walkLeft[4] = Content.Load<Texture2D>("figure_walk_left4");
-
-                        walkRight[0] = Content.Load<Texture2D>("figure_right");
-                        walkRight[1] = Content.Load<Texture2D>("figure_walk_right1");
-                        walkRight[2] = Content.Load<Texture2D>("figure_walk_right2");
-                        walkRight[3] = Content.Load<Texture2D>("figure_walk_right3");
-                        walkRight[4] = Content.Load<Texture2D>("figure_walk_right4");
-
-                        walkUp[0] = Content.Load<Texture2D>("figure_up");
-                        walkUp[1] = Content.Load<Texture2D>("figure_walk_up1");
-                        walkUp[2] = Content.Load<Texture2D>("figure_walk_up2");
-                        */
-            /*      ***TEMPLATE FÜR OBEN UND UNTEN BEWEGUNG***
-             * 
-            walkDown[0] = Content.Load<Texture2D>("figure_down");
-            walkDown[1] = Content.Load<Texture2D>("figure_walk_down1");
-            walkDown[2] = Content.Load<Texture2D>("figure_walk_down2");
-            */
         }
 
         /// <summary>
@@ -136,67 +94,6 @@ namespace NotMyTime
             // TODO: Add your update logic here
 
             player.updatePosition(gameTime);
-            KeyboardState newState = Keyboard.GetState();   //Status der Gedrückten Taste als Variable
-
-            //Zeitlogik damit sich der Charakter nicht zu schnell bewegt
-            /*
-            elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-
-            if (elapsedTime >= delay)
-            {
-                if (frames >= 4)
-                    frames = 1;
-                else
-                    frames++;
-                elapsedTime = 0;
-            }
-
-            //Animation der Bewegung
-
-            if (newState.IsKeyDown(Keys.Left) == true)
-            {
-                frames = 1;
-                mainChar = walkLeft[frames];
-                oldState = newState;
-            } else if (oldState.IsKeyDown(Keys.Left))
-            {
-                mainChar = walkLeft[0];
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) == true)
-            {
-                frames = 1;
-                mainChar = walkRight[frames];
-                oldState = newState;
-            }
-            else if (oldState.IsKeyDown(Keys.Right))
-            {
-                mainChar = walkRight[0];
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
-            {
-                if (frames > 2) frames = 1;
-                mainChar = walkUp[frames];
-                oldState = newState;
-            }
-            else if (oldState.IsKeyDown(Keys.Up))
-            {
-                mainChar = walkUp[0];
-            }
-
-            /*  ***TEMPLATE FÜR UNTEN BEWEGUNG***
-             *  
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) == true)
-            {
-                mainChar = walkDown[frames];
-                oldState = newState;
-            }
-            else if (oldState.IsKeyDown(Keys.Down))
-            {
-                mainChar = walkDown[0];
-            }
-            */
             
             base.Update(gameTime);
         }
@@ -213,7 +110,6 @@ namespace NotMyTime
 
             //Zeichne Charakter
             spriteBatch.Begin();
-            //spriteBatch.Draw(mainChar, new Vector2(GraphicsDevice.Viewport.Width / 2 , GraphicsDevice.Viewport.Height / 2), Color.White);
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             spriteBatch.End();
