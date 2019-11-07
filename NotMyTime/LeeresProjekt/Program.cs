@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LeeresProjekt
+namespace NotMyTime
 {
 #if WINDOWS || LINUX
     /// <summary>

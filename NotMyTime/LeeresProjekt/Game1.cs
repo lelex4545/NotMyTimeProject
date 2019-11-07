@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace LeeresProjekt
+namespace NotMyTime
 {
     /// <summary>
     /// This is the main type for your game.
@@ -24,6 +24,10 @@ namespace LeeresProjekt
         int frames = 0;
         //Stehenbleiben
         KeyboardState oldState;
+
+        //Map und Spielcharakter
+        Map map;
+        Player player;
 
         public Game1()
         {
@@ -51,6 +55,11 @@ namespace LeeresProjekt
         {
             // TODO: Add your initialization logic here
 
+            //Map und Spieler initialisieren + Content des "Players" verbinden
+            map = new Map();
+            Sprite.Content = Content;
+            player = new Player(new Rectangle(6 * 100, 4 * 100, 100, 100));
+
             base.Initialize();
         }
 
@@ -63,26 +72,40 @@ namespace LeeresProjekt
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            Tiles.Content = Content;
+            map.Generate(new int[,]
+            {
+                {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+                {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+                {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
+                {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
+                {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
+
+            }, 100);
+            player.generatePlayer();
             // TODO: use this.Content to load your game content here
+            /*
+                        mainChar = Content.Load<Texture2D>("figure_left");
 
-            mainChar = Content.Load<Texture2D>("figure_left");
+                        walkLeft[0] = Content.Load<Texture2D>("figure_left");
+                        walkLeft[1] = Content.Load<Texture2D>("figure_walk_left1");
+                        walkLeft[2] = Content.Load<Texture2D>("figure_walk_left2");
+                        walkLeft[3] = Content.Load<Texture2D>("figure_walk_left3");
+                        walkLeft[4] = Content.Load<Texture2D>("figure_walk_left4");
 
-            walkLeft[0] = Content.Load<Texture2D>("figure_left");
-            walkLeft[1] = Content.Load<Texture2D>("figure_walk_left1");
-            walkLeft[2] = Content.Load<Texture2D>("figure_walk_left2");
-            walkLeft[3] = Content.Load<Texture2D>("figure_walk_left3");
-            walkLeft[4] = Content.Load<Texture2D>("figure_walk_left4");
+                        walkRight[0] = Content.Load<Texture2D>("figure_right");
+                        walkRight[1] = Content.Load<Texture2D>("figure_walk_right1");
+                        walkRight[2] = Content.Load<Texture2D>("figure_walk_right2");
+                        walkRight[3] = Content.Load<Texture2D>("figure_walk_right3");
+                        walkRight[4] = Content.Load<Texture2D>("figure_walk_right4");
 
-            walkRight[0] = Content.Load<Texture2D>("figure_right");
-            walkRight[1] = Content.Load<Texture2D>("figure_walk_right1");
-            walkRight[2] = Content.Load<Texture2D>("figure_walk_right2");
-            walkRight[3] = Content.Load<Texture2D>("figure_walk_right3");
-            walkRight[4] = Content.Load<Texture2D>("figure_walk_right4");
-
-            walkUp[0] = Content.Load<Texture2D>("figure_up");
-            walkUp[1] = Content.Load<Texture2D>("figure_walk_up1");
-            walkUp[2] = Content.Load<Texture2D>("figure_walk_up2");
-
+                        walkUp[0] = Content.Load<Texture2D>("figure_up");
+                        walkUp[1] = Content.Load<Texture2D>("figure_walk_up1");
+                        walkUp[2] = Content.Load<Texture2D>("figure_walk_up2");
+                        */
             /*      ***TEMPLATE FÜR OBEN UND UNTEN BEWEGUNG***
              * 
             walkDown[0] = Content.Load<Texture2D>("figure_down");
@@ -112,11 +135,11 @@ namespace LeeresProjekt
 
             // TODO: Add your update logic here
 
-
+            player.updatePosition(gameTime);
             KeyboardState newState = Keyboard.GetState();   //Status der Gedrückten Taste als Variable
 
             //Zeitlogik damit sich der Charakter nicht zu schnell bewegt
-
+            /*
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             if (elapsedTime >= delay)
@@ -174,7 +197,7 @@ namespace LeeresProjekt
                 mainChar = walkDown[0];
             }
             */
-
+            
             base.Update(gameTime);
         }
 
@@ -190,7 +213,9 @@ namespace LeeresProjekt
 
             //Zeichne Charakter
             spriteBatch.Begin();
-            spriteBatch.Draw(mainChar, new Vector2(GraphicsDevice.Viewport.Width / 2 , GraphicsDevice.Viewport.Height / 2), Color.White);
+            //spriteBatch.Draw(mainChar, new Vector2(GraphicsDevice.Viewport.Width / 2 , GraphicsDevice.Viewport.Height / 2), Color.White);
+            map.Draw(spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
