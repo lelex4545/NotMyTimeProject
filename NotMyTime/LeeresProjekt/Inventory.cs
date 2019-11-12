@@ -1,8 +1,81 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class Inventory
+namespace NotMyTime
 {
-	public Inventory()
-	{
-	}
+
+
+
+    class Inventory
+    {
+        private Texture2D texture;
+        bool invOpen = false;
+        float lastChange;
+        private Rectangle rectangle;
+
+        public Rectangle Rectangle
+        {
+            get { return rectangle; }
+            set { rectangle = value; }
+        }
+
+        private static ContentManager content;
+
+        public static ContentManager Content
+        {
+            protected get { return content; }
+            set { content = value; }
+        }
+ //-----------------------------------------------------------------------
+        //Inventar drawn
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if(texture != null)
+                //spriteBatch.Draw(texture, rectangle, Color.White);
+                spriteBatch.Draw(texture, rectangle, null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1, SpriteEffects.None, 0);
+        }
+
+        //Constructor
+        public Inventory()
+        {
+            
+        }
+
+        //Wenn I gedrückt wird öffnet/schließt sich das Inventar
+        public void openInventory(GameTime gameTime)
+        {
+            lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (lastChange >= 0.1f)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.I))
+                {
+                    if (invOpen == false)
+                    {
+                        texture = Content.Load<Texture2D>("inventory");
+                        invOpen = true;
+                    }
+                    else
+                    {
+                        texture = null;
+                        invOpen = false;
+                    }
+
+                }
+            lastChange = 0f;
+            }
+        }
+
+        //Einstellungen vom Rectangle
+        public void generateInventory(GraphicsDeviceManager graphics)
+        {
+            rectangle = new Rectangle(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2, 700, 700);
+        }
+    }
 }

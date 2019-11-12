@@ -15,6 +15,8 @@ namespace NotMyTime
         //Map und Spielcharakter
         Map map;
         Player player;
+        //inventar Objekt
+        Inventory inventory;  
 
         public Game1()
         {
@@ -42,6 +44,7 @@ namespace NotMyTime
             map = new Map();
             Sprite.Content = Content;
             player = new Player(new Rectangle(6 * 100, 4 * 100, 100, 100));
+            inventory = new Inventory();
 
             base.Initialize();
         }
@@ -56,6 +59,8 @@ namespace NotMyTime
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Tiles.Content = Content;
+            Inventory.Content = Content;
+
             map.Generate(new int[,]
             {
                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
@@ -69,6 +74,7 @@ namespace NotMyTime
 
             }, 100);
             player.generatePlayer();
+            inventory.generateInventory(graphics);
             // TODO: use this.Content to load your game content here
         }
 
@@ -94,6 +100,7 @@ namespace NotMyTime
             // TODO: Add your update logic here
 
             player.updatePosition(gameTime);
+            inventory.openInventory(gameTime);
             
             base.Update(gameTime);
         }
@@ -112,6 +119,7 @@ namespace NotMyTime
             spriteBatch.Begin();
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
+            inventory.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
