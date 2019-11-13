@@ -119,7 +119,7 @@ namespace NotMyTime
             spriteBatch.Begin();
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            inventory.Draw(spriteBatch);
+            inventory.Draw(spriteBatch, graphics);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -35,11 +35,11 @@ namespace NotMyTime
         }
  //-----------------------------------------------------------------------
         //Inventar drawn
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
             if(texture != null)
                 //spriteBatch.Draw(texture, rectangle, Color.White);
-                spriteBatch.Draw(texture, rectangle, null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(texture, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1f, SpriteEffects.None, 0f);
         }
 
         //Constructor
@@ -75,7 +75,7 @@ namespace NotMyTime
         //Einstellungen vom Rectangle
         public void generateInventory(GraphicsDeviceManager graphics)
         {
-            rectangle = new Rectangle(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2, 700, 700);
+            //rectangle = new Rectangle(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2, 700, 700);
         }
     }
 }
