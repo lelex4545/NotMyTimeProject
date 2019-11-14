@@ -17,6 +17,7 @@ namespace NotMyTime
     {
         private Texture2D texture;
         bool invOpen = false;
+        bool keyBlock = true;
         float lastChange;
         private Rectangle rectangle;
 
@@ -52,6 +53,11 @@ namespace NotMyTime
         public void openInventory(GameTime gameTime)
         {
             lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (Keyboard.GetState().IsKeyUp(Keys.I))
+                keyBlock = true;
+
+            if(keyBlock)
             if (lastChange >= 0.1f)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.I))
@@ -66,7 +72,7 @@ namespace NotMyTime
                         texture = null;
                         invOpen = false;
                     }
-
+                        keyBlock = false;
                 }
             lastChange = 0f;
             }

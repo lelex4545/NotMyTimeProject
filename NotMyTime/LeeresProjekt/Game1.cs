@@ -61,18 +61,19 @@ namespace NotMyTime
             Tiles.Content = Content;
             Inventory.Content = Content;
 
-            map.Generate(new int[,]
-            {
-                {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
-                {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
-                {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
-                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
-                {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
-                {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
+             map.Generate(new int[,]
+             {
+                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
+                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                 {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
+                 {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
+                 {2,2,2,2,2,2,1,1,2,2,2,2,2,2,2},
 
-            }, 100);
+             }, 100);
+            
             player.generatePlayer();
             inventory.generateInventory(graphics);
             // TODO: use this.Content to load your game content here
@@ -99,7 +100,7 @@ namespace NotMyTime
 
             // TODO: Add your update logic here
 
-            player.updatePosition(gameTime);
+            player.updatePosition(gameTime, map);
             inventory.openInventory(gameTime);
             
             base.Update(gameTime);

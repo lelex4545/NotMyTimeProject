@@ -40,10 +40,11 @@ namespace NotMyTime
     {
         private float lastMove = 0f;
         private float wait = 0f;
-        Texture2D[] left, right, top;
+        Texture2D[] left, right, top, bottom;
         public const int size = 50;
         int help = 0;
         bool changefoot = false;
+        bool col = false;
         public Player(Rectangle newRectangle)
         {
             texture = Content.Load<Texture2D>("figure_right");
@@ -51,6 +52,7 @@ namespace NotMyTime
             left = new Texture2D[5];
             right = new Texture2D[5];
             top = new Texture2D[3];
+            bottom = new Texture2D[3];
         }
 
         public void generatePlayer()
@@ -70,140 +72,196 @@ namespace NotMyTime
             top[0] = Content.Load<Texture2D>("figur_top");
             top[1] = Content.Load<Texture2D>("figure_top1");
             top[2] = Content.Load<Texture2D>("figure_top2");
+
+            bottom[0] = Content.Load<Texture2D>("figure_bottom");
+            bottom[1] = Content.Load<Texture2D>("figure_bottom1");
+            bottom[2] = Content.Load<Texture2D>("figure_bottom2");
         }
 
-        public void updatePosition(GameTime gameTime)
+        public void updatePosition(GameTime gameTime, Map map)
         {
-            wait += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            if (wait > 0.2f)
+            Rectangle tmp = new Rectangle(0, 0, 1, 0);
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                if (help == 4)
-                {
-                    if (changefoot == false)
-                    {
-                        rectangle.X = rectangle.X + size;
-                        texture = right[2];
-                        help = 0;
-                        wait = 0;
-                        changefoot = true;
-                    }
-                    else
-                    {
-                        rectangle.X = rectangle.X + size;
-                        texture = right[4];
-                        help = 0;
-                        wait = 0;
-                        changefoot = false;
-                    }
-                }
-                else
-                if (help == 3)
-                {
+                tmp = new Rectangle(rectangle.X, rectangle.Y + size*2, size*2, size*2);
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && tile.texture.Name.Equals("tile2"))
+                        col = true;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                tmp = new Rectangle(rectangle.X, rectangle.Y - size*2, size*2, size*2);
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && tile.texture.Name.Equals("tile2"))
+                        col = true;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
 
-                }
-                else
-                if (help == 2)
-                {
-                    if (changefoot == false)
-                    {
-                        rectangle.X = rectangle.X - size;
-                        texture = left[2];
-                        help = 0;
-                        wait = 0;
-                        changefoot = true;
-                    }
-                    else
-                    {
-                        rectangle.X = rectangle.X - size;
-                        texture = left[4];
-                        help = 0;
-                        wait = 0;
-                        changefoot = false;
-                    }
-                }
-                else
-                if (help == 1)
-                {
-                    rectangle.Y = rectangle.Y - size;
-                    texture = top[2];
-                    help = 0;
-                    wait = 0;
-                }
+                tmp = new Rectangle(rectangle.X - size*2, rectangle.Y, size*2, size*2);
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && tile.texture.Name.Equals("tile2"))
+                        col = true;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                tmp = new Rectangle(rectangle.X + size*2, rectangle.Y, size*2, size*2);
+                foreach (CollisionTiles tile in map.CollisionTiles)
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && tile.texture.Name.Equals("tile2"))
+                        col = true;
             }
 
-            lastMove += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (lastMove > 0.4f)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.W))
-                {
-                    rectangle.Y = rectangle.Y - size;
-                    texture = top[1];
-                    lastMove = 0f;
-                    help = 1;
-                    wait = 0;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    if (changefoot == false)
-                    {
-                        rectangle.X = rectangle.X - size;
-                        texture = left[1];
-                        lastMove = 0f;
-                        help = 2;
-                        wait = 0;
-                    }
-                    else
-                    {
-                        rectangle.X = rectangle.X - size;
-                        texture = left[3];
-                        lastMove = 0f;
-                        help = 2;
-                        wait = 0;
-                    }
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.S))
-                {
-                    rectangle.Y = rectangle.Y + size;
+            
 
-                    lastMove = 0f;
-                    help = 3;
-                }
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (col == false)
+            {
+                wait += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (wait > 0.2f)
                 {
-                    if (changefoot == false)
+                    if (help == 4)
                     {
-                        rectangle.X = rectangle.X + size;
-                        texture = right[1];
-                        lastMove = 0f;
-                        help = 4;
+                        if (changefoot == false)
+                        {
+                            rectangle.X = rectangle.X + size;
+                            texture = right[2];
+                            help = 0;
+                            wait = 0;
+                            changefoot = true;
+                        }
+                        else
+                        {
+                            rectangle.X = rectangle.X + size;
+                            texture = right[4];
+                            help = 0;
+                            wait = 0;
+                            changefoot = false;
+                        }
+                    }
+                    else
+                    if (help == 3)
+                    {
+                        rectangle.Y = rectangle.Y + size;
+                        texture = bottom[2];
+                        help = 0;
                         wait = 0;
                     }
                     else
+                    if (help == 2)
                     {
-                        rectangle.X = rectangle.X + size;
-                        texture = right[3];
-                        lastMove = 0f;
-                        help = 4;
+                        if (changefoot == false)
+                        {
+                            rectangle.X = rectangle.X - size;
+                            texture = left[2];
+                            help = 0;
+                            wait = 0;
+                            changefoot = true;
+                        }
+                        else
+                        {
+                            rectangle.X = rectangle.X - size;
+                            texture = left[4];
+                            help = 0;
+                            wait = 0;
+                            changefoot = false;
+                        }
+                    }
+                    else
+                    if (help == 1)
+                    {
+                        rectangle.Y = rectangle.Y - size;
+                        texture = top[2];
+                        help = 0;
                         wait = 0;
+                    }
+                    
+                }
+
+                lastMove += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (lastMove > 0.4f && (texture != left[0]||texture !=right[0]||texture != top[0]||texture != bottom[0]))
+                {
+                    if (Keyboard.GetState().IsKeyDown(Keys.W))
+                    {
+                        rectangle.Y = rectangle.Y - size;
+                        texture = top[1];
+                        lastMove = 0f;
+                        help = 1;
+                        wait = 0;
+                        return;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.A))
+                    {
+                        if (changefoot == false)
+                        {
+                            rectangle.X = rectangle.X - size;
+                            texture = left[1];
+                            lastMove = 0f;
+                            help = 2;
+                            wait = 0;
+                            return;
+                        }
+                        else
+                        {
+                            rectangle.X = rectangle.X - size;
+                            texture = left[3];
+                            lastMove = 0f;
+                            help = 2;
+                            wait = 0;
+                            return;
+                        }
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    {
+                        rectangle.Y = rectangle.Y + size;
+                        texture = bottom[1];
+                        lastMove = 0f;
+                        help = 3;
+                        wait = 0;
+                        return;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.D))
+                    {
+                        if (changefoot == false)
+                        {
+                            rectangle.X = rectangle.X + size;
+                            texture = right[1];
+                            lastMove = 0f;
+                            help = 4;
+                            wait = 0;
+                            return;
+                        }
+                        else
+                        {
+                            rectangle.X = rectangle.X + size;
+                            texture = right[3];
+                            lastMove = 0f;
+                            help = 4;
+                            wait = 0;
+                            return;
+                        }
+                    }
+                }
+                if (lastMove > 0.5f)
+                {
+                    if (texture == right[2] || texture == right[4])
+                    {
+                        texture = right[0];
+                    }
+                    if (texture == left[2] || texture == left[4])
+                    {
+                        texture = left[0];
+                    }
+                    if (texture == top[2])
+                    {
+                        texture = top[0];
+                    }
+                    if (texture == bottom[2])
+                    {
+                        texture = bottom[0];
                     }
                 }
             }
-            if (lastMove > 0.5f)
-            {
-                if (texture == right[2] || texture == right[4])
-                {
-                    texture = right[0];
-                }
-                if (texture == left[2] || texture == left[4])
-                {
-                    texture = left[0];
-                }
-                if (texture == top[2])
-                {
-                    texture = top[0];
-                }
-            }
+            col = false;
         }
     }
 }

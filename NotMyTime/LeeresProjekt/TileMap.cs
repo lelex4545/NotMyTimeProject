@@ -11,7 +11,7 @@ namespace NotMyTime
 {
     class Tiles
     {
-        protected Texture2D texture;
+        public Texture2D texture;
         private Rectangle rectangle;
         public Rectangle Rectangle
         {
@@ -25,6 +25,10 @@ namespace NotMyTime
             set { content = value; }
         }
 
+        public Tiles()
+        {
+            
+        }
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, Rectangle, Color.White);
@@ -33,10 +37,12 @@ namespace NotMyTime
 
     class CollisionTiles : Tiles
     {
+        
         public CollisionTiles(int i, Rectangle newRectangle)
-        {
-            texture = Content.Load<Texture2D>("tile" + i);
-            this.Rectangle = newRectangle;
+        {       
+                texture = Content.Load<Texture2D>("tile" + i);
+                this.Rectangle = newRectangle;
+            
         }
     }
 }
