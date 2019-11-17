@@ -12,11 +12,10 @@ namespace NotMyTime
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        //Map und Spielcharakter
-        Map map;
-        Player player;
-        //inventar Objekt
-        Inventory inventory;  
+        Map map;                       //Map
+        Player player;                 //Spielcharakter
+        Inventory inventory;          //inventar Objekt
+        Loot loot1;                    //Schwert 1
 
         public Game1()
         {
@@ -45,6 +44,7 @@ namespace NotMyTime
             Sprite.Content = Content;
             player = new Player(new Rectangle(6 * 100, 4 * 100, 100, 100));
             inventory = new Inventory();
+            loot1 = new Loot(new Rectangle(150, 300, 100, 100));
 
             base.Initialize();
         }
@@ -60,6 +60,8 @@ namespace NotMyTime
 
             Tiles.Content = Content;
             Inventory.Content = Content;
+            //Loot.Content = Content;
+            loot1.LoadContent(Content, GraphicsDevice, "weapon");
 
              map.Generate(new int[,]
              {
@@ -102,6 +104,8 @@ namespace NotMyTime
 
             player.updatePosition(gameTime, map);
             inventory.openInventory(gameTime);
+            //loot collision
+            loot1.Collison(player);
             
             base.Update(gameTime);
         }
@@ -114,13 +118,19 @@ namespace NotMyTime
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            if (loot1.Collided)
+            {
+                loot1.texture= null;
+            }
+
             // TODO: Add your drawing code here
 
-            //Zeichne Charakter
+            //Zeichne Sprites
             spriteBatch.Begin();
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             inventory.Draw(spriteBatch, graphics);
+            loot1.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

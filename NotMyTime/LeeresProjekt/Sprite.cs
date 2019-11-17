@@ -13,8 +13,7 @@ namespace NotMyTime
     class Sprite
     {
         protected Texture2D texture;
-        protected Rectangle rectangle;
-
+        public Rectangle rectangle;
 
         public Rectangle Rectangle
         {
