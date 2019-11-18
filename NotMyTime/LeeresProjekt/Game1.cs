@@ -106,7 +106,10 @@ namespace NotMyTime
             inventory.openInventory(gameTime);
             //loot collision
             loot1.Collison(player);
-            
+            if (loot1.Collided)
+            {
+                loot1.texture = null;
+            }
             base.Update(gameTime);
         }
 
@@ -117,11 +120,6 @@ namespace NotMyTime
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            if (loot1.Collided)
-            {
-                loot1.texture= null;
-            }
 
             // TODO: Add your drawing code here
 
