@@ -42,6 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Battlesystem.cs" />
+    <Compile Include="Camera.cs" />
     <Compile Include="Loot.cs" />
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="Inventory.cs" />

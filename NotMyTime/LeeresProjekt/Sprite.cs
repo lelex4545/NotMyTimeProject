@@ -116,7 +116,7 @@ namespace NotMyTime
             {
                 wait += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (wait > 0.2f)
+                if (wait > 0.15f)
                 {
                     if (help == 4)
                     {
@@ -177,7 +177,7 @@ namespace NotMyTime
                 }
 
                 lastMove += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (lastMove > 0.4f && (texture != left[0]||texture !=right[0]||texture != top[0]||texture != bottom[0]))
+                if (lastMove > 0.3f && (texture != left[0]||texture !=right[0]||texture != top[0]||texture != bottom[0]))
                 {
                     if (Keyboard.GetState().IsKeyDown(Keys.W))
                     {

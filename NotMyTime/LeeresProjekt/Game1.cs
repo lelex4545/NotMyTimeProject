@@ -12,6 +12,10 @@ namespace NotMyTime
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        public static int ScreenHeight;
+        public static int ScreenWidth;
+        private Camera camera;
+
         Map map;                       //Map
         Player player;                 //Spielcharakter
         Inventory inventory;          //inventar Objekt
@@ -43,6 +47,8 @@ namespace NotMyTime
             map = new Map();
             Sprite.Content = Content;
             player = new Player(new Rectangle(6 * 100, 4 * 100, 100, 100));
+            ScreenHeight = graphics.PreferredBackBufferHeight;
+            ScreenWidth = graphics.PreferredBackBufferWidth;
             inventory = new Inventory();
             loot1 = new Loot(new Rectangle(150, 300, 100, 100));
 
@@ -77,6 +83,7 @@ namespace NotMyTime
              }, 100);
             
             player.generatePlayer();
+            camera = new Camera();
             inventory.generateInventory(graphics);
             // TODO: use this.Content to load your game content here
         }
@@ -103,6 +110,7 @@ namespace NotMyTime
             // TODO: Add your update logic here
 
             player.updatePosition(gameTime, map);
+            camera.Follow(player);
             inventory.openInventory(gameTime);
             //loot collision
             loot1.Collison(player);
@@ -124,7 +132,7 @@ namespace NotMyTime
             // TODO: Add your drawing code here
 
             //Zeichne Sprites
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera.Transform);
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             inventory.Draw(spriteBatch, graphics);
