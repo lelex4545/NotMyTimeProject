@@ -21,8 +21,8 @@ namespace NotMyTime
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;                  //Fullscreen
-            graphics.PreferredBackBufferWidth = 1280;       //Auflösung
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1920;       //Auflösung
+            graphics.PreferredBackBufferHeight = 1080;
 
             IsMouseVisible = true;
 
