@@ -21,6 +21,8 @@ namespace NotMyTime
         Inventory inventory;          //inventar Objekt
         Loot loot1;                    //Schwert 1
 
+        Battlemode battlemode;       //Battlemode
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,6 +53,9 @@ namespace NotMyTime
             ScreenWidth = graphics.PreferredBackBufferWidth;
             inventory = new Inventory();
             loot1 = new Loot(new Rectangle(150, 300, 100, 100));
+
+            //battlemode = new Battlemode();
+            //Battlemode.Content = Content;
 
             base.Initialize();
         }
@@ -85,6 +90,8 @@ namespace NotMyTime
             player.generatePlayer();
             camera = new Camera();
             inventory.generateInventory(graphics);
+
+            //battlemode.generateBattle();
             // TODO: use this.Content to load your game content here
         }
 
@@ -118,6 +125,10 @@ namespace NotMyTime
             {
                 loot1.texture = null;
             }
+
+            //battlemode.updateMovement(gameTime);
+
+
             base.Update(gameTime);
         }
 
@@ -137,6 +148,9 @@ namespace NotMyTime
             player.Draw(spriteBatch);
             inventory.Draw(spriteBatch, graphics);
             loot1.Draw(spriteBatch);
+
+            //battlemode.drawBattle(spriteBatch);
+
             spriteBatch.End();
 
             base.Draw(gameTime);

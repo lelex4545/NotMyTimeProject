@@ -41,8 +41,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Battlesystem.cs" />
+    <Compile Include="Battlemode.cs" />
     <Compile Include="Camera.cs" />
+    <Compile Include="Fighter.cs" />
     <Compile Include="Loot.cs" />
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="Inventory.cs" />
