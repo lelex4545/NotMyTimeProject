@@ -12,6 +12,7 @@ namespace NotMyTime
     class Loot
     {
         public Texture2D texture;
+        public bool pickup;
 
         private Rectangle rectangle;
 
@@ -36,7 +37,7 @@ namespace NotMyTime
         public Loot(Rectangle newRectangle)
         {
             this.Rectangle = newRectangle;
-
+            pickup = true;
         }
 
         //getTexuture
@@ -51,10 +52,16 @@ namespace NotMyTime
         }
 
         //Draw Loot
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
-            if (texture != null)
+            //if (texture != null)
+            if (Collided == false && pickup)
                 spriteBatch.Draw(texture, new Vector2(200, 400), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
+            else
+            {
+                spriteBatch.Draw(texture, new Vector2(x + 935, y + 465), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), 3f, SpriteEffects.None, 0f);
+                pickup = false;
+            }
         }
 
         //Loot soll verschwinden und im Inventar auftauchen

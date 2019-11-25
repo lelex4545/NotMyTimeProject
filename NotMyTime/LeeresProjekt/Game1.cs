@@ -89,7 +89,7 @@ namespace NotMyTime
             
             player.generatePlayer();
             camera = new Camera();
-            inventory.generateInventory(graphics);
+            inventory.LoadContent(Content, GraphicsDevice, "Inventar");
 
             //battlemode.generateBattle();
             // TODO: use this.Content to load your game content here
@@ -118,13 +118,13 @@ namespace NotMyTime
 
             player.updatePosition(gameTime, map);
             camera.Follow(player);
-            inventory.openInventory(gameTime);
+            //inventory.openInventory(gameTime);
             //loot collision
             loot1.Collison(player);
-            if (loot1.Collided)
+            /*if (loot1.Collided)
             {
                 loot1.texture = null;
-            }
+            }*/
 
             //battlemode.updateMovement(gameTime);
 
@@ -146,8 +146,8 @@ namespace NotMyTime
             spriteBatch.Begin(transformMatrix: camera.Transform);
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            inventory.Draw(spriteBatch, graphics);
-            loot1.Draw(spriteBatch);
+            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             //battlemode.drawBattle(spriteBatch);
 
