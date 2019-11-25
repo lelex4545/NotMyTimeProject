@@ -19,7 +19,8 @@ namespace NotMyTime
         Map map;                       //Map
         Player player;                 //Spielcharakter
         Inventory inventory;          //inventar Objekt
-        Loot loot1;                    //Schwert 1
+        Loot loot1;                   //Schwert
+        Loot loot2;                   //keule
 
         Battlemode battlemode;       //Battlemode
 
@@ -52,7 +53,10 @@ namespace NotMyTime
             ScreenHeight = graphics.PreferredBackBufferHeight;
             ScreenWidth = graphics.PreferredBackBufferWidth;
             inventory = new Inventory();
-            loot1 = new Loot(new Rectangle(150, 300, 100, 100));
+
+            //parameter: recatangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
+            loot1 = new Loot(new Rectangle(150, 300, 100, 100), 200, 400, 1.0f, 3.0f, 935, 465);
+            loot2 = new Loot(new Rectangle(800, 300, 100, 100), 850, 400, 0.5f, 1.0f, 925, 425);
 
             //battlemode = new Battlemode();
             //Battlemode.Content = Content;
@@ -71,10 +75,13 @@ namespace NotMyTime
 
             Tiles.Content = Content;
             Inventory.Content = Content;
-            //Loot.Content = Content;
-            loot1.LoadContent(Content, GraphicsDevice, "weapon");
 
-             map.Generate(new int[,]
+            loot1.LoadContent(Content, GraphicsDevice, "weapon");
+            loot2.LoadContent(Content, GraphicsDevice, "weapon2");
+
+            inventory.LoadContent(Content, GraphicsDevice, "Inventar");
+
+            map.Generate(new int[,]
              {
                  {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
                  {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
@@ -89,7 +96,6 @@ namespace NotMyTime
             
             player.generatePlayer();
             camera = new Camera();
-            inventory.LoadContent(Content, GraphicsDevice, "Inventar");
 
             //battlemode.generateBattle();
             // TODO: use this.Content to load your game content here
@@ -121,10 +127,8 @@ namespace NotMyTime
             //inventory.openInventory(gameTime);
             //loot collision
             loot1.Collison(player);
-            /*if (loot1.Collided)
-            {
-                loot1.texture = null;
-            }*/
+            loot2.Collison(player);
+
 
             //battlemode.updateMovement(gameTime);
 
@@ -146,8 +150,11 @@ namespace NotMyTime
             spriteBatch.Begin(transformMatrix: camera.Transform);
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+
+            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, null);
+
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             //battlemode.drawBattle(spriteBatch);
 
