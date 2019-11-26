@@ -229,6 +229,18 @@
 /processorParam:TextureFormat=Color
 /build:figure_top2.png
 
+#begin Inventar.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Inventar.png
+
 #begin Inventory.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -300,4 +312,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:weapon.png
+
+#begin weapon2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:weapon2.png
 

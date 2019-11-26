@@ -19,6 +19,7 @@ namespace NotMyTime
         bool invOpen = false;
         bool keyBlock = true;
         float lastChange;
+        Loot loot;
         private Rectangle rectangle;
 
         public Rectangle Rectangle
@@ -34,13 +35,15 @@ namespace NotMyTime
             protected get { return content; }
             set { content = value; }
         }
- //-----------------------------------------------------------------------
-        //Inventar drawn
-        public void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        //-----------------------------------------------------------------------
+        //Inventar drawn         GraphicsDeviceManager graphics        new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2)
+        public void Draw(SpriteBatch spriteBatch, int x, int y, Loot loot)
         {
             if(texture != null)
                 //spriteBatch.Draw(texture, rectangle, Color.White);
-                spriteBatch.Draw(texture, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture,new Vector2(x + 870, y + 420) , null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1.3f, SpriteEffects.None, 0f);
+
+            this.loot = loot;
         }
 
         //Constructor
@@ -49,39 +52,39 @@ namespace NotMyTime
             
         }
 
+        public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, string assetName)
+        {
+            texture = content.Load<Texture2D>(assetName);
+        }
+
         //Wenn I gedrückt wird öffnet/schließt sich das Inventar
-        public void openInventory(GameTime gameTime)
-        {
-            lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        /*   public void openInventory(GameTime gameTime)
+           {
+               lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (Keyboard.GetState().IsKeyUp(Keys.I))
-                keyBlock = true;
+               if (Keyboard.GetState().IsKeyUp(Keys.I))
+                   keyBlock = true;
 
-            if(keyBlock)
-            if (lastChange >= 0.1f)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.I))
-                {
-                    if (invOpen == false)
-                    {
-                        texture = Content.Load<Texture2D>("inventory");
-                        invOpen = true;
-                    }
-                    else
-                    {
-                        texture = null;
-                        invOpen = false;
-                    }
-                        keyBlock = false;
-                }
-            lastChange = 0f;
-            }
-        }
+               if(keyBlock)
+               if (lastChange >= 0.1f)
+               {
+                   if (Keyboard.GetState().IsKeyDown(Keys.I))
+                   {
+                       if (invOpen == false)
+                       {
+                           texture = Content.Load<Texture2D>("inventory");
+                           invOpen = true;
+                       }
+                       else
+                       {
+                           texture = null;
+                           invOpen = false;
+                       }
+                           keyBlock = false;
+                   }
+               lastChange = 0f;
+               }
+           }*/
 
-        //Einstellungen vom Rectangle
-        public void generateInventory(GraphicsDeviceManager graphics)
-        {
-            //rectangle = new Rectangle(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2, 700, 700);
-        }
     }
 }
