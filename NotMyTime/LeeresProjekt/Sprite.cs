@@ -41,6 +41,7 @@ namespace NotMyTime
         private float wait = 0f;
         Texture2D[] left, right, top, bottom;
         public const int size = 50;
+        public const int size2 = size*2;
         int help = 0;
         bool changefoot = false;
         bool col = false;
@@ -82,31 +83,31 @@ namespace NotMyTime
             Rectangle tmp = new Rectangle(0, 0, 1, 0);
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                tmp = new Rectangle(rectangle.X, rectangle.Y + size*2, size*2, size*2);
+                tmp = new Rectangle(rectangle.X, rectangle.Y + size2, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
-                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && tile.texture.Name.Equals("tile2"))
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
                         col = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                tmp = new Rectangle(rectangle.X, rectangle.Y - size*2, size*2, size*2);
+                tmp = new Rectangle(rectangle.X, rectangle.Y - size2, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
-                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && tile.texture.Name.Equals("tile2"))
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
                         col = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
 
-                tmp = new Rectangle(rectangle.X - size*2, rectangle.Y, size*2, size*2);
+                tmp = new Rectangle(rectangle.X - size2, rectangle.Y, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
-                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && tile.texture.Name.Equals("tile2"))
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
                         col = true;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                tmp = new Rectangle(rectangle.X + size*2, rectangle.Y, size*2, size*2);
+                tmp = new Rectangle(rectangle.X + size2, rectangle.Y, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
-                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && tile.texture.Name.Equals("tile2"))
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
                         col = true;
             }
 

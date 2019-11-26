@@ -11,7 +11,7 @@ namespace NotMyTime
     {
         public static bool TouchCheck(this Rectangle r1, Rectangle r2,int size)
         {
-            return (r1.X == r2.X && r1.Y == r2.Y || r1.X+size == r2.X+size && r1.Y+size == r2.Y+size);
+            return (r1.X == r2.X && r1.Y == r2.Y);
         }
     }
 }
