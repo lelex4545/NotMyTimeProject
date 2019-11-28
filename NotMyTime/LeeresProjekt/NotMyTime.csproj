@@ -41,6 +41,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Battle\Fighter.cs" />
+    <Compile Include="Battle\MagicSkillset.cs" />
+    <Compile Include="Battle\Stats.cs" />
+    <Compile Include="Battle\Battlemode.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Loot.cs" />
     <Compile Include="RectangleHelper.cs" />
@@ -66,9 +70,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Battles\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
