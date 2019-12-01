@@ -47,6 +47,7 @@ namespace NotMyTime
                     width = (x + 1) * size;
                     heigth = (y + 1) * size;
                 }
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)
