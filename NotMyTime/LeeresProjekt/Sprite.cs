@@ -80,20 +80,31 @@ namespace NotMyTime
 
         public void updatePosition(GameTime gameTime, Map map)
         {
+            wait += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            lastMove += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             Rectangle tmp = new Rectangle(0, 0, 1, 0);
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 tmp = new Rectangle(rectangle.X, rectangle.Y + size2, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
+                    {
                         col = true;
+                        if (texture == right[0] || texture == top[0] || texture == left[0])
+                            texture = bottom[0];
+                    }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 tmp = new Rectangle(rectangle.X, rectangle.Y - size2, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
+                    {
                         col = true;
+                        if (texture == bottom[0] || texture == right[0] || texture == left[0])
+                            texture = top[0];
+                    }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
@@ -101,21 +112,29 @@ namespace NotMyTime
                 tmp = new Rectangle(rectangle.X - size2, rectangle.Y, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
+                    {
                         col = true;
+                        if (texture == bottom[0] || texture == top[0] || texture == right[0])
+                            texture = left[0];
+                    }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 tmp = new Rectangle(rectangle.X + size2, rectangle.Y, rectangle.Width, rectangle.Height);
                 foreach (CollisionTiles tile in map.CollisionTiles)
-                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle,size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
+                    if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3")))
+                    {
                         col = true;
+                        if(texture == bottom[0] || texture == top[0] || texture == left[0])
+                        texture = right[0];
+                    }
             }
 
             
 
             if (col == false)
             {
-                wait += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                
 
                 if (wait > 0.15f)
                 {
@@ -177,8 +196,8 @@ namespace NotMyTime
                     
                 }
 
-                lastMove += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (lastMove > 0.3f && (texture != left[0]||texture !=right[0]||texture != top[0]||texture != bottom[0]))
+                
+                if (lastMove > 0.3f)
                 {
                     if (Keyboard.GetState().IsKeyDown(Keys.W))
                     {
@@ -241,24 +260,25 @@ namespace NotMyTime
                         }
                     }
                 }
-                if (lastMove > 0.5f)
+                
+            }
+            if (lastMove > 0.5f)
+            {
+                if (texture == right[2] || texture == right[4])
                 {
-                    if (texture == right[2] || texture == right[4])
-                    {
-                        texture = right[0];
-                    }
-                    if (texture == left[2] || texture == left[4])
-                    {
-                        texture = left[0];
-                    }
-                    if (texture == top[2])
-                    {
-                        texture = top[0];
-                    }
-                    if (texture == bottom[2])
-                    {
-                        texture = bottom[0];
-                    }
+                    texture = right[0];
+                }
+                if (texture == left[2] || texture == left[4])
+                {
+                    texture = left[0];
+                }
+                if (texture == top[2])
+                {
+                    texture = top[0];
+                }
+                if (texture == bottom[2])
+                {
+                    texture = bottom[0];
                 }
             }
             col = false;
