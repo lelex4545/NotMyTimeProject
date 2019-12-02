@@ -19,6 +19,7 @@ namespace NotMyTime
         Map map;                       //Map
         Player player;                 //Spielcharakter
         Inventory inventory;          //inventar Objekt
+        LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
         Loot loot2;                   //keule
 
@@ -54,9 +55,9 @@ namespace NotMyTime
             ScreenWidth = graphics.PreferredBackBufferWidth;
             inventory = new Inventory();
 
-            //parameter: recatangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
-            loot1 = new Loot(new Rectangle(150, 300, 100, 100), 200, 400, 1.0f, 3.0f, 935, 465);
-            loot2 = new Loot(new Rectangle(800, 300, 100, 100), 850, 400, 0.5f, 1.0f, 925, 425);
+            //parameter: rectangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
+            loot1 = new Loot(1250, 1050, 50, 50, 1300, 1100, 1.0f, 3.0f, 935, 465);
+            loot2 = new Loot(1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 925, 425);
 
             //battlemode = new Battlemode();
             //Battlemode.Content = Content;
@@ -115,12 +116,10 @@ namespace NotMyTime
             camera.Follow(player);
             //inventory.openInventory(gameTime);
             //loot collision
-            loot1.Collison(player);
-            loot2.Collison(player);
-
+            loot1.Collison(player, gameTime);
+            loot2.Collison(player, gameTime);
 
             //battlemode.updateMovement(gameTime);
-
 
             base.Update(gameTime);
         }
@@ -140,7 +139,7 @@ namespace NotMyTime
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
 
-            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, null);
+            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);

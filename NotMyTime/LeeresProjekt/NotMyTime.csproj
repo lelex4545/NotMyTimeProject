@@ -47,6 +47,7 @@
     <Compile Include="Battle\Battlemode.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Loot.cs" />
+    <Compile Include="LootManager.cs" />
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Sprite.cs" />

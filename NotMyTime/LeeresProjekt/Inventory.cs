@@ -19,8 +19,9 @@ namespace NotMyTime
         bool invOpen = false;
         bool keyBlock = true;
         float lastChange;
-        Loot loot;
         private Rectangle rectangle;
+
+
 
         public Rectangle Rectangle
         {
@@ -37,13 +38,11 @@ namespace NotMyTime
         }
         //-----------------------------------------------------------------------
         //Inventar drawn         GraphicsDeviceManager graphics        new Vector2(graphics.GraphicsDevice.Viewport.Width / 2, graphics.GraphicsDevice.Viewport.Height / 2)
-        public void Draw(SpriteBatch spriteBatch, int x, int y, Loot loot)
+        public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
             if(texture != null)
-                //spriteBatch.Draw(texture, rectangle, Color.White);
                 spriteBatch.Draw(texture,new Vector2(x + 870, y + 420) , null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1.3f, SpriteEffects.None, 0f);
 
-            this.loot = loot;
         }
 
         //Constructor

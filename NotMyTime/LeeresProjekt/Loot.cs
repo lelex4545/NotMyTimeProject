@@ -11,16 +11,20 @@ namespace NotMyTime
 {
     class Loot
     {
+        public static int status;
         public Texture2D texture;
         public bool pickup;
+
         //skalierung
         private int posX;
         private int posY;
         private float scale;
         //inventar skalierung
-        private float scale2;
-        private int poX;
-        private int poY;
+        public float scale2;
+        public int poX;
+        public int poY;
+
+        float lastChange;
 
         private Rectangle rectangle;
 
@@ -42,9 +46,9 @@ namespace NotMyTime
 
         //---------------------------------------------
         //Constructor
-        public Loot(Rectangle newRectangle, int posX, int posY, float scale, float scale2, int poX, int poY)
+        public Loot(int x, int y, int scaleX, int scaleY, int posX, int posY, float scale, float scale2, int poX, int poY)
         {
-            this.Rectangle = newRectangle;
+            this.Rectangle = new Rectangle(x, y, scaleX, scaleY);
             this.posX = posX;
             this.posY = posY;
             this.scale = scale;
@@ -54,13 +58,8 @@ namespace NotMyTime
             this.poY = poY;
 
             pickup = false;
+            status = 0;
         }
-
-        //getTexuture
-        /*public Texture2D getTexture()
-        {
-            return texture;
-        } */
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, string assetName)
         {
@@ -70,22 +69,31 @@ namespace NotMyTime
         //Draw Loot
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
-            //if (texture != null)
-            if (Collided == false && !pickup)
+            if (Collided == false && !pickup && status < 2)
+            {
                 spriteBatch.Draw(texture, new Vector2(posX, posY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
-            else
+            }
+            else if (status == 2 && pickup == true)
+            {
+                spriteBatch.Draw(texture, new Vector2(posX + 900, posY + 900), null, Color.Transparent, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
+            }
+            else if (status < 2)
             {
                 spriteBatch.Draw(texture, new Vector2(x + poX, y + poY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale2, SpriteEffects.None, 0f);
+                rectangle.Offset(900, 50);
                 pickup = true;
             }
+
         }
 
         //Loot soll verschwinden und im Inventar auftauchen
-        public bool Collison(Sprite target)
+        public bool Collison(Sprite target, GameTime gameTime)
         {
             bool intersects = rectangle.Intersects(target.rectangle);
-
             Collided = intersects;
+            lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (Collided == true && lastChange > 3.0f)
+                status++;
             return intersects;
         }
     }
