@@ -12,6 +12,7 @@ namespace NotMyTime
     class Loot
     {
         public static int status;
+        public int id;
         public Texture2D texture;
         public bool pickup;
 
@@ -46,8 +47,9 @@ namespace NotMyTime
 
         //---------------------------------------------
         //Constructor
-        public Loot(int x, int y, int scaleX, int scaleY, int posX, int posY, float scale, float scale2, int poX, int poY)
+        public Loot(int id, int x, int y, int scaleX, int scaleY, int posX, int posY, float scale, float scale2, int poX, int poY)
         {
+            this.id = id;
             this.Rectangle = new Rectangle(x, y, scaleX, scaleY);
             this.posX = posX;
             this.posY = posY;
@@ -69,31 +71,33 @@ namespace NotMyTime
         //Draw Loot
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
-            if (Collided == false && !pickup && status < 2)
+            //Gegenstand auf dem Spielfeld
+            if (Collided == false && !pickup)
             {
                 spriteBatch.Draw(texture, new Vector2(posX, posY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
             }
-            else if (status == 2 && pickup == true)
+            //Gegenstand aus dem inventar entfernen wenn ein anderer Gegenstand eingesammelt wird
+            else if (id != status  && pickup == true)
             {
                 spriteBatch.Draw(texture, new Vector2(posX + 900, posY + 900), null, Color.Transparent, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
             }
-            else if (status < 2)
+            //Gegendstand im Inventar anzeigen wenn er eingesammel wurde
+            else 
             {
                 spriteBatch.Draw(texture, new Vector2(x + poX, y + poY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale2, SpriteEffects.None, 0f);
                 rectangle.Offset(900, 50);
+                status = id;
                 pickup = true;
             }
 
         }
 
         //Loot soll verschwinden und im Inventar auftauchen
-        public bool Collison(Sprite target, GameTime gameTime)
+        public bool Collison(Sprite target)
         {
             bool intersects = rectangle.Intersects(target.rectangle);
             Collided = intersects;
-            lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (Collided == true && lastChange > 3.0f)
-                status++;
+
             return intersects;
         }
     }
