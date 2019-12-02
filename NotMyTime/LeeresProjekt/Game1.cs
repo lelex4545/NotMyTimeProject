@@ -56,8 +56,8 @@ namespace NotMyTime
             inventory = new Inventory();
 
             //parameter: rectangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
-            loot1 = new Loot(1250, 1050, 50, 50, 1300, 1100, 1.0f, 3.0f, 935, 465);
-            loot2 = new Loot(1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 925, 425);
+            loot1 = new Loot(1250, 1050, 50, 100, 1300, 1100, 1.0f, 1.0f, 925, 420);
+            loot2 = new Loot(1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
 
             //battlemode = new Battlemode();
             //Battlemode.Content = Content;
