@@ -12,12 +12,10 @@ namespace NotMyTime
 {
     public abstract class Fighter
     {
-        public String Name { get; }
         public Texture2D Model { get; set; }
         public SpriteFont StatFont { get; set; }
+        public string Name { get; }
         public Stats Stats { get; set; }
-        public Texture2D Healthbar { get; set; }
-        public Texture2D Healthbar2 { get; set; }
         public MagicSkillset Skills { get; set; }
         public Fighter(String name)
         {
@@ -26,7 +24,7 @@ namespace NotMyTime
         }
         public string Ausgabe()
         {
-            return Name + "   Level: " + Stats.Level;
+            return Name + "    ";
         }
         public string HealthText()
         {
@@ -37,13 +35,14 @@ namespace NotMyTime
             return this.Stats.CurrentMP + "/" + this.Stats.Manapoints;
         }
         public abstract int AttackCalc();
-        public void Attack(Fighter f2)
+        public int Attack(Fighter f2)
         {
-            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (this.AttackCalc() - f2.Stats.Defense / 2);
+            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (this.AttackCalc());
+            return this.AttackCalc();
         }
-        public void Magic(Fighter f2, int i)
+        public int Magic(Fighter f2, int i)
         {
-            this.Skills.chooseMagic(this, f2, i);
+            return this.Skills.ChooseMagic(this, f2, i);
         }
         public int compareSpeed(Fighter f2)
         {
@@ -57,55 +56,60 @@ namespace NotMyTime
 
     public class MainFighter : Fighter
     {
-        public int Exp { get; set; }
-        public MainFighter(String name, int lvl, int lp, int mp, int dmg, int def, int str, int ag, int intel) : base(name)
+        public Levelsystem Level;
+        public MainFighter(String name, int lp, int mp, int dmg, int str, int ag, int intel) : base(name)
         {
-            Stats = new Stats(lvl, lp, mp, dmg, def, str, ag, intel);
-            Exp = 0;
+            Stats = new Stats(lp, mp, dmg, str, ag, intel);
+            Level = new Levelsystem(this);
         }
-
         public override int AttackCalc()
         {
             return Stats.Strength + Stats.Damage + Stats.Agility / 2;
         }
 
-        public string Ausgabe()
+        public new string Ausgabe()
         {
-            return base.Ausgabe() + "   Damage:" + AttackCalc() + "   EXP:" + Exp;
+            return base.Ausgabe() + "Level: " + Level.GetLevel() + "   Damage: " + AttackCalc() + "   EXP: " + Level.GetExp() + "/" + Level.GetNeededExp();
         }
 
-        public void Attack(Fighter enemy, int i)
+        public int Attack(Fighter enemy, int i)
         {
-            if (i > 0) this.Magic(enemy, i);
-            else this.Attack(enemy);
+            if (i > 0) return this.Magic(enemy, i);
+            else return this.Attack(enemy);
         }
     }
 
     public class EnemyFighter : Fighter
     {
-        public int ExpPoints { get; }
+        public int GivenExp { get; }
+        public int Level { get; }
 
-        public EnemyFighter(String name, int lvl, int lp, int mp, int dmg, int def, int str, int ag, int intel, int exp) : base(name)
+        public EnemyFighter(String name, int lvl, int lp, int mp, int dmg, int str, int ag, int intel, int exp) : base(name)
         {
-            Stats = new Stats(lvl, lp, mp, dmg, def, str, ag, intel);
-            ExpPoints = exp;
+            Stats = new Stats(lp, mp, dmg, str, ag, intel);
+            Level = lvl;
+            GivenExp = exp;
         }
         public override int AttackCalc()
         {
             return Stats.Damage + Stats.Strength;
         }
+        public new string Ausgabe()
+        {
+            return base.Ausgabe() + "Level: " + Level;
+        }
 
-        public void RollAttack(Fighter main)
+        public int RollAttack(Fighter main)
         {
             Random zufall = new Random();
             if (zufall.Next(0, 5) < 4)
             {
-                this.Attack(main);
+                return this.Attack(main);
             }
             else
             {
                 Random zufall2 = new Random();
-                this.Magic(main, zufall2.Next(1, 4));
+                return this.Magic(main, zufall2.Next(1, 4));
             }
         }
     }

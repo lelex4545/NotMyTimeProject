@@ -24,7 +24,7 @@ namespace NotMyTime
         Loot loot1;                   //Schwert
         Loot loot2;                   //keule
 
-        Battlemode battlemode;       //Battlemode
+        public static MainFighter mainChar;
 
         public Game1()
         {
@@ -34,6 +34,8 @@ namespace NotMyTime
             graphics.PreferredBackBufferHeight = 1080;
 
             IsMouseVisible = true;
+
+            mainChar = new MainFighter("Bruce", 100, 100, 50, 15, 15, 15);
 
             Content.RootDirectory = "Content";
         }
@@ -61,8 +63,6 @@ namespace NotMyTime
             loot1 = new Loot(0, 1250, 1050, 50, 100, 1300, 1100, 1.0f, 1.0f, 925, 420);
             loot2 = new Loot(1, 1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
 
-            //battlemode = new Battlemode();
-            //Battlemode.Content = Content;
 
             base.Initialize();
         }
@@ -90,7 +90,16 @@ namespace NotMyTime
             goblin.generateEnemy("goblin");
             camera = new Camera();
 
-            //battlemode.generateBattle();
+
+
+
+
+
+            BattleManager.Instance.LoadContent(Content);
+
+
+
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -101,6 +110,12 @@ namespace NotMyTime
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+
+
+            BattleManager.Instance.UnloadContent();
+
+
+
         }
 
         /// <summary>
@@ -123,7 +138,7 @@ namespace NotMyTime
             loot1.Collison(player);
             loot2.Collison(player);
 
-            //battlemode.updateMovement(gameTime);
+            //BattleManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -148,7 +163,7 @@ namespace NotMyTime
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
-            //battlemode.drawBattle(spriteBatch);
+            //BattleManager.Instance.Draw(spriteBatch);
 
             spriteBatch.End();
 
