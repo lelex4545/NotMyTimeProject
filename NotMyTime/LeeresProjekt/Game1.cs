@@ -18,6 +18,7 @@ namespace NotMyTime
 
         Map map;                       //Map
         Player player;                 //Spielcharakter
+        Enemy goblin;                  //Spielgegner
         Inventory inventory;          //inventar Objekt
         LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
@@ -51,6 +52,7 @@ namespace NotMyTime
             map = new Map();
             Sprite.Content = Content;
             player = new Player(new Rectangle(11 * 100, 7 * 100, 100, 100));
+            goblin = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
             ScreenHeight = graphics.PreferredBackBufferHeight;
             ScreenWidth = graphics.PreferredBackBufferWidth;
             inventory = new Inventory();
@@ -85,6 +87,7 @@ namespace NotMyTime
             map.generateMap1();
             
             player.generatePlayer();
+            goblin.generateEnemy("goblin");
             camera = new Camera();
 
             //battlemode.generateBattle();
@@ -113,6 +116,7 @@ namespace NotMyTime
             // TODO: Add your update logic here
 
             player.updatePosition(gameTime, map);
+            goblin.moveOne(gameTime, map);
             camera.Follow(player);
             //inventory.openInventory(gameTime);
             //loot collision
@@ -138,7 +142,7 @@ namespace NotMyTime
             spriteBatch.Begin(transformMatrix: camera.Transform);
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-
+            goblin.Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
