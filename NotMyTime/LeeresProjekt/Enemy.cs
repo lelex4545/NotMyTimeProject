@@ -67,6 +67,12 @@ namespace NotMyTime
                         which = 1;
                     }
                 }
+                if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
+                {
+                    map.UnLoadContent();
+                    BattleManager.Instance.LoadContent(Content);
+                    return true;
+                }
             }
             if (which == 1)
             {
@@ -79,6 +85,12 @@ namespace NotMyTime
                         col = true;
                         which = 2;
                     }
+                }
+                if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
+                {
+                    map.UnLoadContent();
+                    BattleManager.Instance.LoadContent(Content);
+                    return true;
                 }
             }
             if (which == 2)
@@ -93,6 +105,12 @@ namespace NotMyTime
                         which = 3;
                     }
                 }
+                if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
+                {
+                    map.UnLoadContent();
+                    BattleManager.Instance.LoadContent(Content);
+                    return true;
+                }
             }
             if (which == 3)
             {
@@ -105,6 +123,12 @@ namespace NotMyTime
                         col = true;
                         which = 0;
                     }
+                }
+                if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
+                {
+                    map.UnLoadContent();
+                    BattleManager.Instance.LoadContent(Content);
+                    return true;
                 }
             }
 
@@ -158,6 +182,7 @@ namespace NotMyTime
                                 BattleManager.Instance.LoadContent(Content);
                                 return true;
                             }
+
                                 
                             rectangle.Y = rectangle.Y + size;
                             texture = bottom[1];
