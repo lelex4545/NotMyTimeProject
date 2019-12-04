@@ -272,7 +272,6 @@
 /processorParam:TextureFormat=Color
 /build:figure_top2.png
 
-#begin gold.png
 #begin goblin_bottom0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -283,7 +282,6 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:gold.png
 /build:goblin_bottom0.png
 
 #begin goblin_bottom1.png
@@ -478,12 +476,6 @@
 /processorParam:TextureFormat=Color
 /build:Inventory.png
 
-#begin Score.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Score.spritefont
 #begin menu_select.png
 /importer:TextureImporter
 /processor:TextureProcessor
