@@ -48,7 +48,7 @@ namespace NotMyTime
             bottom[2] = Content.Load<Texture2D>(name+"_bottom2");
         }
 
-        public void moveOne(GameTime gameTime, Map map)
+        public bool moveOne(GameTime gameTime, Map map, Player player)
         {
             wait += (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastMove += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -151,6 +151,14 @@ namespace NotMyTime
                     {
                         if (which == 0)
                         {
+                            tmp = new Rectangle(rectangle.X, rectangle.Y + size2, rectangle.Width, rectangle.Height);
+                            if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
+                            {
+                                map.UnLoadContent();
+                                BattleManager.Instance.LoadContent(Content);
+                                return true;
+                            }
+                                
                             rectangle.Y = rectangle.Y + size;
                             texture = bottom[1];
                             help = 1;
@@ -160,6 +168,13 @@ namespace NotMyTime
                         }
                         if (which == 1)
                         {
+                            tmp = new Rectangle(rectangle.X - size2, rectangle.Y, rectangle.Width, rectangle.Height);
+                            if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
+                            {
+                                map.UnLoadContent();
+                                BattleManager.Instance.LoadContent(Content);
+                                return true;
+                            }
                             rectangle.X = rectangle.X - size;
                             texture = left[1];
                             help = 2;
@@ -169,6 +184,13 @@ namespace NotMyTime
                         }
                         if (which == 2)
                         {
+                            tmp = new Rectangle(rectangle.X, rectangle.Y - size2, rectangle.Width, rectangle.Height);
+                            if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
+                            {
+                                map.UnLoadContent();
+                                BattleManager.Instance.LoadContent(Content);
+                                return true;
+                            }
                             rectangle.Y = rectangle.Y - size;
                             texture = top[1];
                             help = 3;
@@ -178,6 +200,13 @@ namespace NotMyTime
                         }
                         if (which == 3)
                         {
+                            tmp = new Rectangle(rectangle.X + size2, rectangle.Y, rectangle.Width, rectangle.Height);
+                            if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
+                            {
+                                map.UnLoadContent();
+                                BattleManager.Instance.LoadContent(Content);
+                                return true;
+                            }
                             rectangle.X = rectangle.X + size;
                             texture = right[1];
                             help = 4;
@@ -189,6 +218,7 @@ namespace NotMyTime
                 }
             }
             col = false;
+            return false;
         }
     }
 }

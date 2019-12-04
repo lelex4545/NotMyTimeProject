@@ -33,6 +33,10 @@ namespace NotMyTime
         {
             spriteBatch.Draw(texture, rectangle, Color.White);
         }
+        public void UnLoadContent()
+        {
+            content.Unload();
+        }
     }
 
     class Player : Sprite
@@ -57,7 +61,7 @@ namespace NotMyTime
 
         public void generatePlayer()
         {
-            right[0] = Content.Load<Texture2D>("figure_right");
+            texture = right[0] = Content.Load<Texture2D>("figure_right");
             right[1] = Content.Load<Texture2D>("figure_right1");
             right[2] = Content.Load<Texture2D>("figure_right2");
             right[3] = Content.Load<Texture2D>("figure_right3");
@@ -94,6 +98,7 @@ namespace NotMyTime
                         col = true;
                         if (texture == right[0] || texture == top[0] || texture == left[0])
                             texture = bottom[0];
+                        
                     }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.W))

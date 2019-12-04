@@ -13,6 +13,7 @@ namespace NotMyTime
     {
         public Texture2D texture;
         private Rectangle rectangle;
+        public int i;
         public Rectangle Rectangle
         {
             get { return rectangle; }
@@ -33,6 +34,16 @@ namespace NotMyTime
         {
             spriteBatch.Draw(texture, Rectangle, Color.White);
         }
+
+        public static void LoadContent(ContentManager Content)
+        {
+            Tiles.Content = new ContentManager(Content.ServiceProvider, "Content");
+        }
+        public static void UnLoadContent()
+        {
+            Tiles.content.Unload();
+        }
+        
     }
 
     class CollisionTiles : Tiles
@@ -42,7 +53,13 @@ namespace NotMyTime
         {       
                 texture = Content.Load<Texture2D>("tile" + i);
                 this.Rectangle = newRectangle;
+                this.i = i;
             
+        }
+
+        public void loadC()
+        {
+            texture = Content.Load<Texture2D>("tile" + i);
         }
     }
 }

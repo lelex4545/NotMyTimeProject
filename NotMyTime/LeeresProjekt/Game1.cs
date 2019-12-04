@@ -23,6 +23,7 @@ namespace NotMyTime
         LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
         Loot loot2;                   //keule
+        bool battle;                  // Falls Kampf
 
         public static MainFighter mainChar;
 
@@ -62,7 +63,7 @@ namespace NotMyTime
             //parameter: rectangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
             loot1 = new Loot(0, 1250, 1050, 50, 100, 1300, 1100, 1.0f, 1.0f, 925, 420);
             loot2 = new Loot(1, 1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
-
+            battle = false;
 
             base.Initialize();
         }
@@ -77,6 +78,7 @@ namespace NotMyTime
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Tiles.Content = Content;
+            
             Inventory.Content = Content;
 
             loot1.LoadContent(Content, GraphicsDevice, "weapon");
@@ -96,7 +98,7 @@ namespace NotMyTime
 
 
             BattleManager.Instance.LoadContent(Content);
-
+            BattleManager.Instance.UnloadContent();
 
 
 
@@ -113,8 +115,7 @@ namespace NotMyTime
 
 
             BattleManager.Instance.UnloadContent();
-
-
+            Tiles.UnLoadContent();
 
         }
 
@@ -129,16 +130,31 @@ namespace NotMyTime
                 Exit();
 
             // TODO: Add your update logic here
-
-            player.updatePosition(gameTime, map);
-            goblin.moveOne(gameTime, map);
-            camera.Follow(player);
-            //inventory.openInventory(gameTime);
-            //loot collision
-            loot1.Collison(player);
-            loot2.Collison(player);
-
-            //BattleManager.Instance.Update(gameTime);
+            if (battle == false)
+            {
+                player.updatePosition(gameTime, map);
+                battle = goblin.moveOne(gameTime, map, player);
+                camera.Follow(player);
+                //inventory.openInventory(gameTime);
+                //loot collision
+                loot1.Collison(player);
+                loot2.Collison(player);
+            }
+            if(battle == true)
+                BattleManager.Instance.Update(gameTime);
+            
+            /*if (Keyboard.GetState().IsKeyDown(Keys.X))
+            {
+                map.LoadContent(Content);
+                player.generatePlayer();
+                goblin.generateEnemy("goblin");
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Y))
+            {
+                map.UnLoadContent();
+                player.UnLoadContent();
+                goblin.UnLoadContent();
+            }*/
 
             base.Update(gameTime);
         }
@@ -162,8 +178,8 @@ namespace NotMyTime
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
-
-            //BattleManager.Instance.Draw(spriteBatch);
+            
+            BattleManager.Instance.Draw(spriteBatch);
 
             spriteBatch.End();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,23 @@ namespace NotMyTime
                     heigth = (y + 1) * size;
                 }
             
+        }
+        
+        public void Generate2(int[,] map)
+        {
+
+        }
+
+        public void LoadContent(ContentManager Content)
+        {
+            Tiles.LoadContent(Content);
+            foreach (CollisionTiles tile in CollisionTiles)
+                tile.loadC();
+            
+        }
+        public void UnLoadContent()
+        {
+            Tiles.UnLoadContent();
         }
         public void generateMap1()
         {

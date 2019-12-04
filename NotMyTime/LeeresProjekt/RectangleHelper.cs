@@ -13,5 +13,6 @@ namespace NotMyTime
         {
             return (r1.X == r2.X && r1.Y == r2.Y);
         }
+
     }
 }
