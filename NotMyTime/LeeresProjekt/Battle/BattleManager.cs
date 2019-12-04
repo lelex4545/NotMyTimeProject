@@ -75,7 +75,7 @@ namespace NotMyTime
             currentScreen.Draw(spriteBatch);
         }
 
-        public bool FightResult(GameTime gameTime, Map map, Player player, Loot l)
+        public bool FightResult(GameTime gameTime, Map map, Player player, Loot l, Loot l2, Inventory inv)
         {
             this.Update(gameTime);
             if (!currentScreen.IsEnemyAlive())
@@ -83,7 +83,9 @@ namespace NotMyTime
                 this.UnloadContent();
                 map.LoadContent(Content);
                 player.generatePlayer();
-                //l.LoadContent(Content);
+                l.LoadContent(Content, "weapon");
+                l2.LoadContent(Content, "weapon2");
+                inv.LoadContent(Content, "Inventar");
             }
             return currentScreen.IsEnemyAlive();
         }

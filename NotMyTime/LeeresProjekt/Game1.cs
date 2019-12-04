@@ -15,7 +15,6 @@ namespace NotMyTime
         public static int ScreenHeight;
         public static int ScreenWidth;
         private Camera camera;
-        private Camera oldCam;
 
         Map map;                       //Map
         Player player;                 //Spielcharakter
@@ -82,10 +81,10 @@ namespace NotMyTime
             
             Inventory.Content = Content;
 
-            loot1.LoadContent(Content, GraphicsDevice, "weapon");
-            loot2.LoadContent(Content, GraphicsDevice, "weapon2");
+            loot1.LoadContent(Content, "weapon");
+            loot2.LoadContent(Content, "weapon2");
 
-            inventory.LoadContent(Content, GraphicsDevice, "Inventar");
+            inventory.LoadContent(Content, "Inventar");
 
             map.generateMap1();
             
@@ -131,7 +130,6 @@ namespace NotMyTime
             {
                 player.updatePosition(gameTime, map);
                 battle = goblin.moveOne(gameTime, map, player);
-                //if (camera == null) camera = oldCam;
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
                 //loot collision
@@ -140,10 +138,7 @@ namespace NotMyTime
             }
             if(battle == true)
             {
-                //oldCam = camera;
-                //camera = null;
-                //BattleManager.Instance.Update(gameTime);
-                battle = BattleManager.Instance.FightResult(gameTime, map, player, loot1);
+                battle = BattleManager.Instance.FightResult(gameTime, map, player, loot1, loot2, inventory);
             }
 
             /*if (Keyboard.GetState().IsKeyDown(Keys.X))

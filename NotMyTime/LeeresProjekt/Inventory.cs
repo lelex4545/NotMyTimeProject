@@ -51,7 +51,7 @@ namespace NotMyTime
             
         }
 
-        public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice, string assetName)
+        public void LoadContent(ContentManager content, string assetName)
         {
             texture = content.Load<Texture2D>(assetName);
         }
