@@ -23,7 +23,12 @@ namespace NotMyTime
         LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
         Loot loot2;                   //keule
+<<<<<<< HEAD
         bool battle;                  // Falls Kampf
+=======
+        Gold gold1;
+        Gold gold2;
+>>>>>>> fd606052ffeb24737d0be722ae810ea52e68c81d
 
         public static MainFighter mainChar;
 
@@ -63,7 +68,15 @@ namespace NotMyTime
             //parameter: rectangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
             loot1 = new Loot(0, 1250, 1050, 50, 100, 1300, 1100, 1.0f, 1.0f, 925, 420);
             loot2 = new Loot(1, 1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
+<<<<<<< HEAD
             battle = false;
+=======
+
+            gold1 = new Gold(250, 1050, 1200, 50, 50, 1100, 1250, 1.0f);
+            gold2 = new Gold(250, 1250, 850, 50, 50, 1300, 900, 1.0f);
+            //battlemode = new Battlemode();
+            //Battlemode.Content = Content;
+>>>>>>> fd606052ffeb24737d0be722ae810ea52e68c81d
 
             base.Initialize();
         }
@@ -83,6 +96,9 @@ namespace NotMyTime
 
             loot1.LoadContent(Content, GraphicsDevice, "weapon");
             loot2.LoadContent(Content, GraphicsDevice, "weapon2");
+
+            gold1.LoadContent(Content, GraphicsDevice, "gold");
+            gold2.LoadContent(Content, GraphicsDevice, "gold");
 
             inventory.LoadContent(Content, GraphicsDevice, "Inventar");
 
@@ -130,6 +146,7 @@ namespace NotMyTime
                 Exit();
 
             // TODO: Add your update logic here
+<<<<<<< HEAD
             if (battle == false)
             {
                 player.updatePosition(gameTime, map);
@@ -155,6 +172,22 @@ namespace NotMyTime
                 player.UnLoadContent();
                 goblin.UnLoadContent();
             }*/
+=======
+
+            player.updatePosition(gameTime, map);
+            goblin.moveOne(gameTime, map);
+            camera.Follow(player);
+            //inventory.openInventory(gameTime);
+            //loot collision
+            loot1.Collison(player);
+            loot2.Collison(player);
+            //gold collision
+            gold1.Collison(player);
+            gold2.Collison(player);
+            //battlemode.updateMovement(gameTime);
+
+            //BattleManager.Instance.Update(gameTime);
+>>>>>>> fd606052ffeb24737d0be722ae810ea52e68c81d
 
             base.Update(gameTime);
         }
@@ -178,8 +211,16 @@ namespace NotMyTime
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+<<<<<<< HEAD
             
             BattleManager.Instance.Draw(spriteBatch);
+=======
+
+            gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            //battlemode.drawBattle(spriteBatch);
+            //BattleManager.Instance.Draw(spriteBatch);
+>>>>>>> fd606052ffeb24737d0be722ae810ea52e68c81d
 
             spriteBatch.End();
 
