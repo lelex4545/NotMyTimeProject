@@ -217,6 +217,18 @@
 /processorParam:TextureFormat=Color
 /build:figure_top2.png
 
+#begin gold.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gold.png
+
 #begin Inventar.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -240,6 +252,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Inventory.png
+
+#begin Score.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Score.spritefont
 
 #begin tile1.png
 /importer:TextureImporter
