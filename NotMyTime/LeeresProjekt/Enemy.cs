@@ -15,6 +15,7 @@ namespace NotMyTime
         private float chill = 0f;
 
         Texture2D[] left, right, top, bottom;
+        private String name;
         public const int size = 50;
         public const int size2 = size * 2;
         private int which = 0;
@@ -31,6 +32,7 @@ namespace NotMyTime
         }
         public void generateEnemy(String name)
         {
+            this.name = name;
             right[0] = Content.Load<Texture2D>(name+"_right0");
             right[1] = Content.Load<Texture2D>(name+"_right1");
             right[2] = Content.Load<Texture2D>(name+"_right2");
