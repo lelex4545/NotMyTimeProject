@@ -38,7 +38,7 @@ namespace NotMyTime
             if (level < 10)
             {
                 currentExp += ef.GivenExp;
-                if (currentExp >= neededExp)
+                while (currentExp >= neededExp)
                 {
                     level++;
                     mf.Stats.LevelUp();

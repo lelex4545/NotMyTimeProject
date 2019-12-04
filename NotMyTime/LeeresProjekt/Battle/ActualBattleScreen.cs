@@ -372,7 +372,7 @@ namespace NotMyTime
                     spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
                 case 3:
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 500, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 150), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 default:
                     spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);

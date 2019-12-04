@@ -79,7 +79,8 @@ namespace NotMyTime
             //Gegenstand aus dem inventar entfernen wenn ein anderer Gegenstand eingesammelt wird
             else if (id != status  && pickup == true)
             {
-                spriteBatch.Draw(texture, new Vector2(posX + 900, posY + 900), null, Color.Transparent, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
+                texture = null;
+                //spriteBatch.Draw(texture, new Vector2(posX + 900, posY + 900), null, Color.Transparent, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
             }
             //Gegendstand im Inventar anzeigen wenn er eingesammel wurde
             else 
