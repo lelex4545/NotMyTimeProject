@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace NotMyTime
 {
@@ -18,7 +19,8 @@ namespace NotMyTime
 
         Map map;                       //Map
         Player player;                 //Spielcharakter
-        Enemy goblin;                  //Spielgegner
+        Enemy[] enemyList;
+        //Enemy goblin;                  //Spielgegner
         Inventory inventory;          //inventar Objekt
         LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
@@ -55,7 +57,9 @@ namespace NotMyTime
             map = new Map();
             Sprite.Content = Content;
             player = new Player(new Rectangle(11 * 100, 7 * 100, 100, 100));
-            goblin = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
+            //goblin = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
+            enemyList = new Enemy[20];
+            enemyList[0] = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
             ScreenHeight = graphics.PreferredBackBufferHeight;
             ScreenWidth = graphics.PreferredBackBufferWidth;
             inventory = new Inventory();
@@ -89,7 +93,8 @@ namespace NotMyTime
             map.generateMap1();
             
             player.generatePlayer();
-            goblin.generateEnemy("goblin");
+            //goblin.generateEnemy("goblin");
+            enemyList[0].generateEnemy("goblin");
             camera = new Camera();
 
 
@@ -129,7 +134,9 @@ namespace NotMyTime
             if (battle == false)
             {
                 player.updatePosition(gameTime, map);
-                battle = goblin.moveOne(gameTime, map, player);
+                //battle = goblin.moveOne(gameTime, map, player);
+                for(int i = 0; enemyList[i]!=null;i++)
+                    battle = enemyList[i].moveOne(gameTime, map, player);
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
                 //loot collision
@@ -139,6 +146,8 @@ namespace NotMyTime
             if(battle == true)
             {
                 battle = BattleManager.Instance.FightResult(gameTime, map, player, loot1, loot2, inventory);
+                if (battle == false)
+                    enemyList[0] = null;
             }
 
             /*if (Keyboard.GetState().IsKeyDown(Keys.X))
@@ -172,7 +181,9 @@ namespace NotMyTime
             else spriteBatch.Begin();
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            goblin.Draw(spriteBatch);
+            //goblin.Draw(spriteBatch);
+            for(int i = 0; enemyList[i]!=null; i++)
+                enemyList[i].Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
