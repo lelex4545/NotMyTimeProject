@@ -41,12 +41,16 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Battle\ActualBattleScreen.cs" />
+    <Compile Include="Battle\BattleManager.cs" />
+    <Compile Include="Battle\BattleScreen.cs" />
     <Compile Include="Battle\Fighter.cs" />
+    <Compile Include="Battle\Levelsystem.cs" />
     <Compile Include="Battle\MagicSkillset.cs" />
     <Compile Include="Battle\Stats.cs" />
-    <Compile Include="Battle\Battlemode.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Gold.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="Loot.cs" />
     <Compile Include="LootManager.cs" />
     <Compile Include="RectangleHelper.cs" />

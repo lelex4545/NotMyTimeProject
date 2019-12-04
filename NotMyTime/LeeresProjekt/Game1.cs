@@ -18,6 +18,7 @@ namespace NotMyTime
 
         Map map;                       //Map
         Player player;                 //Spielcharakter
+        Enemy goblin;                  //Spielgegner
         Inventory inventory;          //inventar Objekt
         LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
@@ -25,7 +26,7 @@ namespace NotMyTime
         Gold gold1;
         Gold gold2;
 
-        Battlemode battlemode;       //Battlemode
+        public static MainFighter mainChar;
 
         public Game1()
         {
@@ -35,6 +36,8 @@ namespace NotMyTime
             graphics.PreferredBackBufferHeight = 1080;
 
             IsMouseVisible = true;
+
+            mainChar = new MainFighter("Bruce", 100, 100, 50, 15, 15, 15);
 
             Content.RootDirectory = "Content";
         }
@@ -53,6 +56,7 @@ namespace NotMyTime
             map = new Map();
             Sprite.Content = Content;
             player = new Player(new Rectangle(11 * 100, 7 * 100, 100, 100));
+            goblin = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
             ScreenHeight = graphics.PreferredBackBufferHeight;
             ScreenWidth = graphics.PreferredBackBufferWidth;
             inventory = new Inventory();
@@ -92,9 +96,19 @@ namespace NotMyTime
             map.generateMap1();
             
             player.generatePlayer();
+            goblin.generateEnemy("goblin");
             camera = new Camera();
 
-            //battlemode.generateBattle();
+
+
+
+
+
+            BattleManager.Instance.LoadContent(Content);
+
+
+
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -105,6 +119,12 @@ namespace NotMyTime
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+
+
+            BattleManager.Instance.UnloadContent();
+
+
+
         }
 
         /// <summary>
@@ -120,6 +140,7 @@ namespace NotMyTime
             // TODO: Add your update logic here
 
             player.updatePosition(gameTime, map);
+            goblin.moveOne(gameTime, map);
             camera.Follow(player);
             //inventory.openInventory(gameTime);
             //loot collision
@@ -129,6 +150,8 @@ namespace NotMyTime
             gold1.Collison(player);
             gold2.Collison(player);
             //battlemode.updateMovement(gameTime);
+
+            //BattleManager.Instance.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -147,7 +170,7 @@ namespace NotMyTime
             spriteBatch.Begin(transformMatrix: camera.Transform);
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-
+            goblin.Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
@@ -156,6 +179,7 @@ namespace NotMyTime
             gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             //battlemode.drawBattle(spriteBatch);
+            //BattleManager.Instance.Draw(spriteBatch);
 
             spriteBatch.End();
 

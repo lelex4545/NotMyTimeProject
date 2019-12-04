@@ -8,55 +8,57 @@ namespace NotMyTime
 {
     public class MagicSkillset
     {
-        public void chooseMagic(Fighter f1, Fighter f2, int i)
+        public int ChooseMagic(Fighter f1, Fighter f2, int i)
         {
             if (i == 1)
             {
-                Heal(f1);
+                return Heal(f1);
             }
             else if (i == 2)
             {
-                Fire(f1, f2);
+                return Fire(f1, f2);
             }
             else if (i == 3)
             {
-                Ice(f1, f2);
+                return Ice(f1, f2);
             }
             else if (i == 4)
             {
-                Thunder(f1, f2);
+                return Thunder(f1, f2);
             }
-            else if (i == 5)
+            else
             {
-                LuckyShot(f1, f2);
+                return LuckyShot(f1, f2);
             }
         }
-        public void Heal(Fighter f1)
+        public int Heal(Fighter f1)
         {
             f1.Stats.CurrentLP += 10 + f1.Stats.Intelligence;
             f1.Stats.CurrentLP = (int)Microsoft.Xna.Framework.MathHelper.Clamp(f1.Stats.CurrentLP, 0, f1.Stats.Lifepoints);
             f1.Stats.CurrentMP -= 25;
+            return 10 + f1.Stats.Intelligence;
         }
-        public void Fire(Fighter f1, Fighter f2)
+        public int Fire(Fighter f1, Fighter f2)
         {
-            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 3 - f2.Stats.Defense / 4);
+            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 3);
             f1.Stats.CurrentMP -= 25;
+            return f1.Stats.Intelligence * 3;
         }
-        public void Ice(Fighter f1, Fighter f2)
+        public int Ice(Fighter f1, Fighter f2)
         {
-
+            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 3);
+            f1.Stats.CurrentMP -= 25;
+            return f1.Stats.Intelligence * 3;
         }
-        public void Thunder(Fighter f1, Fighter f2)
+        public int Thunder(Fighter f1, Fighter f2)
         {
-
+            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 3);
+            f1.Stats.CurrentMP -= 25;
+            return f1.Stats.Intelligence * 3;
         }
-        public void LuckyShot(Fighter f1, Fighter f2)
+        public int LuckyShot(Fighter f1, Fighter f2)
         {
-
-        }
-        public void Haste(Fighter f1, Fighter f2)
-        {
-
+            return 1;
         }
     }
 }

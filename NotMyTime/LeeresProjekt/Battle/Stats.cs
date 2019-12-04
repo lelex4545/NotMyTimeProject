@@ -7,36 +7,37 @@ using System.Threading.Tasks;
 
 namespace NotMyTime
 {
-    public class BasicStats
+    public class Stats
     {
-        public int Level { get; set; }
         public int Lifepoints { get; set; }
         public int Manapoints { get; set; }
         public int CurrentLP { get; set; }
         public int CurrentMP { get; set; }
         public int Damage { get; set; }
-        public int Defense { get; set; }
-        public BasicStats(int lvl, int lp, int mp, int dmg, int def)
+        public int Strength { get; set; }
+        public int Agility { get; set; }
+        public int Intelligence { get; set; }
+        public Stats(int lp, int mp, int dmg, int str, int ag, int intel)
         {
-            Level = lvl;
             Lifepoints = lp;
             Manapoints = mp;
             CurrentLP = lp;
             CurrentMP = mp;
             Damage = dmg;
-            Defense = def;
-        }
-    }
-    public class Stats : BasicStats
-    {
-        public int Strength { get; set; }
-        public int Agility { get; set; }
-        public int Intelligence { get; set; }
-        public Stats(int lvl, int lp, int mp, int dmg, int def, int str, int ag, int intel) : base(lvl, lp, mp, dmg, def)
-        {
             Strength = str;
             Agility = ag;
             Intelligence = intel;
+        }
+        public void LevelUp()
+        {
+            Lifepoints += 10;
+            Manapoints += 10;
+            CurrentLP = Lifepoints;
+            CurrentMP = Manapoints;
+            Damage += 2;
+            Strength += 1;
+            Agility += 1;
+            Intelligence += 1;
         }
     }
 }
