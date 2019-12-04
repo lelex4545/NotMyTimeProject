@@ -262,8 +262,8 @@ namespace NotMyTime
 
             //TO DO Lebenstexte zentriert darstellen
             spriteBatch.DrawString(font, mainChar.HealthText(), new Vector2(1350, 206), Color.AntiqueWhite);
-            //Vector2 origin1 = HealthText.MeasureString(mainChar.HealthText()) / 2f;
-            //spriteBatch.DrawString(HealthText, mainChar.HealthText(), new Vector2(1400, 220), Color.AntiqueWhite, 0f, null, 0f, SpriteEffects.None, 0f);
+            //Vector2 origin1 = font.MeasureString(mainChar.HealthText()) / 2f;
+            //spriteBatch.DrawString(font, mainChar.HealthText(), new Vector2(1400, 220), Color.AntiqueWhite, 0f, origin1, 0f, SpriteEffects.None, 0f);
 
             //Manabalken MainChar
             spriteBatch.Draw(Healthbar,
