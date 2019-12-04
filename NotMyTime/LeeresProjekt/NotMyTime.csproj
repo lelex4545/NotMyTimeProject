@@ -54,6 +54,8 @@
     <Compile Include="LootManager.cs" />
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="Inventory.cs" />
+    <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="TileMap.cs" />

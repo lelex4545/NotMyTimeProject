@@ -74,5 +74,18 @@ namespace NotMyTime
         {
             currentScreen.Draw(spriteBatch);
         }
+
+        public bool FightResult(GameTime gameTime, Map map, Player player, Loot l)
+        {
+            this.Update(gameTime);
+            if (!currentScreen.IsEnemyAlive())
+            {
+                this.UnloadContent();
+                map.LoadContent(Content);
+                player.generatePlayer();
+                //l.LoadContent(Content);
+            }
+            return currentScreen.IsEnemyAlive();
+        }
     }
 }

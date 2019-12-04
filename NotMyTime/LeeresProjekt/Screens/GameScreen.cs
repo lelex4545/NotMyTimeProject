@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
-namespace NotMyTime
+namespace NotMyTime.Screens
 {
-    public abstract class BattleScreen
+    class GameScreen
     {
         protected ContentManager content;
 
         public Type Type;
-        public BattleScreen()
+        public GameScreen()
         {
             Type = this.GetType();
         }
@@ -23,7 +24,7 @@ namespace NotMyTime
         public virtual void LoadContent()
         {
             content = new ContentManager(
-                BattleManager.Instance.Content.ServiceProvider, "Content");
+                ScreenManager.Instance.Content.ServiceProvider, "Content");
         }
         public virtual void UnloadContent()
         {
@@ -37,7 +38,5 @@ namespace NotMyTime
         {
 
         }
-
-        public abstract bool IsEnemyAlive();
     }
 }

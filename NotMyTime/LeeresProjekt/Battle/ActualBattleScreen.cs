@@ -388,7 +388,10 @@ namespace NotMyTime
                     break;
             }
         }
-
+        public override bool IsEnemyAlive()
+        {
+            return enemy.isAlive();
+        }
     }
 
 }

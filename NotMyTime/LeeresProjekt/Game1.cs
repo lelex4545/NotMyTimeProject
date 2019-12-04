@@ -15,6 +15,7 @@ namespace NotMyTime
         public static int ScreenHeight;
         public static int ScreenWidth;
         private Camera camera;
+        private Camera oldCam;
 
         Map map;                       //Map
         Player player;                 //Spielcharakter
@@ -93,10 +94,6 @@ namespace NotMyTime
             camera = new Camera();
 
 
-
-
-
-
             BattleManager.Instance.LoadContent(Content);
             BattleManager.Instance.UnloadContent();
 
@@ -134,6 +131,7 @@ namespace NotMyTime
             {
                 player.updatePosition(gameTime, map);
                 battle = goblin.moveOne(gameTime, map, player);
+                //if (camera == null) camera = oldCam;
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
                 //loot collision
@@ -141,8 +139,13 @@ namespace NotMyTime
                 loot2.Collison(player);
             }
             if(battle == true)
-                BattleManager.Instance.Update(gameTime);
-            
+            {
+                //oldCam = camera;
+                //camera = null;
+                //BattleManager.Instance.Update(gameTime);
+                battle = BattleManager.Instance.FightResult(gameTime, map, player, loot1);
+            }
+
             /*if (Keyboard.GetState().IsKeyDown(Keys.X))
             {
                 map.LoadContent(Content);
@@ -165,12 +168,13 @@ namespace NotMyTime
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Orange);
 
             // TODO: Add your drawing code here
 
-            //Zeichne Sprites
-            spriteBatch.Begin(transformMatrix: camera.Transform);
+            //Zeichne Spristes
+            if (!battle) spriteBatch.Begin(transformMatrix: camera.Transform);
+            else spriteBatch.Begin();
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             goblin.Draw(spriteBatch);
