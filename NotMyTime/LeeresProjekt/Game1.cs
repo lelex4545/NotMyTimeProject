@@ -65,7 +65,7 @@ namespace NotMyTime
             inventory = new Inventory();
 
             //parameter: rectangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
-            loot1 = new Loot(0, 1250, 1050, 50, 100, 1300, 1100, 1.0f, 1.0f, 925, 420);
+            loot1 = new Loot(0, 1050, 1150, 50, 100, 1100, 1200, 1.0f, 1.0f, 925, 420);
             loot2 = new Loot(1, 1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
             battle = false;
 
