@@ -11,24 +11,27 @@ using Microsoft.Xna.Framework.Input;
 
 namespace NotMyTime.Screens
 {
-    class GameScreen
+    public class GameScreen
     {
-        protected ContentManager content;
+        protected ContentManager Content;
 
         public Type Type;
         public GameScreen()
         {
             Type = this.GetType();
         }
+        public virtual void Initialize()
+        {
 
+        }
         public virtual void LoadContent()
         {
-            content = new ContentManager(
+            Content = new ContentManager(
                 ScreenManager.Instance.Content.ServiceProvider, "Content");
         }
         public virtual void UnloadContent()
         {
-            content.Unload();
+            Content.Unload();
         }
         public virtual void Update(GameTime gameTime)
         {

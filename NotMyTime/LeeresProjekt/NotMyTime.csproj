@@ -41,9 +41,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Battle\ActualBattleScreen.cs" />
-    <Compile Include="Battle\BattleManager.cs" />
-    <Compile Include="Battle\BattleScreen.cs" />
     <Compile Include="Battle\Fighter.cs" />
     <Compile Include="Battle\Levelsystem.cs" />
     <Compile Include="Battle\MagicSkillset.cs" />
@@ -54,7 +51,10 @@
     <Compile Include="LootManager.cs" />
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="Inventory.cs" />
+    <Compile Include="Screens\BattleScreen.cs" />
+    <Compile Include="Screens\DeathScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />
+    <Compile Include="Screens\MapScreen1.cs" />
     <Compile Include="Screens\ScreenManager.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Map.cs" />

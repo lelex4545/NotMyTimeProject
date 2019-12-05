@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace NotMyTime
+namespace NotMyTime.Screens
 {
-    public class ActualBattleScreen : BattleScreen
+    public class BattleScreen : GameScreen
     {
         Texture2D fight_menu;
         Texture2D menu_button;
@@ -39,7 +39,11 @@ namespace NotMyTime
         int enemyType = 0;
         int weaponType = 0;
 
-        public ActualBattleScreen(int enemyType, int weaponType)// : base()
+        public BattleScreen() : this(0, 0)
+        {
+
+        }
+        public BattleScreen(int enemyType, int weaponType)// : base()
         {
             btnPos = new Vector2[2];
             btnPos[0] = new Vector2(0, 0);
@@ -61,22 +65,22 @@ namespace NotMyTime
         {
             base.LoadContent();
 
-            fight_menu = content.Load<Texture2D>("fight_menu3");
+            fight_menu = Content.Load<Texture2D>("fight_menu3");
 
-            menu_button = content.Load<Texture2D>("menu_select");
+            menu_button = Content.Load<Texture2D>("menu_select");
 
-            magic_button = content.Load<Texture2D>("menu_select2");
+            magic_button = Content.Load<Texture2D>("menu_select2");
 
-            Healthbar = content.Load<Texture2D>("health_white");
+            Healthbar = Content.Load<Texture2D>("health_white");
 
-            Healthbar2 = content.Load<Texture2D>("healthbar_black");
+            Healthbar2 = Content.Load<Texture2D>("healthbar_black");
 
-            font = content.Load<SpriteFont>("Arial");
+            font = Content.Load<SpriteFont>("Arial");
 
             //TO DO Interface überarbeiten
-            mainChar.StatFont = content.Load<SpriteFont>("Arial");
+            mainChar.StatFont = Content.Load<SpriteFont>("Arial");
 
-            enemy.StatFont = content.Load<SpriteFont>("Arial");
+            enemy.StatFont = Content.Load<SpriteFont>("Arial");
 
 
             //TO DO Model mit korrekter Waffe laden
@@ -173,6 +177,7 @@ namespace NotMyTime
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
             base.Draw(spriteBatch);
             DrawLayout(spriteBatch);
 
@@ -181,6 +186,7 @@ namespace NotMyTime
 
             if (enemy.Stats.CurrentLP > 0)
                 DrawEnemy(spriteBatch);
+            spriteBatch.End();
         }
 
         void Fight(MainFighter main, EnemyFighter enemy, int i)
@@ -342,19 +348,19 @@ namespace NotMyTime
             switch (enemyType)
             {
                 case 0:
-                    enemy.Model = content.Load<Texture2D>("Hohlenmensch_Right");
+                    enemy.Model = Content.Load<Texture2D>("Hohlenmensch_Right");
                     break;
                 case 1:
-                    enemy.Model = content.Load<Texture2D>("Boss_Dragon_Huanglong");
+                    enemy.Model = Content.Load<Texture2D>("Boss_Dragon_Huanglong");
                     break;
                 case 2:
-                    enemy.Model = content.Load<Texture2D>("Boss_Runic_Stone");
+                    enemy.Model = Content.Load<Texture2D>("Boss_Runic_Stone");
                     break;
                 case 3:
-                    enemy.Model = content.Load<Texture2D>("Boss_Dark_Queen");
+                    enemy.Model = Content.Load<Texture2D>("Boss_Dark_Queen");
                     break;
                 default:
-                    enemy.Model = content.Load<Texture2D>("Hohlenmensch_Right");
+                    enemy.Model = Content.Load<Texture2D>("Hohlenmensch_Right");
                     break;
             }
         }
@@ -384,14 +390,16 @@ namespace NotMyTime
             switch (weaponType)
             {
                 default:
-                    mainChar.Model = content.Load<Texture2D>("figure_left");
+                    mainChar.Model = Content.Load<Texture2D>("figure_left");
                     break;
             }
         }
-        public override bool IsEnemyAlive()
+
+        public DeathChecker IsEnemyAlive()
         {
-            return enemy.isAlive();
+            return new DeathChecker(enemy.isAlive(), enemyType);
         }
+
     }
 
 }

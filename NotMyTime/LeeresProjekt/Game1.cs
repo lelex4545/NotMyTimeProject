@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using NotMyTime.Screens;
 
 namespace NotMyTime
 {
@@ -13,8 +14,9 @@ namespace NotMyTime
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public static int ScreenHeight;
-        public static int ScreenWidth;
+        public static int ScreenHeight = 1080;
+        public static int ScreenWidth = 1920;
+        /*
         private Camera camera;
 
         Map map;                       //Map
@@ -26,6 +28,7 @@ namespace NotMyTime
         Loot loot1;                   //Schwert
         Loot loot2;                   //keule
         bool battle;                  // Falls Kampf
+        */
 
         public static MainFighter mainChar;
 
@@ -40,7 +43,7 @@ namespace NotMyTime
 
             mainChar = new MainFighter("Bruce", 100, 100, 50, 15, 15, 15);
 
-            Content.RootDirectory = "Content";
+            //Content.RootDirectory = "Content";
         }
 
         /// <summary>
@@ -53,6 +56,7 @@ namespace NotMyTime
         {
             // TODO: Add your initialization logic here
 
+            /*
             //Map und Spieler initialisieren + Content des "Players" verbinden
             map = new Map();
             Sprite.Content = Content;
@@ -68,7 +72,8 @@ namespace NotMyTime
             loot1 = new Loot(0, 1050, 1150, 50, 100, 1100, 1200, 1.0f, 1.0f, 925, 420);
             loot2 = new Loot(1, 1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
             battle = false;
-
+            */
+            ScreenManager.Instance.Initialize();
             base.Initialize();
         }
 
@@ -80,7 +85,7 @@ namespace NotMyTime
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            /*
             Tiles.Content = Content;
             
             Inventory.Content = Content;
@@ -100,8 +105,8 @@ namespace NotMyTime
 
             BattleManager.Instance.LoadContent(Content);
             BattleManager.Instance.UnloadContent();
-
-
+            */
+            ScreenManager.Instance.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -113,11 +118,11 @@ namespace NotMyTime
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
-
-
+            /*
             BattleManager.Instance.UnloadContent();
             Tiles.UnLoadContent();
-
+            */
+            ScreenManager.Instance.UnloadContent();
         }
 
         /// <summary>
@@ -129,7 +134,7 @@ namespace NotMyTime
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            /*
             // TODO: Add your update logic here
             if (battle == false)
             {
@@ -149,7 +154,7 @@ namespace NotMyTime
                 if (battle == false)
                     enemyList[0] = null;
             }
-
+            */
             /*if (Keyboard.GetState().IsKeyDown(Keys.X))
             {
                 map.LoadContent(Content);
@@ -162,7 +167,7 @@ namespace NotMyTime
                 player.UnLoadContent();
                 goblin.UnLoadContent();
             }*/
-
+            ScreenManager.Instance.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -175,7 +180,7 @@ namespace NotMyTime
             GraphicsDevice.Clear(Color.Orange);
 
             // TODO: Add your drawing code here
-
+            /*
             //Zeichne Spristes
             if (!battle) spriteBatch.Begin(transformMatrix: camera.Transform);
             else spriteBatch.Begin();
@@ -192,6 +197,8 @@ namespace NotMyTime
             BattleManager.Instance.Draw(spriteBatch);
 
             spriteBatch.End();
+            */
+            ScreenManager.Instance.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }

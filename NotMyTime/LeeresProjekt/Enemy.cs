@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NotMyTime.Screens;
 
 namespace NotMyTime
 {
@@ -33,21 +34,21 @@ namespace NotMyTime
         public void generateEnemy(String name)
         {
             this.name = name;
-            right[0] = Content.Load<Texture2D>(name+"_right0");
-            right[1] = Content.Load<Texture2D>(name+"_right1");
-            right[2] = Content.Load<Texture2D>(name+"_right2");
-            
-            left[0] = Content.Load<Texture2D>(name+"_left0");
-            left[1] = Content.Load<Texture2D>(name+"_left1");
-            left[2] = Content.Load<Texture2D>(name+"_left2");
+            right[0] = Content.Load<Texture2D>(name + "_right0");
+            right[1] = Content.Load<Texture2D>(name + "_right1");
+            right[2] = Content.Load<Texture2D>(name + "_right2");
 
-            top[0] = Content.Load<Texture2D>(name+"_top0");
-            top[1] = Content.Load<Texture2D>(name+"_top1");
-            top[2] = Content.Load<Texture2D>(name+"_top2");
+            left[0] = Content.Load<Texture2D>(name + "_left0");
+            left[1] = Content.Load<Texture2D>(name + "_left1");
+            left[2] = Content.Load<Texture2D>(name + "_left2");
 
-            texture = bottom[0] = Content.Load<Texture2D>(name+"_bottom0");
-            bottom[1] = Content.Load<Texture2D>(name+"_bottom1");
-            bottom[2] = Content.Load<Texture2D>(name+"_bottom2");
+            top[0] = Content.Load<Texture2D>(name + "_top0");
+            top[1] = Content.Load<Texture2D>(name + "_top1");
+            top[2] = Content.Load<Texture2D>(name + "_top2");
+
+            texture = bottom[0] = Content.Load<Texture2D>(name + "_bottom0");
+            bottom[1] = Content.Load<Texture2D>(name + "_bottom1");
+            bottom[2] = Content.Load<Texture2D>(name + "_bottom2");
         }
 
         public bool moveOne(GameTime gameTime, Map map, Player player)
@@ -57,10 +58,10 @@ namespace NotMyTime
             chill += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             Rectangle tmp;
-            if(which == 0)
+            if (which == 0)
             {
                 tmp = new Rectangle(rectangle.X, rectangle.Y + size2, rectangle.Width, rectangle.Height);
-                foreach(CollisionTiles tile in map.CollisionTiles)
+                foreach (CollisionTiles tile in map.CollisionTiles)
                 {
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3") ||
                         tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7")))
@@ -72,7 +73,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    BattleManager.Instance.LoadContent(Content);
+                    ScreenManager.Instance.Collision(Content, 0, this);
                     return true;
                 }
             }
@@ -91,7 +92,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    BattleManager.Instance.LoadContent(Content);
+                    ScreenManager.Instance.Collision(Content, 0, this);
                     return true;
                 }
             }
@@ -110,7 +111,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    BattleManager.Instance.LoadContent(Content);
+                    ScreenManager.Instance.Collision(Content, 0, this);
                     return true;
                 }
             }
@@ -129,7 +130,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    BattleManager.Instance.LoadContent(Content);
+                    ScreenManager.Instance.Collision(Content, 0, this);
                     return true;
                 }
             }
@@ -181,11 +182,11 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                BattleManager.Instance.LoadContent(Content);
+                                ScreenManager.Instance.Collision(Content, 0, this);
                                 return true;
                             }
 
-                                
+
                             rectangle.Y = rectangle.Y + size;
                             texture = bottom[1];
                             help = 1;
@@ -199,7 +200,7 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                BattleManager.Instance.LoadContent(Content);
+                                ScreenManager.Instance.Collision(Content, 0, this);
                                 return true;
                             }
                             rectangle.X = rectangle.X - size;
@@ -215,7 +216,7 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                BattleManager.Instance.LoadContent(Content);
+                                ScreenManager.Instance.Collision(Content, 0, this);
                                 return true;
                             }
                             rectangle.Y = rectangle.Y - size;
@@ -231,7 +232,7 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                BattleManager.Instance.LoadContent(Content);
+                                ScreenManager.Instance.Collision(Content, 0, this);
                                 return true;
                             }
                             rectangle.X = rectangle.X + size;

@@ -51,7 +51,6 @@ namespace NotMyTime
         bool col = false;
         public Player(Rectangle newRectangle)
         {
-            texture = Content.Load<Texture2D>("figure_right");
             this.Rectangle = newRectangle;
             left = new Texture2D[5];
             right = new Texture2D[5];
