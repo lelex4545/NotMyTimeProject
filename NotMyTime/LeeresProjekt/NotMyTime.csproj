@@ -52,6 +52,7 @@
     <Compile Include="RectangleHelper.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Screens\BattleScreen.cs" />
+    <Compile Include="Screens\GameOverScreen.cs" />
     <Compile Include="Screens\GameScreen.cs" />
     <Compile Include="Screens\MapScreen1.cs" />
     <Compile Include="Screens\ScreenManager.cs" />

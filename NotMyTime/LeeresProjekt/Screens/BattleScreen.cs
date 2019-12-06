@@ -39,11 +39,9 @@ namespace NotMyTime.Screens
         string enemyName;
         int weaponType = 0;
 
-        public BattleScreen() : this("")
-        {
+        public BattleScreen() : this("") { }
 
-        }
-        public BattleScreen(string enemyName)// : base()
+        public BattleScreen(string enemyName)
         {
             btnPos = new Vector2[2];
             btnPos[0] = new Vector2(0, 0);
@@ -56,7 +54,7 @@ namespace NotMyTime.Screens
             magicBtnPos[2] = new Vector2(990, 841);
             magicBtnPos[3] = new Vector2(990, 876);
 
-            this.mainChar = Game1.mainChar;
+            this.mainChar = ScreenManager.mainChar;
             this.enemyName = enemyName;
             LoadEnemy();
         }
@@ -99,8 +97,6 @@ namespace NotMyTime.Screens
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
             if (elapsedTime >= delay)
             {
-                if (mainChar.Stats.CurrentLP > 0 && enemy.Stats.CurrentLP > 0)
-                {
                     if (!magicMenu)
                     {
                         if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
@@ -164,7 +160,6 @@ namespace NotMyTime.Screens
                                 actualBtn = btnPos[btnIndex];
                             }
                         }
-                    }
                     enemy.Stats.CurrentLP = (int)MathHelper.Clamp(enemy.Stats.CurrentLP, 0, enemy.Stats.Lifepoints);
                     enemy.Stats.CurrentMP = (int)MathHelper.Clamp(enemy.Stats.CurrentMP, 0, enemy.Stats.Manapoints);
                     mainChar.Stats.CurrentLP = (int)MathHelper.Clamp(mainChar.Stats.CurrentLP, 0, mainChar.Stats.Lifepoints);

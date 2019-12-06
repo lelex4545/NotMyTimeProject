@@ -17,8 +17,6 @@ namespace NotMyTime
         public static int ScreenHeight = 1080;
         public static int ScreenWidth = 1920;
 
-        public static MainFighter mainChar;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -27,8 +25,6 @@ namespace NotMyTime
             graphics.PreferredBackBufferHeight = 1080;
 
             IsMouseVisible = true;
-
-            mainChar = new MainFighter("Bruce", 100, 100, 50, 15, 15, 15);
         }
 
         /// <summary>
