@@ -73,7 +73,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    ScreenManager.Instance.Collision(Content, 0, this);
+                    ScreenManager.Instance.Collision(Content, this);
                     return true;
                 }
             }
@@ -92,7 +92,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    ScreenManager.Instance.Collision(Content, 0, this);
+                    ScreenManager.Instance.Collision(Content, this);
                     return true;
                 }
             }
@@ -111,7 +111,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    ScreenManager.Instance.Collision(Content, 0, this);
+                    ScreenManager.Instance.Collision(Content, this);
                     return true;
                 }
             }
@@ -130,7 +130,7 @@ namespace NotMyTime
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
                     map.UnLoadContent();
-                    ScreenManager.Instance.Collision(Content, 0, this);
+                    ScreenManager.Instance.Collision(Content, this);
                     return true;
                 }
             }
@@ -182,7 +182,7 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                ScreenManager.Instance.Collision(Content, 0, this);
+                                ScreenManager.Instance.Collision(Content, this);
                                 return true;
                             }
 
@@ -200,7 +200,7 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                ScreenManager.Instance.Collision(Content, 0, this);
+                                ScreenManager.Instance.Collision(Content, this);
                                 return true;
                             }
                             rectangle.X = rectangle.X - size;
@@ -216,7 +216,7 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                ScreenManager.Instance.Collision(Content, 0, this);
+                                ScreenManager.Instance.Collision(Content, this);
                                 return true;
                             }
                             rectangle.Y = rectangle.Y - size;
@@ -232,7 +232,7 @@ namespace NotMyTime
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 map.UnLoadContent();
-                                ScreenManager.Instance.Collision(Content, 0, this);
+                                ScreenManager.Instance.Collision(Content, this);
                                 return true;
                             }
                             rectangle.X = rectangle.X + size;
@@ -247,6 +247,11 @@ namespace NotMyTime
             }
             col = false;
             return false;
+        }
+
+        public string GetName()
+        {
+            return this.name;
         }
     }
 }

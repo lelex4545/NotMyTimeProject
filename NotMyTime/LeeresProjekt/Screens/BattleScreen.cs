@@ -36,14 +36,14 @@ namespace NotMyTime.Screens
 
         MainFighter mainChar;
         EnemyFighter enemy;
-        int enemyType = 0;
+        string enemyName;
         int weaponType = 0;
 
-        public BattleScreen() : this(0, 0)
+        public BattleScreen() : this("")
         {
 
         }
-        public BattleScreen(int enemyType, int weaponType)// : base()
+        public BattleScreen(string enemyName)// : base()
         {
             btnPos = new Vector2[2];
             btnPos[0] = new Vector2(0, 0);
@@ -57,8 +57,7 @@ namespace NotMyTime.Screens
             magicBtnPos[3] = new Vector2(990, 876);
 
             this.mainChar = Game1.mainChar;
-            this.enemyType = enemyType;
-            this.weaponType = weaponType;
+            this.enemyName = enemyName;
             LoadEnemy();
         }
         public override void LoadContent()
@@ -324,18 +323,18 @@ namespace NotMyTime.Screens
 
         public void LoadEnemy()
         {
-            switch (enemyType)
+            switch (enemyName)
             {
-                case 0:
-                    enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50);
+                case "goblin":
+                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 5, 5, 25);
                     break;
-                case 1:
+                case "1":
                     enemy = new EnemyFighter("Draggy", 4, 250, 100, 15, 10, 10, 10, 115);
                     break;
-                case 2:
+                case "2":
                     enemy = new EnemyFighter("StoneBoy", 7, 700, 500, 50, 80, 10, 10, 350);
                     break;
-                case 3:
+                case "3":
                     enemy = new EnemyFighter("Dark Queen", 10, 1000, 1000, 100, 50, 50, 50, 1000);
                     break;
                 default:
@@ -345,18 +344,18 @@ namespace NotMyTime.Screens
         }
         public void LoadEnemyTexture()
         {
-            switch (enemyType)
+            switch (enemyName)
             {
-                case 0:
-                    enemy.Model = Content.Load<Texture2D>("Hohlenmensch_Right");
+                case "goblin":
+                    enemy.Model = Content.Load<Texture2D>("goblin_right0");
                     break;
-                case 1:
+                case "1":
                     enemy.Model = Content.Load<Texture2D>("Boss_Dragon_Huanglong");
                     break;
-                case 2:
+                case "2":
                     enemy.Model = Content.Load<Texture2D>("Boss_Runic_Stone");
                     break;
-                case 3:
+                case "3":
                     enemy.Model = Content.Load<Texture2D>("Boss_Dark_Queen");
                     break;
                 default:
@@ -366,18 +365,18 @@ namespace NotMyTime.Screens
         }
         public void DrawEnemy(SpriteBatch spriteBatch)
         {
-            switch (enemyType)
+            switch (enemyName)
             {
-                case 0:
+                case "goblin":
                     spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
                     break;
-                case 1:
+                case "1":
                     spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
-                case 2:
+                case "2":
                     spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
-                case 3:
+                case "3":
                     spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 500, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 150), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 default:
@@ -395,9 +394,9 @@ namespace NotMyTime.Screens
             }
         }
 
-        public DeathChecker IsEnemyAlive()
+        public bool IsEnemyAlive()
         {
-            return new DeathChecker(enemy.isAlive(), enemyType);
+            return enemy.isAlive();
         }
 
     }

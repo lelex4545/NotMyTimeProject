@@ -20,7 +20,7 @@ namespace NotMyTime.Screens
 
         GameScreen currentScreen;
         GameScreen oldScreen;
-        DeathChecker battle;
+        bool isFighting;
         Enemy currentEnemy;
         public static ScreenManager Instance
         {
@@ -34,7 +34,6 @@ namespace NotMyTime.Screens
         public ScreenManager()
         {
             currentScreen = new MapScreen1();
-            battle = new DeathChecker(false, 0);
         }
         public void LoadContent(ContentManager Content)
         {
@@ -47,11 +46,11 @@ namespace NotMyTime.Screens
         }
         public void Update(GameTime gameTime)
         {
-            if (battle.isFighting)
+            if (isFighting)
             {
                 BattleScreen bs = (BattleScreen)currentScreen;
-                battle = bs.IsEnemyAlive();
-                if (!battle.isFighting)
+                isFighting = bs.IsEnemyAlive();
+                if (!isFighting)
                 {
                     currentScreen.UnloadContent();
                     currentScreen = oldScreen;
@@ -62,6 +61,7 @@ namespace NotMyTime.Screens
                         for (int i = 0; temp.enemyList[i] != null; i++)
                             if (temp.enemyList[i] == currentEnemy)
                                 temp.enemyList[i] = null;
+
                     }
                     else if (type.Name == "MapScreen2")
                     {
@@ -81,14 +81,26 @@ namespace NotMyTime.Screens
         {
             currentScreen.Draw(spriteBatch);
         }
-        public void Collision(ContentManager Content, int enemyType, Enemy enemy)
+        public void Collision(ContentManager Content, Enemy enemy)
         {
             currentEnemy = enemy;
-            oldScreen = new MapScreen1((MapScreen1)currentScreen);
+            Type type = currentScreen.GetType();
+            if (type.Name == "MapScreen1")
+            {
+                oldScreen = new MapScreen1((MapScreen1)currentScreen);
+            }
+            else if (type.Name == "MapScreen2")
+            {
+                //oldScreen = new MapScreen2((MapScreen2)currentScreen);
+            }
+            else if (type.Name == "MapScreen3")
+            {
+                //oldScreen = new MapScreen3((MapScreen3)currentScreen);
+            }
             currentScreen.UnloadContent();
-            currentScreen = new BattleScreen(enemyType, 0);
+            currentScreen = new BattleScreen(enemy.GetName());
             currentScreen.LoadContent();
-            battle.isFighting = true;
+            isFighting = true;
         }
     }
 }
