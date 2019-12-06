@@ -20,10 +20,6 @@ namespace NotMyTime.Screens
         {
             Type = this.GetType();
         }
-        public virtual void Initialize()
-        {
-
-        }
         public virtual void LoadContent()
         {
             Content = new ContentManager(

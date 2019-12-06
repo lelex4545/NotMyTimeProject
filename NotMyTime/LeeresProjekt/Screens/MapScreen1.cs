@@ -20,7 +20,7 @@ namespace NotMyTime.Screens
         LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
         Loot loot2;                   //keule
-        bool battle;                  // Falls Kampf
+        
 
         public MapScreen1()
         {
@@ -35,7 +35,7 @@ namespace NotMyTime.Screens
 
         }
 
-        public MapScreen1(MapScreen1 old) : this()
+        public MapScreen1(MapScreen1 old) : this()      //Kopier-Konstruktor
         {
             loot1 = old.loot1;
             loot2 = old.loot2;
@@ -46,15 +46,9 @@ namespace NotMyTime.Screens
             //Content = old.Content;
         }
 
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
         public override void LoadContent()
         {
             base.LoadContent();
-
-            // Content.RootDirectory = "Content";
 
             Sprite.Content = Content;
 
@@ -67,7 +61,7 @@ namespace NotMyTime.Screens
 
             //parameter: rectangle(x,y,größeX,größeY), X, Y, scale1, scale(inv), X(inv), Y(inv)
 
-            battle = false;
+            
 
 
 
@@ -99,7 +93,7 @@ namespace NotMyTime.Screens
             player.updatePosition(gameTime, map);
             //battle = goblin.moveOne(gameTime, map, player);
             for (int i = 0; enemyList[i] != null; i++)
-                battle = enemyList[i].moveOne(gameTime, map, player);
+                enemyList[i].moveOne(gameTime, map, player);
             camera.Follow(player);
             //inventory.openInventory(gameTime);
             //loot collision

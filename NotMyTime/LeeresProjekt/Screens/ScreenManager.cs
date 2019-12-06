@@ -36,10 +36,6 @@ namespace NotMyTime.Screens
             currentScreen = new MapScreen1();
             battle = new DeathChecker(false, 0);
         }
-        public void Initialize()
-        {
-            currentScreen.Initialize();
-        }
         public void LoadContent(ContentManager Content)
         {
             this.Content = new ContentManager(Content.ServiceProvider, "Content");
