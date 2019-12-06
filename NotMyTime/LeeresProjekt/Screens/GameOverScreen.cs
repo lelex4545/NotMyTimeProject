@@ -10,11 +10,13 @@ namespace NotMyTime.Screens
 {
     public class GameOverScreen : GameScreen
     {
+        Texture2D endScreen;
         public GameOverScreen() { }
 
         public override void LoadContent()
         {
             base.LoadContent();
+            endScreen = Content.Load<Texture2D>("Battle/deathScreen");
         }
 
         public override void UnloadContent()
@@ -29,7 +31,10 @@ namespace NotMyTime.Screens
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
             base.Draw(spriteBatch);
+            spriteBatch.Draw(endScreen, new Vector2(), Color.White);
+            spriteBatch.End();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace NotMyTime.Screens
         public ScreenManager()
         {
             currentScreen = new MapScreen1();
-            mainChar = new MainFighter("Bruce", 100, 100, 50, 15, 15, 15);
+            mainChar = new MainFighter("Bruce", 1, 100, 5, 15, 15, 15);
         }
         public void LoadContent(ContentManager Content)
         {
@@ -48,6 +48,8 @@ namespace NotMyTime.Screens
         }
         public void Update(GameTime gameTime)
         {
+            if (!mainChar.isAlive()) GameOver();
+
             if (isFighting)
             {
                 BattleScreen bs = (BattleScreen)currentScreen;
@@ -76,7 +78,7 @@ namespace NotMyTime.Screens
                     currentScreen.LoadContent();
                 }
             }
-            if (!mainChar.isAlive()) GameOver();
+            
             currentScreen.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -107,8 +109,10 @@ namespace NotMyTime.Screens
 
         public void GameOver()
         {
+            isFighting = false;
             currentScreen.UnloadContent();
             currentScreen = new GameOverScreen();
+            currentScreen.LoadContent();
         }
     }
 }

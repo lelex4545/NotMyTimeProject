@@ -20,7 +20,7 @@ namespace NotMyTime
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.IsFullScreen = false;                  //Fullscreen
+            graphics.IsFullScreen = true;                  //Fullscreen
             graphics.PreferredBackBufferWidth = 1920;       //Auflösung
             graphics.PreferredBackBufferHeight = 1080;
 

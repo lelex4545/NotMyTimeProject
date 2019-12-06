@@ -62,15 +62,15 @@ namespace NotMyTime.Screens
         {
             base.LoadContent();
 
-            fight_menu = Content.Load<Texture2D>("fight_menu3");
+            fight_menu = Content.Load<Texture2D>("Battle/fight_menu3");
 
-            menu_button = Content.Load<Texture2D>("menu_select");
+            menu_button = Content.Load<Texture2D>("Battle/menu_select");
 
-            magic_button = Content.Load<Texture2D>("menu_select2");
+            magic_button = Content.Load<Texture2D>("Battle/menu_select2");
 
-            Healthbar = Content.Load<Texture2D>("health_white");
+            Healthbar = Content.Load<Texture2D>("Battle/health_white");
 
-            Healthbar2 = Content.Load<Texture2D>("healthbar_black");
+            Healthbar2 = Content.Load<Texture2D>("Battle/healthbar_black");
 
             font = Content.Load<SpriteFont>("Arial");
 
