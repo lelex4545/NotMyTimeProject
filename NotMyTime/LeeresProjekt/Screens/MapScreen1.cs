@@ -20,12 +20,18 @@ namespace NotMyTime.Screens
         LootManager lootManager;      //packt items ins inventar
         Loot loot1;                   //Schwert
         Loot loot2;                   //keule
-        
+        Gold gold1;
+        Gold gold2;
+
 
         public MapScreen1()
         {
             loot1 = new Loot(0, 1050, 1150, 50, 100, 1100, 1200, 1.0f, 1.0f, 925, 420);
             loot2 = new Loot(1, 1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
+
+            gold1 = new Gold(100, 1050, 950, 50, 50, 1100, 1000, 1.0f);
+            gold2 = new Gold(150, 1250, 850, 50, 50, 1300, 900, 1.0f);
+
             inventory = new Inventory();
             map = new Map();
             enemyList = new Enemy[20];
@@ -68,6 +74,9 @@ namespace NotMyTime.Screens
             loot1.LoadContent(Content, "weapon");
             loot2.LoadContent(Content, "weapon2");
 
+            gold1.LoadContent(Content, "gold");
+            gold2.LoadContent(Content, "gold");
+
             inventory.LoadContent(Content, "Inventar");
 
             map.generateMap1();
@@ -99,6 +108,9 @@ namespace NotMyTime.Screens
             //loot collision
             loot1.Collison(player);
             loot2.Collison(player);
+            //gold collision
+            gold1.Collison(player);
+            gold2.Collison(player);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -114,6 +126,9 @@ namespace NotMyTime.Screens
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+
+            gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             spriteBatch.End();
         }
     }
