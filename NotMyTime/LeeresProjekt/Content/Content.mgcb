@@ -20,6 +20,20 @@
 /processorParam:TextureFormat=Compressed
 /build:Arial.spritefont
 
+#begin Arial1.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial1.spritefont
+
+#begin Arial2.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Arial2.spritefont
+
 #begin Battle/deathScreen.png
 /importer:TextureImporter
 /processor:TextureProcessor

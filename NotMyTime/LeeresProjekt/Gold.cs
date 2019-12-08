@@ -13,6 +13,7 @@ namespace NotMyTime
     {
         //Gold Anzeige
         private SpriteFont font;
+        private SpriteFont font1;
         private static int score = 0;
 
         //Gold loot
@@ -21,8 +22,8 @@ namespace NotMyTime
         private int posX;
         private int posY;
         private float scale;
-        private bool popUp = true;
-
+        private float currentTime;
+        private bool fontUpdate = false;
         private bool pickup = false;
         //--------------------------------------------------
         private Rectangle rectangle;
@@ -56,7 +57,19 @@ namespace NotMyTime
         public void LoadContent(ContentManager content, string assetName)
         {
             texture = content.Load<Texture2D>(assetName);
-            font = content.Load<SpriteFont>("Arial");
+            font = content.Load<SpriteFont>("Arial1");
+            font1 = content.Load<SpriteFont>("Arial2");
+        }
+
+        public void updateFont(GameTime gameTime)
+        {
+            if(pickup)
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (currentTime >= 1.0f && pickup)
+            {
+                fontUpdate = true;
+                currentTime = 0f;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, int x, int y)
@@ -67,13 +80,12 @@ namespace NotMyTime
             {
                 spriteBatch.Draw(texture, new Vector2(posX, posY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
             }
-            else
+            else 
             {
-                //spriteBatch.Draw(texture, new Vector2(posX, posY), null, Color.Transparent, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
                 texture = null;
                 rectangle = Rectangle.Empty;
-                //if(kollidiert draw für 2 sekunden)
-                        spriteBatch.DrawString(font, "+" + value, new Vector2(posX-25, posY-25), Color.Black);
+                if(!fontUpdate)
+                    spriteBatch.DrawString(font1, "+" + value, new Vector2(posX-25, posY-25), Color.Black);
                 if (pickup == false)
                     score += value;
                 pickup = true;

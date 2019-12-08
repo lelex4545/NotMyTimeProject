@@ -111,6 +111,9 @@ namespace NotMyTime.Screens
             //gold collision
             gold1.Collison(player);
             gold2.Collison(player);
+            //font nullen
+            gold1.updateFont(gameTime);
+            gold2.updateFont(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
