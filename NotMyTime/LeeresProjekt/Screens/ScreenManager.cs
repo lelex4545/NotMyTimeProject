@@ -114,5 +114,12 @@ namespace NotMyTime.Screens
             currentScreen = new GameOverScreen();
             currentScreen.LoadContent();
         }
+        public void RestartGame()
+        {
+            currentScreen.UnloadContent();
+            currentScreen = new MapScreen1();
+            mainChar = new MainFighter("Bruce", 1, 100, 5, 15, 15, 15);
+            currentScreen.LoadContent();
+        }
     }
 }

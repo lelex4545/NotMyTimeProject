@@ -26,7 +26,7 @@ namespace NotMyTime.Screens
         Vector2 actualMagicBtn;
 
         float elapsedTime;
-        float delay = 100f;
+        float delay = 150f;
 
         SpriteFont font;
         string battlelog = "";
@@ -160,10 +160,6 @@ namespace NotMyTime.Screens
                                 actualBtn = btnPos[btnIndex];
                             }
                         }
-                    enemy.Stats.CurrentLP = (int)MathHelper.Clamp(enemy.Stats.CurrentLP, 0, enemy.Stats.Lifepoints);
-                    enemy.Stats.CurrentMP = (int)MathHelper.Clamp(enemy.Stats.CurrentMP, 0, enemy.Stats.Manapoints);
-                    mainChar.Stats.CurrentLP = (int)MathHelper.Clamp(mainChar.Stats.CurrentLP, 0, mainChar.Stats.Lifepoints);
-                    mainChar.Stats.CurrentMP = (int)MathHelper.Clamp(mainChar.Stats.CurrentMP, 0, mainChar.Stats.Manapoints);
                 }
                 elapsedTime = 0;
             }
@@ -220,6 +216,10 @@ namespace NotMyTime.Screens
                 }
             }
             if (!enemy.isAlive()) main.Level.SetExp(enemy);
+            enemy.Stats.CurrentLP = (int)MathHelper.Clamp(enemy.Stats.CurrentLP, 0, enemy.Stats.Lifepoints);
+            enemy.Stats.CurrentMP = (int)MathHelper.Clamp(enemy.Stats.CurrentMP, 0, enemy.Stats.Manapoints);
+            mainChar.Stats.CurrentLP = (int)MathHelper.Clamp(mainChar.Stats.CurrentLP, 0, mainChar.Stats.Lifepoints);
+            mainChar.Stats.CurrentMP = (int)MathHelper.Clamp(mainChar.Stats.CurrentMP, 0, mainChar.Stats.Manapoints);
         }
 
         void DrawLayout(SpriteBatch spriteBatch)
