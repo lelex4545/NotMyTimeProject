@@ -74,7 +74,10 @@ namespace NotMyTime
 
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
+            //gold anzahl
             spriteBatch.DrawString(font, "Gold: " + score, new Vector2(x + 758, y + 440), Color.Gold);
+            //koordinaten
+            spriteBatch.DrawString(font, x + " " + y, new Vector2(x + 758, y + 500), Color.White);
 
             if (Collided == false && !pickup)
             {

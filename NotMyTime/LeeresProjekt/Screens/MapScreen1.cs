@@ -26,11 +26,11 @@ namespace NotMyTime.Screens
 
         public MapScreen1()
         {
-            loot1 = new Loot(0, 1050, 1150, 50, 100, 1100, 1200, 1.0f, 1.0f, 925, 420);
-            loot2 = new Loot(1, 1050, 1350, 50, 100, 1100, 1400, 0.5f, 1.0f, 930, 425);
+            loot1 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 420);
+            loot2 = new Loot(1, 1400, 850, 50, 100, 1450, 900, 0.5f, 1.0f, 930, 425);
 
-            gold1 = new Gold(100, 1050, 950, 50, 50, 1100, 1000, 1.0f);
-            gold2 = new Gold(150, 1250, 850, 50, 50, 1300, 900, 1.0f);
+            gold1 = new Gold(100, 1250, 850, 50, 50, 1300, 900, 1.0f);
+            gold2 = new Gold(150, 1150, 1000, 50, 50, 1200, 1100, 1.0f);
 
             inventory = new Inventory();
             map = new Map();
