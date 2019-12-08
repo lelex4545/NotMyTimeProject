@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace NotMyTime.Screens
 {
@@ -73,6 +74,9 @@ namespace NotMyTime.Screens
             Healthbar2 = Content.Load<Texture2D>("Battle/healthbar_black");
 
             font = Content.Load<SpriteFont>("Arial");
+
+            //Song song = Content.Load<Song>("Battle_Theme_01");
+            //MediaPlayer.Play(song);
 
             //TO DO Interface überarbeiten
             mainChar.StatFont = Content.Load<SpriteFont>("Arial");
