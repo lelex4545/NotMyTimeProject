@@ -66,7 +66,7 @@ namespace GameStateManagement
             enemyList[0] = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
             player = new Player(new Rectangle(11 * 100, 7 * 100, 100, 100));
             camera = new Camera();
-            mainChar = new MainFighter("Bruce", 10, 100, 15, 10, 10, 10);
+            mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
         }
 
         /// <summary>

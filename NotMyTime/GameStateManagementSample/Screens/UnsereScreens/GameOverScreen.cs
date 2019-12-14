@@ -17,7 +17,11 @@ namespace GameStateManagement
         private SpriteFont gameFont;
         private Random random = new Random();
         private float pauseAlpha;
-        
+
+        int mAlphaValue = 1;
+        int mFadeIncrement = 3;
+        double mFadeDelay = .035;
+
         Texture2D endScreen;
         SpriteFont font;
 
@@ -63,6 +67,27 @@ namespace GameStateManagement
                 {
                     LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new BackgroundScreen(), new MainMenuScreen());
                 }
+
+                mFadeDelay -= gameTime.ElapsedGameTime.TotalSeconds;
+
+                //If the Fade delays has dropped below zero, then it is time to 
+                //fade in/fade out the image a little bit more.
+                if (mFadeDelay <= 0)
+                {
+                    //Reset the Fade delay
+                    mFadeDelay = .035;
+
+                    //Increment/Decrement the fade value for the image
+                    mAlphaValue += mFadeIncrement*3;
+
+                    //If the AlphaValue is equal or above the max Alpha value or
+                    //has dropped below or equal to the min Alpha value, then 
+                    //reverse the fade
+                    if (mAlphaValue >= 255 || mAlphaValue <= 0)
+                    {
+                        mFadeIncrement *= -1;
+                    }
+                }
             }
         }
 
@@ -94,12 +119,13 @@ namespace GameStateManagement
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.NonPremultiplied);
 
             spriteBatch.Draw(endScreen, new Vector2(), Color.White);
-            spriteBatch.DrawString(font, "Press any Key to Continue",
-                new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 200, spriteBatch.GraphicsDevice.Viewport.Height / 2 + 400), Color.Gray);
 
+            spriteBatch.DrawString(font, "Press any Key to Continue",
+                new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 200, spriteBatch.GraphicsDevice.Viewport.Height / 2 + 300),
+                new Color(Color.AntiqueWhite, MathHelper.Clamp(mAlphaValue, 0, 255)));
 
             spriteBatch.End();
 
