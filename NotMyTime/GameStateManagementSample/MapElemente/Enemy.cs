@@ -25,7 +25,16 @@ namespace GameStateManagement
 
         public Enemy(Rectangle newRectangle)
         {
-            this.rectangle = newRectangle;
+            //this.rectangle = newRectangle;
+            left = new Texture2D[3];
+            right = new Texture2D[3];
+            bottom = new Texture2D[3];
+            top = new Texture2D[3];
+        }
+        public Enemy(Vector2[] newRectangle)
+        {
+            //this.rectangle = newRectangle;
+           this.rectangle= spawnPosition(newRectangle);
             left = new Texture2D[3];
             right = new Texture2D[3];
             bottom = new Texture2D[3];
@@ -49,6 +58,12 @@ namespace GameStateManagement
             texture = bottom[0] = Content.Load<Texture2D>(name + "_bottom0");
             bottom[1] = Content.Load<Texture2D>(name + "_bottom1");
             bottom[2] = Content.Load<Texture2D>(name + "_bottom2");
+        }
+
+        public Rectangle spawnPosition(Vector2[] room)
+        {
+            var rand = new Random();
+            return new Rectangle(rand.Next((int)room[0].X, (int)room[1].X+1)*100, rand.Next((int)room[0].Y,(int) room[1].Y+1)*100,100,100);
         }
 
         public CollisionChecker moveOne(GameTime gameTime, Map map, Player player)

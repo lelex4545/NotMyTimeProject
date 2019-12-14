@@ -28,6 +28,7 @@ namespace GameStateManagement
 
         public static MainFighter mainChar;
         Map map;                       //Map
+        Vector2[][][] randomPositions;
         Player player;                 //Spielcharakter
         public Enemy[] enemyList;      //Spielgegner
         Inventory inventory;          //inventar Objekt
@@ -62,9 +63,33 @@ namespace GameStateManagement
 
             inventory = new Inventory();
             map = new Map();
+            randomPositions = new Vector2[3][][];
+            for (int i = 0; i < 3; i++)
+                randomPositions[i] = new Vector2[6][];
+
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 6; j++)
+                    randomPositions[i][j] = new Vector2[2];
+
+            randomPositions[0][0][0] = new Vector2(11, 7);
+            randomPositions[0][0][1] = new Vector2(15, 10);
+            randomPositions[0][1][0] = new Vector2(12, 23);
+            randomPositions[0][1][1] = new Vector2(19, 31);
+            randomPositions[0][2][0] = new Vector2(31, 37);
+            randomPositions[0][2][1] = new Vector2(36, 41);
+            randomPositions[0][3][0] = new Vector2(8, 30);
+            randomPositions[0][3][1] = new Vector2(18, 35);
+            randomPositions[0][4][0] = new Vector2(50, 34);
+            randomPositions[0][4][1] = new Vector2(57, 38);
+            randomPositions[0][5][0] = new Vector2(61, 34);
+            randomPositions[0][5][1] = new Vector2(70, 37);
+
+
             enemyList = new Enemy[20];
-            enemyList[0] = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
-            player = new Player(new Rectangle(11 * 100, 7 * 100, 100, 100));
+            // enemyList[0] = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
+            enemyList[0] = new Enemy(randomPositions[0][0]);
+            enemyList[1] = new Enemy(randomPositions[0][1]);
+            player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
             camera = new Camera();
             mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
         }
@@ -95,8 +120,12 @@ namespace GameStateManagement
 
             player.generatePlayer();
 
-            if (enemyList[0] != null) enemyList[0].generateEnemy("goblin");
-
+            if (enemyList[0] != null)
+            {
+                enemyList[0].generateEnemy("goblin");
+                enemyList[1].generateEnemy("goblin");
+            }
+            
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
