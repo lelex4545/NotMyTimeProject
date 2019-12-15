@@ -421,7 +421,7 @@ namespace GameStateManagement
                 else
                 {
                     main.Level.SetExp(enemy);
-                    //enemyList[enemyIndex] = null;
+                    enemyList[enemyIndex] = null;
                     ExitScreen();
                 }
             }
@@ -443,7 +443,7 @@ namespace GameStateManagement
             if (!enemy.isAlive() && !attackAnimationIsPlaying)
             {
                 main.Level.SetExp(enemy);
-                //enemyList[enemyIndex] = null;
+                enemyList[enemyIndex] = null;
                 ExitScreen();
             }
         }
