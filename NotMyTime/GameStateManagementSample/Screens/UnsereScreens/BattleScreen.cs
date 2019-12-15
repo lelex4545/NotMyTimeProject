@@ -34,10 +34,7 @@ namespace GameStateManagement
         private ContentManager content;
         private SpriteFont gameFont;
 
-
-        private Random random = new Random();
-
-        Texture2D fight_menu;
+        Texture2D fight_menu;   //Menüelmenete
         Texture2D menu_button;
         Texture2D magic_button;
 
@@ -49,27 +46,29 @@ namespace GameStateManagement
         Vector2[] magicBtnPos;
         Vector2 actualMagicBtn;
 
-        float elapsedTime;
+        float elapsedTime;  //Zeitlogik für die Tasten
         float delay = 150f;
 
         SpriteFont font;
         string battlelog = "";
 
-        Texture2D Healthbar;
+        Texture2D Healthbar;    //Lebensanzeige
         Texture2D Healthbar2;
 
-        MainFighter mainChar;
+        MainFighter mainChar;   //Charaktere
         EnemyFighter enemy;
-        Enemy enemySprite;
         string enemyName;
         int weaponType = 0;
 
-        Enemy[] enemyList;
-        int i;
+        Enemy[] enemyList;      //Liste der Gegner -> Toter Gegner wird aus dem Spiel entfernt
+        int enemyIndex;
 
-        CollisionChecker collisionChecker;
+        /*     Animationsvariablen      */
+        bool hasEntered = false;
+        int enemyEnteringPositionX = 1000;
+        int heroEnteringPositionX = 1000;
 
-        bool isAnimationPlaying = false;
+        bool attackAnimationIsPlaying = false;
 
         private float pauseAlpha;
 
@@ -107,7 +106,7 @@ namespace GameStateManagement
         public BattleScreen(Enemy[] enemyList, int i) : this(enemyList[i])
         {
             this.enemyList = enemyList;
-            this.i = i;
+            this.enemyIndex = i;
         }
         
         /// <summary>
@@ -191,78 +190,93 @@ namespace GameStateManagement
 
             if (IsActive)
             {
-                elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                if (elapsedTime >= delay)
+                if (!hasEntered)
                 {
-                    if (!magicMenu)
+                    if (enemyEnteringPositionX > 400) enemyEnteringPositionX -= 20;
+                    if (heroEnteringPositionX > 260) heroEnteringPositionX -= 24;
+                    if (enemyEnteringPositionX <= 400 && heroEnteringPositionX <= 250) hasEntered = true;
+                }
+                else if (attackAnimationIsPlaying == false)
+                {
+                    elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                    if (elapsedTime >= delay)
                     {
-                        if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
+                        if (!magicMenu)
                         {
-                            btnIndex = (int)Mod(btnIndex - 1, 2);
-                            actualBtn = btnPos[btnIndex];
-                        }
-                        if (Keyboard.GetState().IsKeyDown(Keys.Down) == true)
-                        {
-                            btnIndex = (int)Mod(btnIndex + 1, 2);
-                            actualBtn = btnPos[btnIndex];
-                        }
-                        if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
-                        {
-                            if (btnIndex == 0)
+                            if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
                             {
-                                Fight(mainChar, enemy, 0);
-                            }
-                            else if (btnIndex == 1)
-                            {
-                                magicMenu = true;
-                                btnIndex = 0;
-                                actualMagicBtn = magicBtnPos[0];
-                            }
-                        }
-                    }
-                    else if (magicMenu)
-                    {
-                        if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
-                        {
-                            btnIndex = (int)Mod(btnIndex - 1, 4);
-                            actualMagicBtn = magicBtnPos[btnIndex];
-                        }
-                        if (Keyboard.GetState().IsKeyDown(Keys.Down) == true)
-                        {
-                            btnIndex = (int)Mod(btnIndex + 1, 4);
-                            actualMagicBtn = magicBtnPos[btnIndex];
-                        }
-
-                        if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.Back)) == true)
-                        {
-                            btnIndex = 1;
-                            actualBtn = btnPos[btnIndex];
-                            magicMenu = false;
-                        }
-                        if (Keyboard.GetState().IsKeyDown(Keys.Right) == true)
-                        {
-                            //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
-                            if (mainChar.Stats.CurrentMP >= 25)
-                            {
-                                if (btnIndex == 0)
-                                    Fight(mainChar, enemy, 1);
-                                else if (btnIndex == 1)
-                                    Fight(mainChar, enemy, 2);
-                                else if (btnIndex == 2)
-                                    Fight(mainChar, enemy, 3);
-                                else
-                                    Fight(mainChar, enemy, 4);
-                                magicMenu = false;
-                                btnIndex = 0;
+                                btnIndex = (int)Mod(btnIndex - 1, 2);
                                 actualBtn = btnPos[btnIndex];
                             }
+                            if (Keyboard.GetState().IsKeyDown(Keys.Down) == true)
+                            {
+                                btnIndex = (int)Mod(btnIndex + 1, 2);
+                                actualBtn = btnPos[btnIndex];
+                            }
+                            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
+                            {
+                                if (btnIndex == 0)
+                                {
+                                    attackAnimationIsPlaying = true;
+                                    Fight(mainChar, enemy, 0);
+                                }
+                                else if (btnIndex == 1)
+                                {
+                                    magicMenu = true;
+                                    btnIndex = 0;
+                                    actualMagicBtn = magicBtnPos[0];
+                                }
+                            }
                         }
+                        else if (magicMenu)
+                        {
+                            if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
+                            {
+                                btnIndex = (int)Mod(btnIndex - 1, 4);
+                                actualMagicBtn = magicBtnPos[btnIndex];
+                            }
+                            if (Keyboard.GetState().IsKeyDown(Keys.Down) == true)
+                            {
+                                btnIndex = (int)Mod(btnIndex + 1, 4);
+                                actualMagicBtn = magicBtnPos[btnIndex];
+                            }
+
+                            if ((Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.Back)) == true)
+                            {
+                                btnIndex = 1;
+                                actualBtn = btnPos[btnIndex];
+                                magicMenu = false;
+                            }
+                            if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
+                            {
+                                //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
+                                if (mainChar.Stats.CurrentMP >= 25)
+                                {
+                                    attackAnimationIsPlaying = true;
+                                    if (btnIndex == 0)
+                                        Fight(mainChar, enemy, 1);
+                                    else if (btnIndex == 1)
+                                        Fight(mainChar, enemy, 2);
+                                    else if (btnIndex == 2)
+                                        Fight(mainChar, enemy, 3);
+                                    else
+                                        Fight(mainChar, enemy, 4);
+                                    magicMenu = false;
+                                    btnIndex = 0;
+                                    actualBtn = btnPos[btnIndex];
+                                }
+                            }
+                        }
+                        elapsedTime = 0;
                     }
-                    elapsedTime = 0;
+                } else if (attackAnimationIsPlaying)
+                {
+                    ExitScreen();
                 }
+                
                 if (!enemy.isAlive())
                 {
-                    enemyList[i] = null;
+                    enemyList[enemyIndex] = null;
                     ExitScreen();
                 }
                 if (!mainChar.isAlive())
@@ -320,7 +334,7 @@ namespace GameStateManagement
             DrawLayout(spriteBatch);
 
             if (mainChar.Stats.CurrentLP > 0)
-                spriteBatch.Draw(mainChar.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 + 250, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(mainChar.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 + heroEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
 
             if (enemy.Stats.CurrentLP > 0)
                 DrawEnemy(spriteBatch);
@@ -341,7 +355,7 @@ namespace GameStateManagement
         #region Other Methods
         void Fight(MainFighter main, EnemyFighter enemy, int i)
         {
-            //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
+            //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen + nicht klickbar machen
             int result = main.compareSpeed(enemy);
             int a = 0, b = 0;
             if (result == 1)
@@ -477,7 +491,7 @@ namespace GameStateManagement
         }
         #endregion Other Methods
 
-        #region Loading Correct Characers
+        #region Loading Correct Asets
         public void LoadEnemy()
         {
             switch (enemyName)
@@ -506,13 +520,13 @@ namespace GameStateManagement
                 case "goblin":
                     enemy.Model = content.Load<Texture2D>("goblin_right0");
                     break;
-                case "1":
+                case "dragon":
                     enemy.Model = content.Load<Texture2D>("Boss_Dragon_Huanglong");
                     break;
-                case "2":
+                case "runic":
                     enemy.Model = content.Load<Texture2D>("Boss_Runic_Stone");
                     break;
-                case "3":
+                case "queen":
                     enemy.Model = content.Load<Texture2D>("Boss_Dark_Queen");
                     break;
                 default:
@@ -525,19 +539,19 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2 + 20), null, Color.White, 0f, new Vector2(), 1.5f, SpriteEffects.None, 0f);
                     break;
-                case "1":
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
+                case "dragon":
+                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
-                case "2":
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
+                case "runic":
+                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
-                case "3":
+                case "queen":
                     spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 500, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 150), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 default:
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 400, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
                     break;
             }
         }
@@ -551,6 +565,6 @@ namespace GameStateManagement
             }
         }
 
-        #endregion Loading Correct Characters
+        #endregion Loading Correct Assets
     }
 }

@@ -39,8 +39,6 @@ namespace GameStateManagement
         Gold gold2;
         private Camera camera;
 
-        CollisionChecker collisionChecker;
-
         private float pauseAlpha;
 
         #endregion Fields
