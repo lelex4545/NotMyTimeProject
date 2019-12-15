@@ -194,7 +194,7 @@ namespace GameStateManagement
                 {
                     if (enemyEnteringPositionX > 400) enemyEnteringPositionX -= 20;
                     if (heroEnteringPositionX > 260) heroEnteringPositionX -= 24;
-                    if (enemyEnteringPositionX <= 400 && heroEnteringPositionX <= 250) hasEntered = true;
+                    if (enemyEnteringPositionX <= 400 && heroEnteringPositionX <= 260) hasEntered = true;
                 }
                 else if (attackAnimationIsPlaying == false)
                 {
@@ -217,7 +217,7 @@ namespace GameStateManagement
                             {
                                 if (btnIndex == 0)
                                 {
-                                    attackAnimationIsPlaying = true;
+                                    //attackAnimationIsPlaying = true;
                                     Fight(mainChar, enemy, 0);
                                 }
                                 else if (btnIndex == 1)
@@ -252,7 +252,7 @@ namespace GameStateManagement
                                 //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
                                 if (mainChar.Stats.CurrentMP >= 25)
                                 {
-                                    attackAnimationIsPlaying = true;
+                                    //attackAnimationIsPlaying = true;
                                     if (btnIndex == 0)
                                         Fight(mainChar, enemy, 1);
                                     else if (btnIndex == 1)
@@ -269,9 +269,6 @@ namespace GameStateManagement
                         }
                         elapsedTime = 0;
                     }
-                } else if (attackAnimationIsPlaying)
-                {
-                    ExitScreen();
                 }
                 
                 if (!enemy.isAlive())
