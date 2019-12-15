@@ -169,19 +169,8 @@ namespace GameStateManagement
             {
                 player.updatePosition(gameTime, map);
 
-                for (int i = 0; enemyList[i] != null; i++)
-                    collisionChecker = enemyList[i].moveOne(gameTime, map, player);    //Prüft, ob collision stattgefunden hat
-
-                if (collisionChecker.Collision == true)  //Wenn Collision eintritt, dann starte den Kampfmenu und checke ob der Gegner tot ist
-                {
-                    BattleScreen battlescreen = new BattleScreen(collisionChecker);
-                    //GameScreen[] screensToLoad = { this, battlescreen };                          //Langsamer Kampfbeginn
-                    //LoadingScreen.Load(ScreenManager, false, ControllingPlayer, screensToLoad);   //Langsamer Kampfbeginn
-                    ScreenManager.AddScreen(battlescreen, ControllingPlayer); //Kampfmenu
-                    for (int i = 0; enemyList[i] != null; i++)  //Entferne Enemy aus dem Spiel, wenn es stirbt
-                        if (enemyList[i] == collisionChecker.Enemy)
-                            enemyList[i] = null;
-                }
+                for (int i = 0; i<2; i++)
+                    if(enemyList[i]!=null)enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
 
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
@@ -248,8 +237,8 @@ namespace GameStateManagement
 
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            for (int i = 0; enemyList[i] != null; i++)
-                enemyList[i].Draw(spriteBatch);
+            for (int i = 0; i<2; i++)
+                if(enemyList[i]!=null)enemyList[i].Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);

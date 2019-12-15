@@ -60,8 +60,12 @@ namespace GameStateManagement
 
         MainFighter mainChar;
         EnemyFighter enemy;
+        Enemy enemySprite;
         string enemyName;
         int weaponType = 0;
+
+        Enemy[] enemyList;
+        int i;
 
         CollisionChecker collisionChecker;
 
@@ -82,7 +86,7 @@ namespace GameStateManagement
             TransitionOffTime = TimeSpan.FromSeconds(1);
         }
 
-        public BattleScreen(string enemyName) : this()
+        public BattleScreen(Enemy enemy) : this()
         {
             btnPos = new Vector2[2];
             btnPos[0] = new Vector2(0, 0);
@@ -96,15 +100,16 @@ namespace GameStateManagement
             magicBtnPos[3] = new Vector2(990, 876);
 
             this.mainChar = FirstMap.mainChar;
-            this.enemyName = enemyName;
+            this.enemyName = enemy.GetName();
             LoadEnemy();
         }
-        public BattleScreen(CollisionChecker collisionChecker) : this(collisionChecker.Enemy.GetName())
+
+        public BattleScreen(Enemy[] enemyList, int i) : this(enemyList[i])
         {
-            this.collisionChecker = collisionChecker;
+            this.enemyList = enemyList;
+            this.i = i;
         }
         
-
         /// <summary>
         /// Load graphics content for the game.
         /// </summary>
@@ -257,16 +262,14 @@ namespace GameStateManagement
                 }
                 if (!enemy.isAlive())
                 {
-                    collisionChecker.Collision = false;
-                    collisionChecker.Enemy = null;
+                    enemyList[i] = null;
                     ExitScreen();
                 }
                 if (!mainChar.isAlive())
                 {
                     LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new GameOverScreen());
                 }
-                // TODO: this game isn't very fun! You could probably improve
-                // it by inserting something more interesting in this space :-)
+
             }
         }
 
@@ -335,6 +338,7 @@ namespace GameStateManagement
 
         #endregion Update and Draw
 
+        #region Other Methods
         void Fight(MainFighter main, EnemyFighter enemy, int i)
         {
             //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
@@ -471,7 +475,9 @@ namespace GameStateManagement
             Random zufall = new Random();
             return zufall.Next(a, b);
         }
+        #endregion Other Methods
 
+        #region Loading Correct Characers
         public void LoadEnemy()
         {
             switch (enemyName)
@@ -544,5 +550,7 @@ namespace GameStateManagement
                     break;
             }
         }
+
+        #endregion Loading Correct Characters
     }
 }

@@ -66,7 +66,7 @@ namespace GameStateManagement
             return new Rectangle(rand.Next((int)room[0].X, (int)room[1].X+1)*100, rand.Next((int)room[0].Y,(int) room[1].Y+1)*100,100,100);
         }
 
-        public CollisionChecker moveOne(GameTime gameTime, Map map, Player player)
+        public void moveOne(GameTime gameTime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer, Enemy[] enemyList, int i)
         {
             wait += (float)gameTime.ElapsedGameTime.TotalSeconds;
             lastMove += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -87,9 +87,7 @@ namespace GameStateManagement
                 }
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
-                    //map.UnLoadContent();
-                    //ScreenManager.Instance.Collision(Content, this);
-                    return new CollisionChecker(true, this);
+                    screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                 }
             }
             if (which == 1)
@@ -106,9 +104,7 @@ namespace GameStateManagement
                 }
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
-                    //map.UnLoadContent();
-                    //ScreenManager.Instance.Collision(Content, this);
-                    return new CollisionChecker(true, this);
+                    screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                 }
             }
             if (which == 2)
@@ -125,9 +121,7 @@ namespace GameStateManagement
                 }
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
-                    //map.UnLoadContent();
-                    //ScreenManager.Instance.Collision(Content, this);
-                    return new CollisionChecker(true, this);
+                    screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                 }
             }
             if (which == 3)
@@ -144,9 +138,7 @@ namespace GameStateManagement
                 }
                 if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
                 {
-                    //map.UnLoadContent();
-                    //ScreenManager.Instance.Collision(Content, this);
-                    return new CollisionChecker(true, this);
+                    screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                 }
             }
 
@@ -196,9 +188,7 @@ namespace GameStateManagement
                             tmp = new Rectangle(rectangle.X, rectangle.Y + size2, rectangle.Width, rectangle.Height);
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
-                                //map.UnLoadContent();
-                                //ScreenManager.Instance.Collision(Content, this);
-                                return new CollisionChecker(true, this);
+                                screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                             }
 
 
@@ -214,9 +204,7 @@ namespace GameStateManagement
                             tmp = new Rectangle(rectangle.X - size2, rectangle.Y, rectangle.Width, rectangle.Height);
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
-                                //map.UnLoadContent();
-                                //ScreenManager.Instance.Collision(Content, this);
-                                return new CollisionChecker(true, this);
+                                screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                             }
                             rectangle.X = rectangle.X - size;
                             texture = left[1];
@@ -230,9 +218,7 @@ namespace GameStateManagement
                             tmp = new Rectangle(rectangle.X, rectangle.Y - size2, rectangle.Width, rectangle.Height);
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
-                                //map.UnLoadContent();
-                               // ScreenManager.Instance.Collision(Content, this);
-                                return new CollisionChecker(true, this);
+                                screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                             }
                             rectangle.Y = rectangle.Y - size;
                             texture = top[1];
@@ -246,9 +232,7 @@ namespace GameStateManagement
                             tmp = new Rectangle(rectangle.X + size2, rectangle.Y, rectangle.Width, rectangle.Height);
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
-                                //map.UnLoadContent();
-                                //ScreenManager.Instance.Collision(Content, this);
-                                return new CollisionChecker(true, this);
+                                screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                             }
                             rectangle.X = rectangle.X + size;
                             texture = right[1];
@@ -261,7 +245,7 @@ namespace GameStateManagement
                 }
             }
             col = false;
-            return new CollisionChecker(false, this); ;
+            //return new CollisionChecker(false, this);
         }
 
         public string GetName()
