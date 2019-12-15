@@ -169,7 +169,7 @@ namespace GameStateManagement
             {
                 player.updatePosition(gameTime, map);
 
-                for (int i = 0; i<2; i++)
+                for (int i = 0; i<enemyList.Length; i++)
                     if(enemyList[i]!=null)enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
 
                 camera.Follow(player);
@@ -237,7 +237,7 @@ namespace GameStateManagement
 
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            for (int i = 0; i<2; i++)
+            for (int i = 0; i<enemyList.Length; i++)
                 if(enemyList[i]!=null)enemyList[i].Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
