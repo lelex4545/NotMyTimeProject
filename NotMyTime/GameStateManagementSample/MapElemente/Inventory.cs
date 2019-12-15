@@ -64,8 +64,8 @@ namespace GameStateManagement
                if (Keyboard.GetState().IsKeyUp(Keys.I))
                    keyBlock = true;
 
-               if(keyBlock)
-               if (lastChange >= 0.1f)
+   
+               if (lastChange >= 0.1f && keyBlock)
                {
                    if (Keyboard.GetState().IsKeyDown(Keys.I))
                    {

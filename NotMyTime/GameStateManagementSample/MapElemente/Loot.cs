@@ -11,7 +11,7 @@ namespace GameStateManagement
 {
     class Loot
     {
-        public static int status;
+        public static int status;     //aktuelle Waffe
         public int id;
         public Texture2D texture;
         public bool pickup;
@@ -24,8 +24,6 @@ namespace GameStateManagement
         public float scale2;
         public int poX;
         public int poY;
-
-        float lastChange;
 
         private Rectangle rectangle;
 
@@ -72,25 +70,24 @@ namespace GameStateManagement
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
             //Gegenstand auf dem Spielfeld
-            if (Collided == false && !pickup)
+            if (!Collided && !pickup)   //wenn nicht kollidiert und nicht aufgehoben
             {
                 spriteBatch.Draw(texture, new Vector2(posX, posY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
             }
             //Gegenstand aus dem inventar entfernen wenn ein anderer Gegenstand eingesammelt wird
-            else if (id != status  && pickup == true)
+           /* else if (id != status  && pickup == true)   //wenn die Waffe nicht die aktuelle ist und Gegenstand aufgehoben ist
             {
                 texture = null;
-                //spriteBatch.Draw(texture, new Vector2(posX + 900, posY + 900), null, Color.Transparent, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale, SpriteEffects.None, 0f);
-            }
+            }*/
             //Gegendstand im Inventar anzeigen wenn er eingesammel wurde
-            else 
+            else if(Collided && !pickup) //wenn kollidiert und aufgehoben
             {
-                spriteBatch.Draw(texture, new Vector2(x + poX, y + poY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale2, SpriteEffects.None, 0f);
-                rectangle.Offset(900, 50);
-                status = id;
+                //spriteBatch.Draw(texture, new Vector2(x + poX, y + poY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale2, SpriteEffects.None, 0f);
+                rectangle = Rectangle.Empty;
+                FirstMap.lootManager.lootList.Add(this);
+                //status = id;
                 pickup = true;
             }
-
         }
 
         //Loot soll verschwinden und im Inventar auftauchen

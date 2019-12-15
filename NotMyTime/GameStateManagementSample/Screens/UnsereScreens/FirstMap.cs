@@ -27,13 +27,13 @@ namespace GameStateManagement
         private Random random = new Random();
 
         public static MainFighter mainChar;
+        public static LootManager lootManager;
         Map map;                       //Map
         Vector2[][][] randomPositions;
         Player player;                 //Spielcharakter
         public Enemy[] enemyList;      //Spielgegner
         Inventory inventory;          //inventar Objekt
-        LootManager lootManager;      //packt items ins inventar
-        Loot loot1;                   //Schwert
+        Loot loot1;                   //Speer
         Loot loot2;                   //keule
         Gold gold1;
         Gold gold2;
@@ -52,6 +52,8 @@ namespace GameStateManagement
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
+            lootManager = new LootManager();
 
             loot1 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 420);
             loot2 = new Loot(1, 1400, 850, 50, 100, 1450, 900, 0.5f, 1.0f, 930, 425);
@@ -181,8 +183,9 @@ namespace GameStateManagement
                 //font nullen
                 gold1.updateFont(gameTime);
                 gold2.updateFont(gameTime);
-
-
+                //lootManager updaten
+                if(lootManager.lootList.Count != 0)
+                    lootManager.update(gameTime);
 
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
@@ -245,6 +248,7 @@ namespace GameStateManagement
             gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
+            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.
