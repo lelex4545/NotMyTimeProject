@@ -98,20 +98,6 @@ namespace GameStateManagement
         {
             return base.Ausgabe() + "Level: " + Level;
         }
-
-        public int RollAttack(Fighter main)
-        {
-            Random zufall = new Random();
-            if (zufall.Next(0, 5) < 4)
-            {
-                return this.Attack(main);
-            }
-            else
-            {
-                Random zufall2 = new Random();
-                return this.Magic(main, zufall2.Next(1, 4));
-            }
-        }
     }
 
 }

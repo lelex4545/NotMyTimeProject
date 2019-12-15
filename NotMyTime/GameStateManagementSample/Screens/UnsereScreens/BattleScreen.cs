@@ -50,12 +50,12 @@ namespace GameStateManagement
         float delay = 150f;
 
         SpriteFont font;
-        string battlelog = "";
+        string debugger = "";
 
         Texture2D Healthbar;    //Lebensanzeige
         Texture2D Healthbar2;
 
-        MainFighter mainChar;   //Charaktere
+        MainFighter mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);   //Charaktere
         EnemyFighter enemy;
         string enemyName;
         int weaponType = 0;
@@ -64,11 +64,28 @@ namespace GameStateManagement
         int enemyIndex;
 
         /*     Animationsvariablen      */
+        Vector2 MainStandinPosition;
+        Vector2 MainActualPosition;
+        Vector2 EnemyStandinPosition;
+        Vector2 EnemyActualPosition;
         bool hasEntered = false;
-        int enemyEnteringPositionX = 1000;
-        int heroEnteringPositionX = 1000;
-
         bool attackAnimationIsPlaying = false;
+        bool firstAttackAnimation = true;
+        bool attackHit = false;
+        int choosenAttack;
+        int randomAttackPercentage = 0;
+        int randomFight = 0;
+
+        /*   RANDOM NUMBER GENERATOR       */
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+        public static int RandomNumber(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize
+                return random.Next(min, max);
+            }
+        }
 
         private float pauseAlpha;
 
@@ -85,7 +102,7 @@ namespace GameStateManagement
             TransitionOffTime = TimeSpan.FromSeconds(1);
         }
 
-        public BattleScreen(Enemy enemy) : this()
+        public BattleScreen(string enemy) : this()
         {
             btnPos = new Vector2[2];
             btnPos[0] = new Vector2(0, 0);
@@ -98,17 +115,21 @@ namespace GameStateManagement
             magicBtnPos[2] = new Vector2(990, 841);
             magicBtnPos[3] = new Vector2(990, 876);
 
-            this.mainChar = FirstMap.mainChar;
-            this.enemyName = enemy.GetName();
+            //this.mainChar = FirstMap.mainChar;
+            this.enemyName = enemy;
+
+            MainStandinPosition = new Vector2(1216, 540);
+            MainActualPosition = new Vector2(1960, 540);
+
             LoadEnemy();
         }
 
-        public BattleScreen(Enemy[] enemyList, int i) : this(enemyList[i])
+        public BattleScreen(Enemy[] enemyList, int i) : this(enemyList[i].GetName())
         {
             this.enemyList = enemyList;
             this.enemyIndex = i;
         }
-        
+
         /// <summary>
         /// Load graphics content for the game.
         /// </summary>
@@ -190,13 +211,16 @@ namespace GameStateManagement
 
             if (IsActive)
             {
-                if (!hasEntered)
+                if (!hasEntered)        //Die Kämpfer werden von außen nach innen eingeblendet
                 {
-                    if (enemyEnteringPositionX > 400) enemyEnteringPositionX -= 20;
-                    if (heroEnteringPositionX > 260) heroEnteringPositionX -= 24;
-                    if (enemyEnteringPositionX <= 400 && heroEnteringPositionX <= 260) hasEntered = true;
+                    if (EnemyActualPosition.X != EnemyStandinPosition.X && MainActualPosition.X != MainStandinPosition.X)
+                    {
+                        MainActualPosition.X -= 24;
+                        EnemyActualPosition.X += 20;
+                    }
+                    else hasEntered = true;
                 }
-                else if (attackAnimationIsPlaying == false)
+                else if (attackAnimationIsPlaying == false)         //Menü einblenden + Keine Kampfanimation
                 {
                     elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     if (elapsedTime >= delay)
@@ -217,8 +241,10 @@ namespace GameStateManagement
                             {
                                 if (btnIndex == 0)
                                 {
-                                    //attackAnimationIsPlaying = true;
-                                    Fight(mainChar, enemy, 0);
+                                    attackAnimationIsPlaying = true;
+                                    randomAttackPercentage = RandomNumber(1, 101);
+                                    if (enemy.Stats.Agility == mainChar.Stats.Agility) randomFight = RandomNumber(0, 2);
+                                    choosenAttack = btnIndex;
                                 }
                                 else if (btnIndex == 1)
                                 {
@@ -252,15 +278,10 @@ namespace GameStateManagement
                                 //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
                                 if (mainChar.Stats.CurrentMP >= 25)
                                 {
-                                    //attackAnimationIsPlaying = true;
-                                    if (btnIndex == 0)
-                                        Fight(mainChar, enemy, 1);
-                                    else if (btnIndex == 1)
-                                        Fight(mainChar, enemy, 2);
-                                    else if (btnIndex == 2)
-                                        Fight(mainChar, enemy, 3);
-                                    else
-                                        Fight(mainChar, enemy, 4);
+                                    attackAnimationIsPlaying = true;
+                                    randomAttackPercentage = RandomNumber(1, 101);
+                                    if (enemy.Stats.Agility == mainChar.Stats.Agility) randomFight = RandomNumber(0, 2);
+                                    choosenAttack = btnIndex + 1;
                                     magicMenu = false;
                                     btnIndex = 0;
                                     actualBtn = btnPos[btnIndex];
@@ -270,12 +291,12 @@ namespace GameStateManagement
                         elapsedTime = 0;
                     }
                 }
-                
-                if (!enemy.isAlive())
+                else if (attackAnimationIsPlaying)
                 {
-                    enemyList[enemyIndex] = null;
-                    ExitScreen();
+                    Fight(mainChar, enemy, choosenAttack);
                 }
+
+
                 if (!mainChar.isAlive())
                 {
                     LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new GameOverScreen());
@@ -331,7 +352,9 @@ namespace GameStateManagement
             DrawLayout(spriteBatch);
 
             if (mainChar.Stats.CurrentLP > 0)
-                spriteBatch.Draw(mainChar.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 + heroEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                //spriteBatch.Draw(mainChar.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 + heroEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+            //debugger = spriteBatch.GraphicsDevice.Viewport.Width / 2 + heroEnteringPositionX + "        " + spriteBatch.GraphicsDevice.Viewport.Height / 2 + "\n" + mainPosX + "            " +  mainPosY;
 
             if (enemy.Stats.CurrentLP > 0)
                 DrawEnemy(spriteBatch);
@@ -354,43 +377,223 @@ namespace GameStateManagement
         {
             //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen + nicht klickbar machen
             int result = main.compareSpeed(enemy);
-            int a = 0, b = 0;
             if (result == 1)
             {
-                a = main.Attack(enemy, i);
-                if (enemy.isAlive())
-                    b = enemy.RollAttack(main);
-                battlelog = "Hero Attack: " + a + "\n" + "Enemy Attack: " + b + "\n";
+                HeroAttacksFirst(main, enemy, i);
             }
             else if (result == -1)
             {
-                b = enemy.RollAttack(main);
-                if (main.isAlive())
-                    a = main.Attack(enemy, i);
-                battlelog = "Enemy Attack: " + b + "\n" + "Hero Attack: " + a + "\n";
+                EnemyAttacksFirst(main, enemy, i);
             }
             else
             {
-                if (RandomNumber(0, 2) == 0.0)
+                if (randomFight == 0)
                 {
-                    a = main.Attack(enemy, i);
-                    if (enemy.isAlive())
-                        b = enemy.RollAttack(main);
-                    battlelog = "Hero Attack: " + a + "\n" + "Enemy Attack: " + b + "\n";
+                    HeroAttacksFirst(main, enemy, i);
                 }
                 else
                 {
-                    b = enemy.RollAttack(main);
-                    if (main.isAlive())
-                        a = main.Attack(enemy, i);
-                    battlelog = "Enemy Attack: " + b + "\n" + "Hero Attack: " + a + "\n";
+                    EnemyAttacksFirst(main, enemy, i);
                 }
             }
-            if (!enemy.isAlive()) main.Level.SetExp(enemy);
             enemy.Stats.CurrentLP = (int)MathHelper.Clamp(enemy.Stats.CurrentLP, 0, enemy.Stats.Lifepoints);
             enemy.Stats.CurrentMP = (int)MathHelper.Clamp(enemy.Stats.CurrentMP, 0, enemy.Stats.Manapoints);
             mainChar.Stats.CurrentLP = (int)MathHelper.Clamp(mainChar.Stats.CurrentLP, 0, mainChar.Stats.Lifepoints);
             mainChar.Stats.CurrentMP = (int)MathHelper.Clamp(mainChar.Stats.CurrentMP, 0, mainChar.Stats.Manapoints);
+        }
+
+        void HeroAttacksFirst(MainFighter main, EnemyFighter enemy, int i)
+        {
+            if (firstAttackAnimation)
+            {
+                if (i == 0) HeroNormalAttack(main, enemy, i, true);
+                else HeroMagicAttack(main, enemy, i, true);
+            }
+            else
+            {
+                if (enemy.isAlive())
+                {
+                    if (randomAttackPercentage < 80)
+                        EnemyNormalAttack(main, enemy, true);
+                    else
+                        EnemyMagicAttack(main, enemy, true);
+                }
+                else
+                {
+                    main.Level.SetExp(enemy);
+                    //enemyList[enemyIndex] = null;
+                    ExitScreen();
+                }
+            }
+        }
+        void EnemyAttacksFirst(MainFighter main, EnemyFighter enemy, int i)
+        {
+            if (firstAttackAnimation)
+            {
+                if (randomAttackPercentage < 80)
+                    EnemyNormalAttack(main, enemy, true);
+                else
+                    EnemyMagicAttack(main, enemy, true);
+            }
+            else
+            {
+                if (i == 0) HeroNormalAttack(main, enemy, i, false);
+                else HeroMagicAttack(main, enemy, i, false);
+            }
+            if (!enemy.isAlive() && !attackAnimationIsPlaying)
+            {
+                main.Level.SetExp(enemy);
+                //enemyList[enemyIndex] = null;
+                ExitScreen();
+            }
+        }
+
+        void HeroNormalAttack(MainFighter main, EnemyFighter enemy, int i, bool first)
+        {
+            if (!attackHit)
+            {
+                if (MainActualPosition.X >= EnemyStandinPosition.X)
+                {
+                    MainActualPosition.X -= 25;
+                }
+                else
+                {
+                    main.Attack(enemy, i);
+                    attackHit = true;
+                }
+            }
+            else
+            {
+                if (MainActualPosition.X <= MainStandinPosition.X)
+                {
+                    MainActualPosition.X += 25;
+                }
+                else
+                {
+                    if (first)
+                    {
+                        firstAttackAnimation = false;
+                        attackHit = false;
+                    }
+                    else
+                    {
+                        attackAnimationIsPlaying = false;
+                        firstAttackAnimation = true;
+                        attackHit = false;
+                    }
+                }
+            }
+        }
+
+        void HeroMagicAttack(MainFighter main, EnemyFighter enemy, int i, bool first)
+        {
+            if (!attackHit)
+            {
+                if (MainActualPosition.X >= 960)
+                {
+                    MainActualPosition.X -= 8;
+                }
+                else
+                {
+                    main.Attack(enemy, i);
+                    attackHit = true;
+                }
+            }
+            else
+            {
+                if (MainActualPosition.X <= MainStandinPosition.X)
+                {
+                    MainActualPosition.X += 8;
+                }
+                else
+                {
+                    if (first)
+                    {
+                        firstAttackAnimation = false;
+                        attackHit = false;
+                    }
+                    else
+                    {
+                        attackAnimationIsPlaying = false;
+                        firstAttackAnimation = true;
+                        attackHit = false;
+                    }
+                }
+            }
+        }
+
+        void EnemyNormalAttack(MainFighter main, EnemyFighter enemy, bool first)
+        {
+            if (!attackHit)
+            {
+                if (EnemyActualPosition.X <= MainStandinPosition.X)
+                {
+                    EnemyActualPosition.X += 25;
+                }
+                else
+                {
+                    enemy.Attack(main);
+                    attackHit = true;
+                }
+            }
+            else
+            {
+                if (EnemyActualPosition.X >= EnemyStandinPosition.X)
+                {
+                    EnemyActualPosition.X -= 25;
+                }
+                else
+                {
+                    if (first)
+                    {
+                        firstAttackAnimation = false;
+                        attackHit = false;
+                    }
+                    else
+                    {
+                        attackAnimationIsPlaying = false;
+                        firstAttackAnimation = true;
+                        attackHit = false;
+                    }
+                }
+            }
+        }
+
+        void EnemyMagicAttack(MainFighter main, EnemyFighter enemy, bool first)
+        {
+            if (!attackHit)
+            {
+                if (EnemyActualPosition.X <= EnemyStandinPosition.X + 200)
+                {
+                    EnemyActualPosition.X += 8;
+                }
+                else
+                {
+                    enemy.Magic(main, RandomNumber(2,4));
+                    attackHit = true;
+                }
+            }
+            else
+            {
+                if (EnemyActualPosition.X >= EnemyStandinPosition.X)
+                {
+                    EnemyActualPosition.X -= 8;
+                }
+                else
+                {
+                    if (first)
+                    {
+                        firstAttackAnimation = false;
+                        attackHit = false;
+                    }
+                    else
+                    {
+                        attackAnimationIsPlaying = false;
+                        firstAttackAnimation = true;
+                        attackHit = false;
+                    }
+                }
+            }
         }
 
         void DrawLayout(SpriteBatch spriteBatch)
@@ -420,7 +623,7 @@ namespace GameStateManagement
                 }
             }
 
-            spriteBatch.DrawString(font, battlelog, new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(font, debugger, new Vector2(0, 0), Color.White);
 
             //Lebensbalken MainChar
             spriteBatch.Draw(Healthbar,
@@ -481,11 +684,6 @@ namespace GameStateManagement
         {
             return a - b * Math.Floor(a / b);
         }
-        public int RandomNumber(int a, int b)
-        {
-            Random zufall = new Random();
-            return zufall.Next(a, b);
-        }
         #endregion Other Methods
 
         #region Loading Correct Asets
@@ -494,19 +692,29 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 5, 5, 25);
+                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 25, 5, 25);
+                    EnemyStandinPosition = new Vector2(560, 560);
+                    EnemyActualPosition = new Vector2(-40, 560);
                     break;
-                case "1":
+                case "dragon":
                     enemy = new EnemyFighter("Draggy", 4, 250, 100, 15, 10, 10, 10, 115);
+                    EnemyStandinPosition = new Vector2(560, 290);
+                    EnemyActualPosition = new Vector2(-40, 290);
                     break;
-                case "2":
+                case "runic":
                     enemy = new EnemyFighter("StoneBoy", 7, 700, 500, 50, 80, 10, 10, 350);
+                    EnemyStandinPosition = new Vector2(560, 290);
+                    EnemyActualPosition = new Vector2(-40, 290);
                     break;
-                case "3":
+                case "queen":
                     enemy = new EnemyFighter("Dark Queen", 10, 1000, 1000, 100, 50, 50, 50, 1000);
+                    EnemyStandinPosition = new Vector2(460, 390);
+                    EnemyActualPosition = new Vector2(-140, 390);
                     break;
                 default:
                     enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50);
+                    EnemyStandinPosition = new Vector2(560, 560);
+                    EnemyActualPosition = new Vector2(-40, 560);
                     break;
             }
         }
@@ -536,19 +744,19 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2 + 20), null, Color.White, 0f, new Vector2(), 1.5f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1.5f, SpriteEffects.None, 0f);
                     break;
                 case "dragon":
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
                 case "runic":
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 250), null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
                 case "queen":
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 500, spriteBatch.GraphicsDevice.Viewport.Height / 2 - 150), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 default:
-                    spriteBatch.Draw(enemy.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - enemyEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
                     break;
             }
         }
