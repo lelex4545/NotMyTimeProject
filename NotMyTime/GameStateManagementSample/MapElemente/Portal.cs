@@ -28,13 +28,14 @@ namespace GameStateManagement
             moving[2] = Content.Load<Texture2D>(name + "3");
         }
 
-        public void updatePortal(GameTime gametime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer)
+        public void updatePortal(GameTime gametime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer, MainFighter main, LootManager lootManager)
         {
             move += (float) gametime.ElapsedGameTime.TotalSeconds;
 
             if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
             {
-                screenManager.AddScreen(new SecondMap(), controllingPlayer);
+                //screenManager.AddScreen(new SecondMap(), controllingPlayer);
+                LoadingScreen.Load(screenManager, true, controllingPlayer, new SecondMap(main,lootManager));
             }
 
             if (move >= 0.25f)

@@ -46,7 +46,7 @@ namespace GameStateManagement
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SecondMap()
+        public SecondMap(MainFighter mainChar1, LootManager lootManager1)
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -56,7 +56,8 @@ namespace GameStateManagement
             player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
             camera = new Camera();
             mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
-            lootManager = new LootManager();
+            lootManager = lootManager1;
+            mainChar = mainChar1;
 
         }
 

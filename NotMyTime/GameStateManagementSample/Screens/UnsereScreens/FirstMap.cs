@@ -182,7 +182,7 @@ namespace GameStateManagement
                 }
                 if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
                 if(boss == null)
-                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer);
+                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, mainChar, lootManager);
 
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
