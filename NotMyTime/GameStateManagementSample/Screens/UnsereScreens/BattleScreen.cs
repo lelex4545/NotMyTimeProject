@@ -117,8 +117,12 @@ namespace GameStateManagement
             magicBtnPos[2] = new Vector2(990, 841);
             magicBtnPos[3] = new Vector2(990, 876);
 
-            this.mainChar = FirstMap.mainChar;
+            
             this.enemyName = enemy;
+
+            // TODO: MainChar wird mitgegeben + WeaponType wird mitgegeben
+            this.mainChar = FirstMap.mainChar;
+            this.weaponType = FirstMap.lootManager.currentLoot.id;
 
             MainStandinPosition = new Vector2(1216, 540);
             MainActualPosition = new Vector2(1960, 540);
@@ -360,9 +364,8 @@ namespace GameStateManagement
             DrawLayout(spriteBatch);
 
             if (mainChar.Stats.CurrentLP > 0)
-                //spriteBatch.Draw(mainChar.Model, new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 + heroEnteringPositionX, spriteBatch.GraphicsDevice.Viewport.Height / 2), null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
-            //debugger = spriteBatch.GraphicsDevice.Viewport.Width / 2 + heroEnteringPositionX + "        " + spriteBatch.GraphicsDevice.Viewport.Height / 2 + "\n" + mainPosX + "            " +  mainPosY;
+                //spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                DrawMainChar(spriteBatch);
 
             if (enemy.Stats.CurrentLP > 0)
                 DrawEnemy(spriteBatch);
@@ -703,7 +706,7 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 10, 5, 25);
+                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 15, 5, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
@@ -775,8 +778,34 @@ namespace GameStateManagement
         {
             switch (weaponType)
             {
-                default:
-                    mainChar.Model = content.Load<Texture2D>("figure_left");
+                case 0: //Speer
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");   
+                    MainStandinPosition.Y -= 50;
+                    MainActualPosition.Y -= 50;
+                    MainStandinPosition.X -= 50;
+                    MainActualPosition.X -= 50;
+                    break;
+                case 1: //Keule
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");   
+                    break;
+                default: //Hand
+                    mainChar.Model = content.Load<Texture2D>("figure_left");            
+                    break;
+            }
+        }
+        public void DrawMainChar(SpriteBatch spriteBatch)
+        {
+            debugger = weaponType + "";
+            switch (weaponType)
+            {
+                case 0: //Speer
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 0.15f, SpriteEffects.None, 0f);
+                    break;
+                case 1: //Keule
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 0.16f, SpriteEffects.None, 0f);
+                    break;
+                default: //Hand
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
                     break;
             }
         }

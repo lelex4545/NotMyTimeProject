@@ -117,7 +117,7 @@ namespace GameStateManagement
 
             gold1.LoadContent(content, "gold");
             gold2.LoadContent(content, "gold");
-
+            lootManager.LoadContent(content);
             inventory.LoadContent(content, "Inventar");
             map.generateMap1();
             
