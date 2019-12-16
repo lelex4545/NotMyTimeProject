@@ -22,23 +22,34 @@ namespace GameStateManagement
         private int which = 0;
         private int help = 0;
         private bool col = false;
-
+        private static Random rand;
+        static Rectangle[] usedPosition;
         public Enemy(Rectangle newRectangle)
         {
+            if (rand == null)
+                rand = new Random();
+            if (usedPosition == null)
+                usedPosition = new Rectangle[20];
             //this.rectangle = newRectangle;
             left = new Texture2D[3];
             right = new Texture2D[3];
             bottom = new Texture2D[3];
             top = new Texture2D[3];
+
         }
         public Enemy(Vector2[] newRectangle)
         {
+            if (rand == null)
+                rand = new Random();
+            if (usedPosition == null)
+                usedPosition = new Rectangle[20];
             //this.rectangle = newRectangle;
-           this.rectangle= spawnPosition(newRectangle);
+            this.rectangle= spawnPosition(newRectangle);
             left = new Texture2D[3];
             right = new Texture2D[3];
             bottom = new Texture2D[3];
             top = new Texture2D[3];
+            
         }
         public void generateEnemy(String name)
         {
@@ -62,8 +73,17 @@ namespace GameStateManagement
 
         public Rectangle spawnPosition(Vector2[] room)
         {
-            var rand = new Random();
-            return new Rectangle(rand.Next((int)room[0].X, (int)room[1].X+1)*100, rand.Next((int)room[0].Y,(int) room[1].Y+1)*100,100,100);
+            bool reloop = false;
+            Rectangle tmp;
+            do
+            {
+                reloop = false;
+                tmp = new Rectangle(rand.Next((int)room[0].X, (int)room[1].X + 1) * 100, rand.Next((int)room[0].Y, (int)room[1].Y + 1) * 100, 100, 100);
+                for (int i = 0; i< usedPosition.Length; i++)
+                    if (usedPosition[i].Equals(tmp))
+                        reloop = true;
+            } while (reloop);
+            return tmp;
         }
 
         public void moveOne(GameTime gameTime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer, Enemy[] enemyList, int i)

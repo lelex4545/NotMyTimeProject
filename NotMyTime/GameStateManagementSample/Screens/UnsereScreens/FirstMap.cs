@@ -79,8 +79,8 @@ namespace GameStateManagement
             randomPositions[0][1][1] = new Vector2(19, 31);
             randomPositions[0][2][0] = new Vector2(31, 37);
             randomPositions[0][2][1] = new Vector2(36, 41);
-            randomPositions[0][3][0] = new Vector2(8, 30);
-            randomPositions[0][3][1] = new Vector2(18, 35);
+            randomPositions[0][3][0] = new Vector2(30, 8);
+            randomPositions[0][3][1] = new Vector2(40, 13);
             randomPositions[0][4][0] = new Vector2(50, 34);
             randomPositions[0][4][1] = new Vector2(57, 38);
             randomPositions[0][5][0] = new Vector2(61, 34);
@@ -91,6 +91,18 @@ namespace GameStateManagement
             // enemyList[0] = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
             enemyList[0] = new Enemy(randomPositions[0][0]);
             enemyList[1] = new Enemy(randomPositions[0][1]);
+            enemyList[2] = new Enemy(randomPositions[0][1]);
+            enemyList[3] = new Enemy(randomPositions[0][1]);
+            enemyList[4] = new Enemy(randomPositions[0][2]);
+            enemyList[5] = new Enemy(randomPositions[0][2]);
+            enemyList[6] = new Enemy(randomPositions[0][3]);
+            enemyList[7] = new Enemy(randomPositions[0][3]);
+            enemyList[8] = new Enemy(randomPositions[0][3]);
+            enemyList[9] = new Enemy(randomPositions[0][4]);
+            enemyList[10] = new Enemy(randomPositions[0][4]);
+            enemyList[11] = new Enemy(randomPositions[0][5]);
+            enemyList[12] = new Enemy(randomPositions[0][5]);
+
             boss = new Boss(new Rectangle(5400, 800, 200, 200), "ddragon");
             portal = new Portal(new Rectangle(5400, 800, 100, 100), "portalblue");
             player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
@@ -123,9 +135,24 @@ namespace GameStateManagement
             player.generatePlayer();
 
             if (enemyList[0] != null)
-            {
+            {   //raum 1 und 2
                 enemyList[0].generateEnemy("goblin");
                 enemyList[1].generateEnemy("goblin");
+                enemyList[2].generateEnemy("goblin");
+                enemyList[3].generateEnemy("goblin");
+                //raum 3 
+                enemyList[4].generateEnemy("goblin");
+                enemyList[5].generateEnemy("ripper");
+                //raum 4
+                enemyList[6].generateEnemy("ripper");
+                enemyList[7].generateEnemy("ripper");
+                enemyList[8].generateEnemy("ripper");
+                //raum 5
+                enemyList[9].generateEnemy("ripper");
+                enemyList[10].generateEnemy("demon");
+                //raum6 (vor Boss raum)
+                enemyList[11].generateEnemy("demon");
+                enemyList[12].generateEnemy("demon");
             }
             boss.generateBoss();
             portal.generatePortal();
