@@ -58,6 +58,7 @@
     <Compile Include="Battle\Levelsystem.cs" />
     <Compile Include="Battle\MagicSkillset.cs" />
     <Compile Include="Battle\Stats.cs" />
+    <Compile Include="MapElemente\Boss.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="MapElemente\Camera.cs" />
     <Compile Include="MapElemente\Enemy.cs" />
