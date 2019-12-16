@@ -79,7 +79,8 @@ namespace GameStateManagement
                 foreach (CollisionTiles tile in map.CollisionTiles)
                 {
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3") ||
-                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12")))
+                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12") || tile.texture.Name.Equals("tile14")
+                        || tile.texture.Name.Equals("tile15") || tile.texture.Name.Equals("tile16") || tile.texture.Name.Equals("tile17")))
                     {
                         col = true;
                         which = 1;
@@ -96,7 +97,8 @@ namespace GameStateManagement
                 foreach (CollisionTiles tile in map.CollisionTiles)
                 {
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3") ||
-                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12")))
+                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12") || tile.texture.Name.Equals("tile14")
+                        || tile.texture.Name.Equals("tile15") || tile.texture.Name.Equals("tile16") || tile.texture.Name.Equals("tile17")))
                     {
                         col = true;
                         which = 2;
@@ -113,7 +115,8 @@ namespace GameStateManagement
                 foreach (CollisionTiles tile in map.CollisionTiles)
                 {
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3") ||
-                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12")))
+                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12") || tile.texture.Name.Equals("tile14")
+                        || tile.texture.Name.Equals("tile15") || tile.texture.Name.Equals("tile16") || tile.texture.Name.Equals("tile17")))
                     {
                         col = true;
                         which = 3;
@@ -130,7 +133,8 @@ namespace GameStateManagement
                 foreach (CollisionTiles tile in map.CollisionTiles)
                 {
                     if (RectangleHelper.TouchCheck(tmp, tile.Rectangle, size) && (tile.texture.Name.Equals("tile2") || tile.texture.Name.Equals("tile3") ||
-                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12")))
+                        tile.texture.Name.Equals("tile6") || tile.texture.Name.Equals("tile7") || tile.texture.Name.Equals("tile12") || tile.texture.Name.Equals("tile14") 
+                        || tile.texture.Name.Equals("tile15") || tile.texture.Name.Equals("tile16") || tile.texture.Name.Equals("tile17")))
                     {
                         col = true;
                         which = 0;
