@@ -26,8 +26,7 @@ namespace GameStateManagement
 
         private Random random = new Random();
 
-        public static MainFighter mainChar;
-        public static LootManager lootManager;
+        public LootManager lootManager;
         Map map;                       //Map
         Vector2[][][] randomPositions;
         Player player;                 //Spielcharakter
@@ -55,10 +54,11 @@ namespace GameStateManagement
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
-            lootManager = new LootManager();
+            mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
+            lootManager = new LootManager(mainChar);
 
-            loot1 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 420);
-            loot2 = new Loot(1, 1400, 850, 50, 100, 1450, 900, 0.5f, 1.0f, 930, 425);
+            loot1 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 420, "weapon");
+            loot2 = new Loot(1, 1400, 850, 50, 100, 1450, 900, 0.5f, 1.0f, 930, 425, "weapon2");
 
             gold1 = new Gold(100, 1250, 850, 50, 50, 1300, 900, 1.0f);
             gold2 = new Gold(150, 1150, 1000, 50, 50, 1200, 1100, 1.0f);
@@ -95,7 +95,6 @@ namespace GameStateManagement
             portal = new Portal(new Rectangle(5400, 800, 100, 100), "portalblue");
             player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
             camera = new Camera();
-            mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
         }
 
         /// <summary>
@@ -112,8 +111,8 @@ namespace GameStateManagement
 
             Tiles.Content = content;
 
-            loot1.LoadContent(content, "weapon");
-            loot2.LoadContent(content, "weapon2");
+            loot1.LoadContent(content);
+            loot2.LoadContent(content);
 
             gold1.LoadContent(content, "gold");
             gold2.LoadContent(content, "gold");
@@ -261,8 +260,8 @@ namespace GameStateManagement
 
                 inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
-            loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
-            loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, lootManager);
+            loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, lootManager);
 
             gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
