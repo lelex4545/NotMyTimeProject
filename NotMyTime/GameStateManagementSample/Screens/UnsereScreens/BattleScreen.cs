@@ -704,6 +704,31 @@ namespace GameStateManagement
             {
                 case "goblin":
                     enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 15, 5, 25);
+                    EnemyStandinPosition = new Vector2(560, 520);
+                    EnemyActualPosition = new Vector2(-40, 520);
+                    break;
+                case "ripper":
+                    enemy = new EnemyFighter("Ripper", 1, 50, 50, 5, 5, 15, 5, 25);
+                    EnemyStandinPosition = new Vector2(560, 520);
+                    EnemyActualPosition = new Vector2(-40, 520);
+                    break;
+                case "knight":
+                    enemy = new EnemyFighter("Knight", 1, 50, 50, 5, 5, 15, 5, 25);
+                    EnemyStandinPosition = new Vector2(560, 560);
+                    EnemyActualPosition = new Vector2(-40, 560);
+                    break;
+                case "knightmaster":
+                    enemy = new EnemyFighter("Knightmaster", 1, 50, 50, 5, 5, 15, 5, 25);
+                    EnemyStandinPosition = new Vector2(560, 560);
+                    EnemyActualPosition = new Vector2(-40, 560);
+                    break;
+                case "demon1":
+                    enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25);
+                    EnemyStandinPosition = new Vector2(560, 560);
+                    EnemyActualPosition = new Vector2(-40, 560);
+                    break;
+                case "demon2":
+                    enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
@@ -734,16 +759,31 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    enemy.Model = content.Load<Texture2D>("goblin_right0");
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/goblin");
+                    break;
+                case "ripper":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/ripper");
+                    break;
+                case "knight":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/knight");
+                    break;
+                case "knightmaster":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/knightmaster");
+                    break;
+                case "demon1":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon1");
+                    break;
+                case "demon2":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon2");
                     break;
                 case "ddragon":
-                    enemy.Model = content.Load<Texture2D>("Boss_Dragon_Huanglong");
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Dragon_Huanglong");
                     break;
                 case "runic":
-                    enemy.Model = content.Load<Texture2D>("Boss_Runic_Stone");
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Runic_Stone");
                     break;
                 case "queen":
-                    enemy.Model = content.Load<Texture2D>("Boss_Dark_Queen");
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Dark_Queen");
                     break;
                 default:
                     enemy.Model = content.Load<Texture2D>("Hohlenmensch_Right");
@@ -755,7 +795,22 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1.5f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "ripper":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "knight":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "knightmaster":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "demon1":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "demon2":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 case "ddragon":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
