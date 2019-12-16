@@ -55,7 +55,6 @@ namespace GameStateManagement
         Texture2D Healthbar;    //Lebensanzeige
         Texture2D Healthbar2;
 
-        MainFighter mainChar;// = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);   //Charaktere
         EnemyFighter enemy;
         string enemyName;
         int weaponType = 0;
@@ -117,12 +116,10 @@ namespace GameStateManagement
             magicBtnPos[2] = new Vector2(990, 841);
             magicBtnPos[3] = new Vector2(990, 876);
 
-            
             this.enemyName = enemy;
 
             // TODO: MainChar wird mitgegeben + WeaponType wird mitgegeben
-            this.mainChar = FirstMap.mainChar;
-            this.weaponType = FirstMap.lootManager.currentLoot.id;
+            this.weaponType = mainChar.currentWeaponID;
 
             MainStandinPosition = new Vector2(1216, 540);
             MainActualPosition = new Vector2(1960, 540);

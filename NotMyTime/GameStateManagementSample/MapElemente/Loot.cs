@@ -24,6 +24,7 @@ namespace GameStateManagement
         public float scale2;
         public int poX;
         public int poY;
+        public string assetName { get; set; }
 
         private Rectangle rectangle;
 
@@ -45,7 +46,7 @@ namespace GameStateManagement
 
         //---------------------------------------------
         //Constructor
-        public Loot(int id, int x, int y, int scaleX, int scaleY, int posX, int posY, float scale, float scale2, int poX, int poY)
+        public Loot(int id, int x, int y, int scaleX, int scaleY, int posX, int posY, float scale, float scale2, int poX, int poY, string assetname)
         {
             this.id = id;
             this.Rectangle = new Rectangle(x, y, scaleX, scaleY);
@@ -59,15 +60,17 @@ namespace GameStateManagement
 
             pickup = false;
             status = 0;
+
+            this.assetName = assetname;
         }
 
-        public void LoadContent(ContentManager content, string assetName)
+        public void LoadContent(ContentManager content)
         {
             texture = content.Load<Texture2D>(assetName);
         }
 
         //Draw Loot
-        public void Draw(SpriteBatch spriteBatch, int x, int y)
+        public void Draw(SpriteBatch spriteBatch, int x, int y, LootManager lootManager)
         {
             //Gegenstand auf dem Spielfeld
             if (!Collided && !pickup)   //wenn nicht kollidiert und nicht aufgehoben
@@ -84,7 +87,7 @@ namespace GameStateManagement
             {
                 //spriteBatch.Draw(texture, new Vector2(x + poX, y + poY), null, Color.White, 0.0f, new Vector2(texture.Width / 2, texture.Height / 2), scale2, SpriteEffects.None, 0f);
                 rectangle = Rectangle.Empty;
-                FirstMap.lootManager.lootList.Add(this);
+                lootManager.lootList.Add(this);
                 //status = id;
                 pickup = true;
             }

@@ -57,6 +57,7 @@ namespace GameStateManagement
     public class MainFighter : Fighter
     {
         public Levelsystem Level;
+        public int currentWeaponID { get; set; }
         public MainFighter(String name, int lp, int mp, int dmg, int str, int ag, int intel) : base(name)
         {
             Stats = new Stats(lp, mp, dmg, str, ag, intel);
