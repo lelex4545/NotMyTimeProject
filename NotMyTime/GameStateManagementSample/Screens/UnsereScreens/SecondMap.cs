@@ -24,6 +24,18 @@ namespace GameStateManagement
         private Random random = new Random();
         private float pauseAlpha;
 
+        public static MainFighter mainChar;
+        public static LootManager lootManager;
+
+
+        Map map;                       //Map
+        Vector2[][][] randomPositions;
+        Player player;                 //Spielcharakter
+        public Enemy[] enemyList;      //Spielgegner
+        public Boss boss;
+        Inventory inventory;
+        private Camera camera;
+        
 
 
 
@@ -39,6 +51,13 @@ namespace GameStateManagement
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
+            inventory = new Inventory();
+            map = new Map();
+            player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
+            camera = new Camera();
+            mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
+            lootManager = new LootManager();
+
         }
 
         /// <summary>
@@ -50,6 +69,16 @@ namespace GameStateManagement
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             gameFont = content.Load<SpriteFont>("gamefont");
+            Sprite.Content = content;
+
+            Tiles.Content = content;
+
+            inventory.LoadContent(content, "Inventar");
+            map.generateMap2();
+
+            player.generatePlayer();
+
+            
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -94,8 +123,11 @@ namespace GameStateManagement
             {
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
+                player.updatePosition(gameTime, map);
+                camera.Follow(player);
 
-
+                if (lootManager.lootList.Count != 0)
+                    lootManager.update(gameTime);
 
             }
         }
@@ -140,16 +172,19 @@ namespace GameStateManagement
         {
             // This game has a blue background. Why? Because!
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
-                                               Color.CornflowerBlue, 0, 0);
+                                               Color.Black, 0, 0);
 
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin();
+            
 
+            spriteBatch.Begin(transformMatrix: camera.Transform);
 
-
-
+            map.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.
