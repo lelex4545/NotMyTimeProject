@@ -32,7 +32,7 @@ namespace GameStateManagement
         Vector2[][][] randomPositions;
         Player player;                 //Spielcharakter
         public Enemy[] enemyList;      //Spielgegner
-        public Boss[] bossList;
+        public Boss boss;
         Inventory inventory;          //inventar Objekt
         Loot loot1;                   //Speer
         Loot loot2;                   //keule
@@ -85,12 +85,12 @@ namespace GameStateManagement
             randomPositions[0][5][0] = new Vector2(61, 34);
             randomPositions[0][5][1] = new Vector2(70, 37);
 
-            bossList = new Boss[3];
+            
             enemyList = new Enemy[20];
             // enemyList[0] = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
             enemyList[0] = new Enemy(randomPositions[0][0]);
             enemyList[1] = new Enemy(randomPositions[0][1]);
-            bossList[0] = new Boss(new Rectangle(5400, 800, 200, 200), "ddragon");
+            boss = new Boss(new Rectangle(5400, 800, 200, 200), "ddragon");
             player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
             camera = new Camera();
             mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
@@ -117,9 +117,8 @@ namespace GameStateManagement
             gold2.LoadContent(content, "gold");
 
             inventory.LoadContent(content, "Inventar");
-
             map.generateMap1();
-
+            
             player.generatePlayer();
 
             if (enemyList[0] != null)
@@ -127,7 +126,7 @@ namespace GameStateManagement
                 enemyList[0].generateEnemy("goblin");
                 enemyList[1].generateEnemy("goblin");
             }
-            bossList[0].generateBoss();
+            boss.generateBoss();
             
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -175,8 +174,8 @@ namespace GameStateManagement
                 for (int i = 0; i<enemyList.Length; i++)
                     if(enemyList[i]!=null)enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
 
-                for (int i = 0; i < bossList.Length; i++)
-                    if (bossList[i] != null) bossList[i].updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer);
+               
+                    if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer);
                     
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
@@ -247,8 +246,8 @@ namespace GameStateManagement
             for (int i = 0; i<enemyList.Length; i++)
                 if(enemyList[i]!=null)enemyList[i].Draw(spriteBatch);
 
-            for (int i = 0; i < bossList.Length; i++)
-                if (bossList[i] != null) bossList[i].Draw(spriteBatch);
+            
+                if (boss != null) boss.Draw(spriteBatch);
                 
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
