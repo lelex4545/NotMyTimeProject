@@ -46,18 +46,18 @@ namespace GameStateManagement
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SecondMap(MainFighter mainChar1, LootManager lootManager1)
+        public SecondMap()
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             inventory = new Inventory();
             map = new Map();
-            player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
+            player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
             mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
-            lootManager = lootManager1;
-            mainChar = mainChar1;
+            //lootManager = lootManager1;
+            //mainChar = mainChar1;
 
         }
 
@@ -127,8 +127,8 @@ namespace GameStateManagement
                 player.updatePosition(gameTime, map);
                 camera.Follow(player);
 
-                if (lootManager.lootList.Count != 0)
-                    lootManager.update(gameTime);
+                //if (lootManager.lootList.Count != 0)
+                   // lootManager.update(gameTime);
 
             }
         }
@@ -185,7 +185,7 @@ namespace GameStateManagement
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
-            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            //lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.

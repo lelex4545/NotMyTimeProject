@@ -35,7 +35,7 @@ namespace GameStateManagement
             if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
             {
                 //screenManager.AddScreen(new SecondMap(), controllingPlayer);
-                LoadingScreen.Load(screenManager, true, controllingPlayer, new SecondMap(main,lootManager));
+                LoadingScreen.Load(screenManager, true, controllingPlayer, new SecondMap());
             }
 
             if (move >= 0.25f)
