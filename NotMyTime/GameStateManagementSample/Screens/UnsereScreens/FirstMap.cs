@@ -39,7 +39,7 @@ namespace GameStateManagement
         Gold gold1;
         Gold gold2;
         private Camera camera;
-
+        GUI gui;
         private float pauseAlpha;
 
         #endregion Fields
@@ -56,10 +56,10 @@ namespace GameStateManagement
 
             mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
             lootManager = new LootManager(mainChar);
-
+            
             loot1 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 420, "weapon");
             loot2 = new Loot(1, 1400, 850, 50, 100, 1450, 900, 0.5f, 1.0f, 930, 425, "weapon2");
-
+            gui = new GUI(mainChar);
             gold1 = new Gold(100, 1250, 850, 50, 50, 1300, 900, 1.0f);
             gold2 = new Gold(150, 1150, 1000, 50, 50, 1200, 1100, 1.0f);
 
@@ -131,7 +131,7 @@ namespace GameStateManagement
             lootManager.LoadContent(content);
             inventory.LoadContent(content, "Inventar");
             map.generateMap1();
-            
+            gui.LoadContent(content);
             player.generatePlayer();
 
             if (enemyList[0] != null)
@@ -294,6 +294,7 @@ namespace GameStateManagement
             gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gui.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.

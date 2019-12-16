@@ -41,7 +41,7 @@ namespace GameStateManagement
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
             if(texture != null)
-                spriteBatch.Draw(texture,new Vector2(x + 870, y + 420) , null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1.3f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture,new Vector2(x + 850, y + 410) , null, Color.White, 0.0f, new Vector2(texture.Width/2, texture.Height/2), 1.3f, SpriteEffects.None, 0f);
 
         }
 
