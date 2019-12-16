@@ -174,8 +174,12 @@ namespace GameStateManagement
                 for (int i = 0; i<enemyList.Length; i++)
                     if(enemyList[i]!=null)enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
 
-               
-                    if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer);
+                if (boss != null && !boss.IsAlive)
+                {
+                    boss = null;
+                }
+                if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
+                
                     
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
@@ -247,7 +251,7 @@ namespace GameStateManagement
                 if(enemyList[i]!=null)enemyList[i].Draw(spriteBatch);
 
             
-                if (boss != null) boss.Draw(spriteBatch);
+            if (boss != null) boss.Draw(spriteBatch);
                 
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 

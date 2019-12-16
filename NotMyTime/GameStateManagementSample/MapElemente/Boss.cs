@@ -11,11 +11,12 @@ namespace GameStateManagement
     class Boss : Sprite
     {
         Texture2D[] moving;
-        String name;
+        public String name { get; }
         float move;
         bool down;
         int index;
         Rectangle[] bigRectangle;
+        public bool IsAlive {set;get;}
 
         public Boss(Rectangle rectangle,String name)
         {
@@ -26,6 +27,7 @@ namespace GameStateManagement
             moving = new Texture2D[3];
             index = 1;
             down = false;
+            IsAlive = true;
         }
 
         public void generateBoss()
@@ -36,7 +38,7 @@ namespace GameStateManagement
             moving[2] = Content.Load<Texture2D>(name + "3");
         }
 
-        public void updateBoss(GameTime gametime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer)
+        public void updateBoss(GameTime gametime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer, Boss boss)
         {
             move += (float)gametime.ElapsedGameTime.TotalSeconds;
 
@@ -44,7 +46,7 @@ namespace GameStateManagement
             {
                 if (RectangleHelper.TouchCheck(this.bigRectangle[i],player.rectangle,0))
                 {
-                    screenManager.AddScreen(new BattleScreen("goblin"), controllingPlayer);
+                    screenManager.AddScreen(new BattleScreen(boss), controllingPlayer);
                 }
             }
             if(move>=0.1f)
@@ -70,5 +72,6 @@ namespace GameStateManagement
             bigRectangle[2] = new Rectangle(rectangle.X, rectangle.Y + 100, 100, 100);
             bigRectangle[3] = new Rectangle(rectangle.X + 100, rectangle.Y + 100, 100, 100);
         }
+
     }
 }

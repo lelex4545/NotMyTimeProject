@@ -55,13 +55,15 @@ namespace GameStateManagement
         Texture2D Healthbar;    //Lebensanzeige
         Texture2D Healthbar2;
 
-        MainFighter mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);   //Charaktere
+        MainFighter mainChar;// = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);   //Charaktere
         EnemyFighter enemy;
         string enemyName;
         int weaponType = 0;
 
         Enemy[] enemyList;      //Liste der Gegner -> Toter Gegner wird aus dem Spiel entfernt
         int enemyIndex;
+        bool isBoss = false;
+        Boss boss;
 
         /*     Animationsvariablen      */
         Vector2 MainStandinPosition;
@@ -74,7 +76,7 @@ namespace GameStateManagement
         bool attackHit = false;
         int choosenAttack;
         int randomAttackPercentage = 0;
-        int randomFight = 0;
+        int randomFight;// = 0;
 
         /*   RANDOM NUMBER GENERATOR       */
         private static readonly Random random = new Random();
@@ -115,7 +117,7 @@ namespace GameStateManagement
             magicBtnPos[2] = new Vector2(990, 841);
             magicBtnPos[3] = new Vector2(990, 876);
 
-            //this.mainChar = FirstMap.mainChar;
+            this.mainChar = FirstMap.mainChar;
             this.enemyName = enemy;
 
             MainStandinPosition = new Vector2(1216, 540);
@@ -128,6 +130,11 @@ namespace GameStateManagement
         {
             this.enemyList = enemyList;
             this.enemyIndex = i;
+        }
+        public BattleScreen(Boss boss) : this(boss.name)
+        {
+            isBoss = true;
+            this.boss = boss;
         }
 
         /// <summary>
@@ -243,7 +250,7 @@ namespace GameStateManagement
                                 {
                                     attackAnimationIsPlaying = true;
                                     randomAttackPercentage = RandomNumber(1, 101);
-                                    if (enemy.Stats.Agility == mainChar.Stats.Agility) randomFight = RandomNumber(0, 2);
+                                    if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex;
                                 }
                                 else if (btnIndex == 1)
@@ -280,7 +287,7 @@ namespace GameStateManagement
                                 {
                                     attackAnimationIsPlaying = true;
                                     randomAttackPercentage = RandomNumber(1, 101);
-                                    if (enemy.Stats.Agility == mainChar.Stats.Agility) randomFight = RandomNumber(0, 2);
+                                    if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex + 1;
                                     magicMenu = false;
                                     btnIndex = 0;
@@ -288,6 +295,7 @@ namespace GameStateManagement
                                 }
                             }
                         }
+                        if(randomFight!=null)debugger = randomFight + "";
                         elapsedTime = 0;
                     }
                 }
@@ -414,14 +422,15 @@ namespace GameStateManagement
                 if (enemy.isAlive())
                 {
                     if (randomAttackPercentage < 80)
-                        EnemyNormalAttack(main, enemy, true);
+                        EnemyNormalAttack(main, enemy, false);
                     else
-                        EnemyMagicAttack(main, enemy, true);
+                        EnemyMagicAttack(main, enemy, false);
                 }
                 else
                 {
                     main.Level.SetExp(enemy);
-                    enemyList[enemyIndex] = null;
+                    if (isBoss) boss.IsAlive = false;
+                    else enemyList[enemyIndex] = null;
                     ExitScreen();
                 }
             }
@@ -443,7 +452,8 @@ namespace GameStateManagement
             if (!enemy.isAlive() && !attackAnimationIsPlaying)
             {
                 main.Level.SetExp(enemy);
-                enemyList[enemyIndex] = null;
+                if (isBoss) boss.IsAlive = false;
+                else enemyList[enemyIndex] = null;
                 ExitScreen();
             }
         }
@@ -534,6 +544,7 @@ namespace GameStateManagement
                 {
                     enemy.Attack(main);
                     attackHit = true;
+                    
                 }
             }
             else
@@ -569,7 +580,7 @@ namespace GameStateManagement
                 }
                 else
                 {
-                    enemy.Magic(main, RandomNumber(2,4));
+                    enemy.Magic(main, RandomNumber(2, 4));
                     attackHit = true;
                 }
             }
@@ -692,12 +703,12 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 25, 5, 25);
+                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 10, 5, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
-                case "dragon":
-                    enemy = new EnemyFighter("Draggy", 4, 250, 100, 15, 10, 10, 10, 115);
+                case "ddragon":
+                    enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115);
                     EnemyStandinPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
@@ -725,7 +736,7 @@ namespace GameStateManagement
                 case "goblin":
                     enemy.Model = content.Load<Texture2D>("goblin_right0");
                     break;
-                case "dragon":
+                case "ddragon":
                     enemy.Model = content.Load<Texture2D>("Boss_Dragon_Huanglong");
                     break;
                 case "runic":
@@ -746,7 +757,7 @@ namespace GameStateManagement
                 case "goblin":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1.5f, SpriteEffects.None, 0f);
                     break;
-                case "dragon":
+                case "ddragon":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
                 case "runic":
