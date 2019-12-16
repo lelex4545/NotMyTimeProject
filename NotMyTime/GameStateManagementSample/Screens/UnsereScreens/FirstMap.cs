@@ -32,7 +32,8 @@ namespace GameStateManagement
         Vector2[][][] randomPositions;
         Player player;                 //Spielcharakter
         public Enemy[] enemyList;      //Spielgegner
-        public Boss boss;
+        public Boss boss;              // Bossgegner
+        public Portal portal;          // Portal zur Map2
         Inventory inventory;          //inventar Objekt
         Loot loot1;                   //Speer
         Loot loot2;                   //keule
@@ -91,6 +92,7 @@ namespace GameStateManagement
             enemyList[0] = new Enemy(randomPositions[0][0]);
             enemyList[1] = new Enemy(randomPositions[0][1]);
             boss = new Boss(new Rectangle(5400, 800, 200, 200), "ddragon");
+            portal = new Portal(new Rectangle(5400, 800, 100, 100), "portalblue");
             player = new Player(new Rectangle(13 * 100, 5 * 100, 100, 100));
             camera = new Camera();
             mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
@@ -127,7 +129,7 @@ namespace GameStateManagement
                 enemyList[1].generateEnemy("goblin");
             }
             boss.generateBoss();
-            
+            portal.generatePortal();
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
@@ -179,8 +181,9 @@ namespace GameStateManagement
                     boss = null;
                 }
                 if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
-                
-                    
+                if(boss == null)
+                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer);
+
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
                 //loot collision
@@ -252,8 +255,11 @@ namespace GameStateManagement
 
             
             if (boss != null) boss.Draw(spriteBatch);
-                
-            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+
+            if (boss == null)
+                portal.Draw(spriteBatch);
+
+                inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             loot1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             loot2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);

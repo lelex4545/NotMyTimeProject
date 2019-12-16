@@ -61,6 +61,7 @@
     <Compile Include="MapElemente\Boss.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="MapElemente\Camera.cs" />
+    <Compile Include="MapElemente\Portal.cs" />
     <Compile Include="MapElemente\Enemy.cs" />
     <Compile Include="MapElemente\Gold.cs" />
     <Compile Include="MapElemente\Inventory.cs" />
