@@ -214,7 +214,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Battle/Enemy/Boss_Runic_Stone.png
+/build:Battle/Enemy/Boss_Runic_Stone.png;Battle/Enemy/runicgolem.png
 
 #begin Battle/Enemy/demon1.png
 /importer:TextureImporter
@@ -263,6 +263,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Battle/Enemy/knight.png
+
+#begin Battle/Enemy/knightchief.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/Enemy/knightchief.png
 
 #begin Battle/Enemy/knightkoloss.png
 /importer:TextureImporter
