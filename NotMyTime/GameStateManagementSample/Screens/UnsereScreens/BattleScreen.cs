@@ -66,6 +66,8 @@ namespace GameStateManagement
         bool isBoss = false;
         Boss boss;
 
+        int randomEnemyMagic = 0;
+
         /*     Animationsvariablen      */
         Vector2 MainStandinPosition;
         Vector2 MainActualPosition;
@@ -260,6 +262,7 @@ namespace GameStateManagement
                                 if (btnIndex == 0)
                                 {
                                     attackAnimationIsPlaying = true;
+                                    randomEnemyMagic = RandomNumber(2, 4);
                                     randomAttackPercentage = RandomNumber(1, 101);
                                     if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex;
@@ -297,6 +300,7 @@ namespace GameStateManagement
                                 if (mainChar.Stats.CurrentMP >= 25)
                                 {
                                     attackAnimationIsPlaying = true;
+                                    randomEnemyMagic = RandomNumber(2, 4);
                                     randomAttackPercentage = RandomNumber(1, 101);
                                     if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex + 1;
@@ -618,8 +622,29 @@ namespace GameStateManagement
                 }
                 else
                 {
-                    enemy.Magic(main, RandomNumber(2, 4));
-                    attackHit = true;
+                    magicAnimationRunning = true;
+                    if (randomEnemyMagic == 2)
+                    {
+                        ScreenManager.AddScreen(new FireAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (randomEnemyMagic == 3)
+                    {
+                        ScreenManager.AddScreen(new IceAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (randomEnemyMagic == 4)
+                    {
+                        ScreenManager.AddScreen(new ThunderAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    if (!magicAnimationRunning)
+                    {
+                        enemy.Magic(main, randomEnemyMagic);
+                        attackHit = true;
+                    }
+                    
+                    
                 }
             }
             else
