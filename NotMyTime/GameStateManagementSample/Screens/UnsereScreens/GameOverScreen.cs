@@ -18,9 +18,9 @@ namespace GameStateManagement
         private Random random = new Random();
         private float pauseAlpha;
 
-        int mAlphaValue = 1;
-        int mFadeIncrement = 3;
-        double mFadeDelay = .035;
+        int fadeValue = 1;
+        int fadeIncrement = 3;
+        double fadeDelay = .035;
 
         Texture2D endScreen;
         SpriteFont font;
@@ -68,24 +68,24 @@ namespace GameStateManagement
                     LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new BackgroundScreen(), new MainMenuScreen());
                 }
 
-                mFadeDelay -= gameTime.ElapsedGameTime.TotalSeconds;
+                fadeDelay -= gameTime.ElapsedGameTime.TotalSeconds;
 
                 //If the Fade delays has dropped below zero, then it is time to 
                 //fade in/fade out the image a little bit more.
-                if (mFadeDelay <= 0)
+                if (fadeDelay <= 0)
                 {
                     //Reset the Fade delay
-                    mFadeDelay = .035;
+                    fadeDelay = .035;
 
                     //Increment/Decrement the fade value for the image
-                    mAlphaValue += mFadeIncrement*3;
+                    fadeValue += fadeIncrement*3;
 
                     //If the AlphaValue is equal or above the max Alpha value or
                     //has dropped below or equal to the min Alpha value, then 
                     //reverse the fade
-                    if (mAlphaValue >= 255 || mAlphaValue <= 0)
+                    if (fadeValue >= 255 || fadeValue <= 0)
                     {
-                        mFadeIncrement *= -1;
+                        fadeIncrement *= -1;
                     }
                 }
             }
@@ -125,7 +125,7 @@ namespace GameStateManagement
 
             spriteBatch.DrawString(font, "Press any Key to Continue",
                 new Vector2(spriteBatch.GraphicsDevice.Viewport.Width / 2 - 200, spriteBatch.GraphicsDevice.Viewport.Height / 2 + 300),
-                new Color(Color.AntiqueWhite, MathHelper.Clamp(mAlphaValue, 0, 255)));
+                new Color(Color.AntiqueWhite, MathHelper.Clamp(fadeValue, 0, 255)));
 
             spriteBatch.End();
 

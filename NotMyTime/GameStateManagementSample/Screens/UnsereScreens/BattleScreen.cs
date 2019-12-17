@@ -77,6 +77,8 @@ namespace GameStateManagement
         int randomAttackPercentage = 0;
         int randomFight;// = 0;
 
+        bool battleOver = false;
+
         /*   RANDOM NUMBER GENERATOR       */
         private static readonly Random random = new Random();
         private static readonly object syncLock = new object();
@@ -217,7 +219,7 @@ namespace GameStateManagement
             else
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
 
-            if (IsActive)
+            if (IsActive && !battleOver)
             {
                 if (!hasEntered)        //Die Kämpfer werden von außen nach innen eingeblendet
                 {
@@ -296,7 +298,6 @@ namespace GameStateManagement
                                 }
                             }
                         }
-                        if(randomFight!=null)debugger = randomFight + "";
                         elapsedTime = 0;
                     }
                 }
@@ -304,13 +305,10 @@ namespace GameStateManagement
                 {
                     Fight(mainChar, enemy, choosenAttack);
                 }
-
-
-                if (!mainChar.isAlive())
-                {
-                    LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new GameOverScreen());
-                }
-
+            }
+            else if(IsActive && battleOver)
+            {
+                ExitScreen();
             }
         }
 
@@ -351,7 +349,7 @@ namespace GameStateManagement
         {
             // This game has a blue background. Why? Because!
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
-                                               Color.CornflowerBlue, 0, 0);
+                                               Color.MonoGameOrange, 0, 0);
 
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
@@ -361,7 +359,6 @@ namespace GameStateManagement
             DrawLayout(spriteBatch);
 
             if (mainChar.Stats.CurrentLP > 0)
-                //spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                 DrawMainChar(spriteBatch);
 
             if (enemy.Stats.CurrentLP > 0)
@@ -428,11 +425,14 @@ namespace GameStateManagement
                 }
                 else
                 {
-                    main.Level.SetExp(enemy);
+                    mainChar.Killed(enemy);
                     if (isBoss) boss.IsAlive = false;
                     else enemyList[enemyIndex] = null;
-                    ExitScreen();
+                    ScreenManager.AddScreen(new BattlePopup(enemy.GivenGold, enemy.GivenExp), ControllingPlayer);
+                    battleOver = true;
                 }
+                if (!mainChar.isAlive() && !attackAnimationIsPlaying)
+                    LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new GameOverScreen());
             }
         }
         void EnemyAttacksFirst(MainFighter main, EnemyFighter enemy, int i)
@@ -446,15 +446,18 @@ namespace GameStateManagement
             }
             else
             {
+                if (!mainChar.isAlive())
+                    LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new GameOverScreen());
                 if (i == 0) HeroNormalAttack(main, enemy, i, false);
                 else HeroMagicAttack(main, enemy, i, false);
             }
             if (!enemy.isAlive() && !attackAnimationIsPlaying)
             {
-                main.Level.SetExp(enemy);
+                mainChar.Killed(enemy);
                 if (isBoss) boss.IsAlive = false;
                 else enemyList[enemyIndex] = null;
-                ExitScreen();
+                ScreenManager.AddScreen(new BattlePopup(enemy.GivenGold, enemy.GivenExp), ControllingPlayer);
+                battleOver = true;
             }
         }
 
@@ -703,52 +706,52 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 15, 5, 25);
+                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandinPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "ripper":
-                    enemy = new EnemyFighter("Ripper", 1, 50, 50, 5, 5, 15, 5, 25);
+                    enemy = new EnemyFighter("Ripper", 1, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandinPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "knight":
-                    enemy = new EnemyFighter("Knight", 1, 50, 50, 5, 5, 15, 5, 25);
+                    enemy = new EnemyFighter("Knight", 1, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
                 case "knightmaster":
-                    enemy = new EnemyFighter("Knightmaster", 1, 50, 50, 5, 5, 15, 5, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
-                    EnemyActualPosition = new Vector2(-40, 560);
-                    break;
-                case "demon1":
-                    enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25);
+                    enemy = new EnemyFighter("Knightmaster", 1, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
                 case "demon":
-                    enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25);
+                    enemy = new EnemyFighter("Demon", 3, 75, 75, 10, 10, 5, 5, 50, 25);
+                    EnemyStandinPosition = new Vector2(560, 500);
+                    EnemyActualPosition = new Vector2(-40, 500);
+                    break;
+                case "demon1":
+                    enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
                 case "ddragon":
-                    enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115);
+                    enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115, 25);
                     EnemyStandinPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
                 case "runic":
-                    enemy = new EnemyFighter("StoneBoy", 7, 700, 500, 50, 80, 10, 10, 350);
+                    enemy = new EnemyFighter("StoneBoy", 7, 700, 500, 50, 80, 10, 10, 350, 25);
                     EnemyStandinPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
                 case "queen":
-                    enemy = new EnemyFighter("Dark Queen", 10, 1000, 1000, 100, 50, 50, 50, 1000);
+                    enemy = new EnemyFighter("Dark Queen", 10, 1000, 1000, 100, 50, 50, 50, 1000, 25);
                     EnemyStandinPosition = new Vector2(460, 390);
                     EnemyActualPosition = new Vector2(-140, 390);
                     break;
                 default:
-                    enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50);
+                    enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
@@ -770,11 +773,11 @@ namespace GameStateManagement
                 case "knightmaster":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/knightmaster");
                     break;
-                case "demon1":
-                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon1");
-                    break;
                 case "demon":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon2");
+                    break;
+                case "demon1":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon1");
                     break;
                 case "ddragon":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Dragon_Huanglong");
@@ -832,16 +835,18 @@ namespace GameStateManagement
             {
                 case 0: //Speer
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");   
+                    
                     MainStandinPosition.Y -= 50;
                     MainActualPosition.Y -= 50;
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
+                    
                     break;
                 case 1: //Keule
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");   
                     break;
                 default: //Hand
-                    mainChar.Model = content.Load<Texture2D>("figure_left");            
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");            
                     break;
             }
         }
@@ -851,13 +856,14 @@ namespace GameStateManagement
             switch (weaponType)
             {
                 case 0: //Speer
-                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 0.15f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 case 1: //Keule
-                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 0.16f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
+
                 default: //Hand
-                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1.3f, SpriteEffects.None, 0f);
                     break;
             }
         }

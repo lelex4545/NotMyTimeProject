@@ -252,6 +252,18 @@
 /processorParam:TextureFormat=Color
 /build:Battle/figureweapon1.png
 
+#begin Battle/figureweapon-1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/figureweapon-1.png
+
 #begin Battle/health_white.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -299,6 +311,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Battle/menu_select2.png
+
+#begin Battle/PopUpScreen.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/PopUpScreen.png
 
 #begin baum.png
 /importer:TextureImporter

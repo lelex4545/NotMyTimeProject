@@ -58,10 +58,12 @@ namespace GameStateManagement
     {
         public Levelsystem Level;
         public int currentWeaponID { get; set; }
+        private int gold;
         public MainFighter(String name, int lp, int mp, int dmg, int str, int ag, int intel) : base(name)
         {
             Stats = new Stats(lp, mp, dmg, str, ag, intel);
             Level = new Levelsystem(this);
+            gold = 0;
         }
         public override int AttackCalc()
         {
@@ -78,6 +80,17 @@ namespace GameStateManagement
             if (i > 0) return this.Magic(enemy, i);
             else return this.Attack(enemy);
         }
+
+        public void SetGold(EnemyFighter enemy)
+        {
+            this.gold = enemy.GivenGold;
+        }
+
+        public void Killed(EnemyFighter enemy)
+        {
+            SetGold(enemy);
+            this.Level.SetExp(enemy);
+        }
     }
 
     public class EnemyFighter : Fighter
@@ -85,11 +98,14 @@ namespace GameStateManagement
         public int GivenExp { get; }
         public int Level { get; }
 
-        public EnemyFighter(String name, int lvl, int lp, int mp, int dmg, int str, int ag, int intel, int exp) : base(name)
+        public int GivenGold { get; }
+
+        public EnemyFighter(String name, int lvl, int lp, int mp, int dmg, int str, int ag, int intel, int exp, int gold) : base(name)
         {
             Stats = new Stats(lp, mp, dmg, str, ag, intel);
             Level = lvl;
             GivenExp = exp;
+            GivenGold = gold;
         }
         public override int AttackCalc()
         {

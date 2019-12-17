@@ -30,11 +30,11 @@ namespace GameStateManagement
         }
         public void LevelUp()
         {
-            Lifepoints += 10;
-            Manapoints += 10;
+            Lifepoints += 25;
+            Manapoints += 25;
             CurrentLP = Lifepoints;
             CurrentMP = Manapoints;
-            Damage += 2;
+            Damage += 5;
             Strength += 1;
             Agility += 1;
             Intelligence += 1;
