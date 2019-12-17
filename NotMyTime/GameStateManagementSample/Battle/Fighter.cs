@@ -80,6 +80,10 @@ namespace GameStateManagement
             if (i > 0) return this.Magic(enemy, i);
             else return this.Attack(enemy);
         }
+        public int GetGold()
+        {
+            return gold;
+        }
 
         public void SetGold(EnemyFighter enemy)
         {
