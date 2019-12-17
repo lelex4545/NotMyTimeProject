@@ -513,7 +513,7 @@ namespace GameStateManagement
                         magicAnimationRunning = false;
                     }
                     else if (i == 2)
-                    {s
+                    {
                         ScreenManager.AddScreen(new FireAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
                         magicAnimationRunning = false;
                     }
