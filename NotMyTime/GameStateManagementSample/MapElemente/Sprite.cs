@@ -151,7 +151,7 @@ namespace GameStateManagement
             {
                 
 
-                if (wait > 0.0000015f)
+                if (wait > 0.015f)
                 {
                     if (help == 4)
                     {
