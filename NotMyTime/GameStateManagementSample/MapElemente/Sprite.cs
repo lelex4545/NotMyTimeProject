@@ -49,6 +49,9 @@ namespace GameStateManagement
         int help = 0;
         bool changefoot = false;
         bool col = false;
+
+        int add = 0;
+        char door = ' ';
         public Player(Rectangle newRectangle)
         {
             this.Rectangle = newRectangle;
@@ -148,33 +151,62 @@ namespace GameStateManagement
             {
                 
 
-                if (wait > 0.15f)
+                if (wait > 0.00015f)
                 {
                     if (help == 4)
                     {
                         if (changefoot == false)
                         {
-                            rectangle.X = rectangle.X + size;
+                            if(add<50)
+                            {
+                                rectangle.X = rectangle.X + 5;
+                                add += 5;
+                            }
+                            
                             texture = right[2];
-                            help = 0;
+                            if(add == size)
+                            {
+                                help = 0;
+                                add = 0;
+                                changefoot = true;
+                            }
+                            lastMove = 0;
                             wait = 0;
-                            changefoot = true;
+                            
                         }
                         else
                         {
-                            rectangle.X = rectangle.X + size;
+                            if(add < 50)
+                            {
+                                rectangle.X = rectangle.X + 5;
+                                add += 5;
+                            }
                             texture = right[4];
-                            help = 0;
-                            wait = 0;
-                            changefoot = false;
+                            if (add == size)
+                            {
+                                help = 0;
+                                add = 0;
+                                changefoot = false;
+                            }
+                            lastMove = 0;
+                            wait = 0;  
                         }
                     }
                     else
                     if (help == 3)
                     {
-                        rectangle.Y = rectangle.Y + size;
+                        if (add < 50)
+                        {
+                            rectangle.Y = rectangle.Y + 5;
+                            add += 5;
+                        }
                         texture = bottom[2];
-                        help = 0;
+                        if (add == size)
+                        {
+                            help = 0;
+                            add = 0;
+                        }
+                        lastMove = 0;
                         wait = 0;
                     }
                     else
@@ -182,93 +214,200 @@ namespace GameStateManagement
                     {
                         if (changefoot == false)
                         {
-                            rectangle.X = rectangle.X - size;
+                            if(add<size)
+                            {
+                                rectangle.X = rectangle.X - 5;
+                                add += 5;
+                            }
+                            
                             texture = left[2];
-                            help = 0;
+                            if(add==size)
+                            {
+                                help = 0;
+                                add = 0;
+                                changefoot = true;
+                            }
+                            lastMove = 0;
                             wait = 0;
-                            changefoot = true;
                         }
                         else
                         {
-                            rectangle.X = rectangle.X - size;
+                            if(add < size)
+                            {
+                                rectangle.X = rectangle.X - 5;
+                                add += 5;
+                            }
+                            
                             texture = left[4];
-                            help = 0;
+                            if(add == size)
+                            {
+                                help = 0;
+                                add = 0;
+                                changefoot = false;
+                            }
+                            lastMove = 0;
                             wait = 0;
-                            changefoot = false;
+                            
                         }
                     }
                     else
                     if (help == 1)
                     {
-                        rectangle.Y = rectangle.Y - size;
+                        if(add < size)
+                        {
+                            rectangle.Y = rectangle.Y - 5;
+                            add += 5;
+                        }
+                        
                         texture = top[2];
-                        help = 0;
+
+                        if(add == 50)
+                        {
+                            help = 0;
+                            add = 0;
+                        }
+                        lastMove = 0;
                         wait = 0;
                     }
                     
                 }
 
                 
-                if (lastMove > 0.3f)
+                if (lastMove > 0.0003f)
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.W))
+                    if (Keyboard.GetState().IsKeyDown(Keys.W) || door.Equals('w'))
                     {
-                        rectangle.Y = rectangle.Y - size;
-                        texture = top[1];
-                        lastMove = 0f;
-                        help = 1;
-                        wait = 0;
-                        return;
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.A))
-                    {
-                        if (changefoot == false)
+                        if (door == 'w' || door == ' ')
                         {
-                            rectangle.X = rectangle.X - size;
-                            texture = left[1];
+
+
+                            if (add < size)
+                            {
+                                rectangle.Y = rectangle.Y - 5;
+                                add += 5;
+                            }
+                            door = 'w';
+                            texture = top[1];
                             lastMove = 0f;
-                            help = 2;
-                            wait = 0;
-                            return;
-                        }
-                        else
-                        {
-                            rectangle.X = rectangle.X - size;
-                            texture = left[3];
-                            lastMove = 0f;
-                            help = 2;
+                            if (add == size)
+                            {
+                                help = 1;
+                                add = 0;
+                                door = ' ';
+                            }
+
                             wait = 0;
                             return;
                         }
                     }
-                    if (Keyboard.GetState().IsKeyDown(Keys.S))
+                    if (Keyboard.GetState().IsKeyDown(Keys.A) || door.Equals('a'))
                     {
-                        rectangle.Y = rectangle.Y + size;
-                        texture = bottom[1];
-                        lastMove = 0f;
-                        help = 3;
-                        wait = 0;
-                        return;
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.D))
-                    {
-                        if (changefoot == false)
+                        if (door == 'a' || door == ' ')
                         {
-                            rectangle.X = rectangle.X + size;
-                            texture = right[1];
+                            if (changefoot == false)
+                            {
+                                if (add < size)
+                                {
+                                    rectangle.X = rectangle.X - 5;
+                                    add += 5;
+                                }
+                                door = 'a';
+                                texture = left[1];
+                                if (add == size)
+                                {
+                                    help = 2;
+                                    door = ' ';
+                                    add = 0;
+                                }
+                                lastMove = 0f;
+                                wait = 0;
+                                return;
+                            }
+                            else
+                            {
+                                if (add < size)
+                                {
+                                    rectangle.X = rectangle.X - 5;
+                                    add += 5;
+                                }
+                                door = 'a';
+                                texture = left[3];
+                                if (add == size)
+                                {
+                                    help = 2;
+                                    door = ' ';
+                                    add = 0;
+                                }
+                                lastMove = 0f;
+                                wait = 0;
+                                return;
+                            }
+                        }
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.S)|| door.Equals('s'))
+                    {
+                        if (door == 's' || door == ' ')
+                        {
+                            if (add < size)
+                            {
+                                rectangle.Y = rectangle.Y + 5;
+                                add += 5;
+                            }
+                            door = 's';
+                            texture = bottom[1];
                             lastMove = 0f;
-                            help = 4;
+                            if (add == size)
+                            {
+                                help = 3;
+                                add = 0;
+                                door = ' ';
+                            }
                             wait = 0;
                             return;
                         }
-                        else
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.D)|| door.Equals('d'))
+                    {
+                        if (door == 'd' || door == ' ')
                         {
-                            rectangle.X = rectangle.X + size;
-                            texture = right[3];
-                            lastMove = 0f;
-                            help = 4;
-                            wait = 0;
-                            return;
+                            if (changefoot == false)
+                            {
+                                if (add < size)
+                                {
+                                    rectangle.X = rectangle.X + 5;
+                                    add += 5;
+                                }
+                                door = 'd';
+                                texture = right[1];
+                                if (add == size)
+                                {
+                                    help = 4;
+                                    add = 0;
+                                    door = ' ';
+                                }
+                                lastMove = 0f;
+                                wait = 0;
+                                return;
+                            }
+                            else
+                            {
+                                if (add < size)
+                                {
+                                    rectangle.X = rectangle.X + 5;
+                                    add += 5;
+                                }
+                                door = 'd';
+                                texture = right[3];
+                                if (add == size)
+                                {
+                                    help = 4;
+                                    add = 0;
+                                    door = ' ';
+                                }
+                                lastMove = 0f;
+                                wait = 0;
+                                return;
+                            }
                         }
                     }
                 }

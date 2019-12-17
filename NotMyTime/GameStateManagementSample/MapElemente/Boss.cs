@@ -49,7 +49,7 @@ namespace GameStateManagement
                     screenManager.AddScreen(new BattleScreen(boss), controllingPlayer);
                 }
             }
-            if(move>=0.1f)
+            if(move>=0.25f)
             {
                 if (index == 2)
                     down = true;
