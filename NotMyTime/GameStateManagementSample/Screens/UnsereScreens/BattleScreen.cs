@@ -83,6 +83,7 @@ namespace GameStateManagement
 
         bool battleOver = false;
 
+        int magicPercentage = 20;
         /*  MAGIC ANIMATION LOGIC */
         bool magicAnimationRunning = false;
 
@@ -128,6 +129,7 @@ namespace GameStateManagement
             this.enemyName = enemy;
 
             // TODO: MainChar wird mitgegeben + WeaponType wird mitgegeben
+            if(mainChar==null) mainChar = new MainFighter("Bruce", 100, 50, 5, 10, 10, 15);
             this.weaponType = mainChar.currentWeaponID;
 
             MainStandinPosition = new Vector2(1216, 540);
@@ -184,16 +186,6 @@ namespace GameStateManagement
             //TO DO Richtige Auswahl des Gegners mit if schleifen
             LoadEnemyTexture();
 
-
-
-            // A real game would probably have more content than this sample, so
-            // it would take longer to load. We simulate that by delaying for a
-            // while, giving you a chance to admire the beautiful loading screen.
-            //Thread.Sleep(1000);
-
-            // once the load has finished, we use ResetElapsedTime to tell the game's
-            // timing mechanism that we have just finished a very long frame, and that
-            // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
         }
 
@@ -443,7 +435,7 @@ namespace GameStateManagement
             {
                 if (enemy.isAlive())
                 {
-                    if (randomAttackPercentage < 80)
+                    if (randomAttackPercentage < 100 - magicPercentage)
                         EnemyNormalAttack(main, enemy, false);
                     else
                         EnemyMagicAttack(main, enemy, false);
@@ -464,7 +456,7 @@ namespace GameStateManagement
         {
             if (firstAttackAnimation)
             {
-                if (randomAttackPercentage < 80)
+                if (randomAttackPercentage < 100 - magicPercentage)
                     EnemyNormalAttack(main, enemy, true);
                 else
                     EnemyMagicAttack(main, enemy, true);
@@ -820,7 +812,7 @@ namespace GameStateManagement
                     EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "knightmaster":
-                    enemy = new EnemyFighter("Knightmaster", 5, 125, 50, 25, 5, 15, 5, 106, 100);
+                    enemy = new EnemyFighter("Knightmaster", 5, 125, 50, 25, 5, 15, 5, 106, 120);
                     EnemyStandingPosition = new Vector2(560, 480);
                     EnemyActualPosition = new Vector2(-40, 480);
                     break;
@@ -836,7 +828,23 @@ namespace GameStateManagement
                     break;
 
                 //World3
-
+                case "skeleton":
+                    enemy = new EnemyFighter("Burning Skeleton", 8, 100, 100, 40, 0, 30, 25, 200, 250);
+                    EnemyStandingPosition = new Vector2(560, 415);
+                    EnemyActualPosition = new Vector2(-40, 415);
+                    magicPercentage = 40;
+                    break;
+                case "evilknight":
+                    enemy = new EnemyFighter("Knight of the Death", 9, 250, 100, 35, 5, 10, 15, 106, 100);
+                    EnemyStandingPosition = new Vector2(560, 460);
+                    EnemyActualPosition = new Vector2(-40, 460);
+                    magicPercentage = 40;
+                    break;
+                case "deathbringer":
+                    enemy = new EnemyFighter("DeathBringer", 10, 750, 250, 50, 10, 30, 30, 200, 250);
+                    EnemyStandingPosition = new Vector2(560, 315);
+                    EnemyActualPosition = new Vector2(-40, 315);
+                    break;
 
                 default:
                     enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50, 25);
@@ -880,7 +888,15 @@ namespace GameStateManagement
 
 
                 //World3
-
+                case "skeleton":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/skeleton");
+                    break;
+                case "evilknight":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/evilknight");
+                    break;
+                case "deathbringer":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/deathbringer");
+                    break;
 
                 default:
                     enemy.Model = content.Load<Texture2D>("Hohlenmensch_Right");
@@ -920,6 +936,15 @@ namespace GameStateManagement
                     break;
 
                 //World3
+                case "skeleton":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "evilknight":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "deathbringer":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
+                    break;
 
                 default:
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
@@ -942,12 +967,20 @@ namespace GameStateManagement
                     break;
                 case 2: //Schwert
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon2");
+                    MainStandinPosition.Y -= 45;
+                    MainActualPosition.Y -= 45;
+                    MainStandinPosition.X -= 50;
+                    MainActualPosition.X -= 50;
                     break;
                 case 3: //Morgen
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon3");
+                    MainStandinPosition.Y -= 50;
+                    MainActualPosition.Y -= 50;
+                    MainStandinPosition.X -= 50;
+                    MainActualPosition.X -= 50;
                     break;
                 default: //Hand
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");            
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");
                     break;
             }
         }
