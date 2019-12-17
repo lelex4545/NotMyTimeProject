@@ -151,7 +151,7 @@ namespace GameStateManagement
             {
                 
 
-                if (wait > 0.00015f)
+                if (wait > 0.00000015f)
                 {
                     if (help == 4)
                     {
@@ -273,7 +273,7 @@ namespace GameStateManagement
                 }
 
                 
-                if (lastMove > 0.0003f)
+                if (lastMove > 0.0000003f)
                 {
                     if (Keyboard.GetState().IsKeyDown(Keys.W) || door.Equals('w'))
                     {
