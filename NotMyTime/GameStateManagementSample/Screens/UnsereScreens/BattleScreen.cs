@@ -34,7 +34,7 @@ namespace GameStateManagement
         private ContentManager content;
         private SpriteFont gameFont;
 
-        Texture2D fight_menu;   //Menüelmenete
+        Texture2D fight_menu;   //Menï¿½elmenete
         Texture2D menu_button;
         Texture2D magic_button;
         Texture2D battlebackground;
@@ -47,7 +47,7 @@ namespace GameStateManagement
         Vector2[] magicBtnPos;
         Vector2 actualMagicBtn;
 
-        float elapsedTime;  //Zeitlogik für die Tasten
+        float elapsedTime;  //Zeitlogik fï¿½r die Tasten
         float delay = 150f;
 
         SpriteFont font;
@@ -68,7 +68,7 @@ namespace GameStateManagement
         /*     Animationsvariablen      */
         Vector2 MainStandinPosition;
         Vector2 MainActualPosition;
-        Vector2 EnemyStandinPosition;
+        Vector2 EnemyStandingPosition;
         Vector2 EnemyActualPosition;
         bool hasEntered = false;
         bool attackAnimationIsPlaying = false;
@@ -79,6 +79,9 @@ namespace GameStateManagement
         int randomFight;// = 0;
 
         bool battleOver = false;
+
+        /*  MAGIC ANIMATION LOGIC */
+        Boolean magicAnimationRunning = false;
 
         /*   RANDOM NUMBER GENERATOR       */
         private static readonly Random random = new Random();
@@ -126,7 +129,6 @@ namespace GameStateManagement
 
             MainStandinPosition = new Vector2(1216, 540);
             MainActualPosition = new Vector2(1960, 540);
-
             LoadEnemy();
         }
 
@@ -168,11 +170,10 @@ namespace GameStateManagement
             //Song song = Content.Load<Song>("Battle_Theme_01");
             //MediaPlayer.Play(song);
 
-            //TO DO Interface überarbeiten
+            //TO DO Interface ï¿½berarbeiten
             mainChar.StatFont = content.Load<SpriteFont>("Arial");
 
             enemy.StatFont = content.Load<SpriteFont>("Arial");
-
 
             //TO DO Model mit korrekter Waffe laden
             LoadMainCharTexture();
@@ -223,16 +224,16 @@ namespace GameStateManagement
 
             if (IsActive && !battleOver)
             {
-                if (!hasEntered)        //Die Kämpfer werden von außen nach innen eingeblendet
+                if (!hasEntered)        //Die Kï¿½mpfer werden von auï¿½en nach innen eingeblendet
                 {
-                    if (EnemyActualPosition.X != EnemyStandinPosition.X && MainActualPosition.X != MainStandinPosition.X)
+                    if (EnemyActualPosition.X != EnemyStandingPosition.X && MainActualPosition.X != MainStandinPosition.X)
                     {
                         MainActualPosition.X -= 24;
                         EnemyActualPosition.X += 20;
                     }
                     else hasEntered = true;
                 }
-                else if (attackAnimationIsPlaying == false)         //Menü einblenden + Keine Kampfanimation
+                else if (attackAnimationIsPlaying == false)         //Menï¿½ einblenden + Keine Kampfanimation
                 {
                     elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
                     if (elapsedTime >= delay)
@@ -287,7 +288,7 @@ namespace GameStateManagement
                             }
                             if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
                             {
-                                //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
+                                //TO DO es sollten nur Fï¿½higkeiten Auswï¿½hlbar sein, wofï¿½r der Char genï¿½gend Mana hat -> nicht mï¿½gliche Fï¿½higkeiten ausgrauen
                                 if (mainChar.Stats.CurrentMP >= 25)
                                 {
                                     attackAnimationIsPlaying = true;
@@ -384,7 +385,7 @@ namespace GameStateManagement
         #region Other Methods
         void Fight(MainFighter main, EnemyFighter enemy, int i)
         {
-            //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen + nicht klickbar machen
+            //TO DO es sollten nur Fï¿½higkeiten Auswï¿½hlbar sein, wofï¿½r der Char genï¿½gend Mana hat -> nicht mï¿½gliche Fï¿½higkeiten ausgrauen + nicht klickbar machen
             int result = main.compareSpeed(enemy);
             if (result == 1)
             {
@@ -469,7 +470,7 @@ namespace GameStateManagement
         {
             if (!attackHit)
             {
-                if (MainActualPosition.X >= EnemyStandinPosition.X)
+                if (MainActualPosition.X >= EnemyStandingPosition.X)
                 {
                     MainActualPosition.X -= 25;
                 }
@@ -512,8 +513,32 @@ namespace GameStateManagement
                 }
                 else
                 {
-                    main.Attack(enemy, i);
-                    attackHit = true;
+                    magicAnimationRunning = true;
+                    if (i == 1)
+                    {
+                        ScreenManager.AddScreen(new HealingAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (i == 2)
+                    {
+                        ScreenManager.AddScreen(new FireAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (i == 3)
+                    {
+                        ScreenManager.AddScreen(new IceAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (i == 4)
+                    {
+                        ScreenManager.AddScreen(new ThunderAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    if (!magicAnimationRunning)
+                    {
+                        main.Attack(enemy, i);
+                        attackHit = true;
+                    }
                 }
             }
             else
@@ -556,7 +581,7 @@ namespace GameStateManagement
             }
             else
             {
-                if (EnemyActualPosition.X >= EnemyStandinPosition.X)
+                if (EnemyActualPosition.X >= EnemyStandingPosition.X)
                 {
                     EnemyActualPosition.X -= 25;
                 }
@@ -581,7 +606,7 @@ namespace GameStateManagement
         {
             if (!attackHit)
             {
-                if (EnemyActualPosition.X <= EnemyStandinPosition.X + 200)
+                if (EnemyActualPosition.X <= EnemyStandingPosition.X + 200)
                 {
                     EnemyActualPosition.X += 8;
                 }
@@ -593,7 +618,7 @@ namespace GameStateManagement
             }
             else
             {
-                if (EnemyActualPosition.X >= EnemyStandinPosition.X)
+                if (EnemyActualPosition.X >= EnemyStandingPosition.X)
                 {
                     EnemyActualPosition.X -= 8;
                 }
@@ -720,53 +745,53 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 520);
+                    enemy = new EnemyFighter("Goblin", 1, 100, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "ripper":
-                    enemy = new EnemyFighter("Ripper", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 520);
+                    enemy = new EnemyFighter("Ripper", 2, 60, 60, 8, 8, 8, 8, 40, 50);
+                    EnemyStandingPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
+                case "demon":
+                    enemy = new EnemyFighter("Demon", 3, 75, 75, 10, 10, 10, 5, 65, 75);
+                    EnemyStandingPosition = new Vector2(560, 500);
+                    EnemyActualPosition = new Vector2(-40, 500);
+                    break;
                 case "knight":
-                    enemy = new EnemyFighter("Knight", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                    enemy = new EnemyFighter("Knight", 4, 50, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
                 case "knightmaster":
-                    enemy = new EnemyFighter("Knightmaster", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                    enemy = new EnemyFighter("Knightmaster", 5, 50, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
-                case "demon":
-                    enemy = new EnemyFighter("Demon", 3, 75, 75, 10, 10, 5, 5, 50, 25);
-                    EnemyStandinPosition = new Vector2(560, 500);
-                    EnemyActualPosition = new Vector2(-40, 500);
-                    break;
-                case "demon1":
-                    enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                case "knightmaster2":
+                    enemy = new EnemyFighter("Knightmaster", 5, 50, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
                 case "ddragon":
                     enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115, 25);
-                    EnemyStandinPosition = new Vector2(560, 290);
+                    EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
                 case "runic":
                     enemy = new EnemyFighter("StoneBoy", 7, 700, 500, 50, 80, 10, 10, 350, 25);
-                    EnemyStandinPosition = new Vector2(560, 290);
+                    EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
                 case "queen":
                     enemy = new EnemyFighter("Dark Queen", 10, 1000, 1000, 100, 50, 50, 50, 1000, 25);
-                    EnemyStandinPosition = new Vector2(460, 390);
+                    EnemyStandingPosition = new Vector2(460, 390);
                     EnemyActualPosition = new Vector2(-140, 390);
                     break;
                 default:
                     enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
             }
@@ -854,7 +879,6 @@ namespace GameStateManagement
                     MainActualPosition.Y -= 50;
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
-                    
                     break;
                 case 1: //Keule
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");   

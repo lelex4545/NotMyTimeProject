@@ -77,6 +77,10 @@
     <Compile Include="ScreenManager\InputState.cs" />
     <Compile Include="ScreenManager\ScreenManager.cs" />
     <Compile Include="Screens\SystemScreens\BackgroundScreen.cs" />
+    <Compile Include="Screens\UnsereScreens\Animation\ThunderAnimation.cs" />
+    <Compile Include="Screens\UnsereScreens\Animation\HealingAnimation.cs" />
+    <Compile Include="Screens\UnsereScreens\Animation\IceAnimation.cs" />
+    <Compile Include="Screens\UnsereScreens\Animation\FireAnimation.cs" />
     <Compile Include="Screens\UnsereScreens\BattlePopup.cs" />
     <Compile Include="Screens\UnsereScreens\BattleScreen.cs" />
     <Compile Include="Screens\UnsereScreens\FirstMap.cs" />
@@ -113,6 +117,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

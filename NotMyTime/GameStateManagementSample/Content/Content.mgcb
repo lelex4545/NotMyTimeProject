@@ -108,6 +108,18 @@
 /processorParam:TextureFormat=Color
 /build:Battle/Animations/Cure1.png
 
+#begin Battle/Animations/Cure2.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/Animations/Cure2.png
+
 #begin Battle/Animations/Explosion2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -120,7 +132,7 @@
 /processorParam:TextureFormat=Color
 /build:Battle/Animations/Explosion2.png
 
-#begin Battle/Animations/Ice5.png
+#begin Battle/Animations/Ice.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -130,7 +142,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Battle/Animations/Ice5.png
+/build:Battle/Animations/Ice.png
 
 #begin Battle/Animations/Thunder2.png
 /importer:TextureImporter
@@ -1861,6 +1873,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:tile17.png
+
+#begin tile18.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tile18.png
+
+#begin tile19.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tile19.png
 
 #begin tile2.png
 /importer:TextureImporter

@@ -24,6 +24,11 @@ namespace GameStateManagement
         private Random random = new Random();
         private float pauseAlpha;
 
+        Map map;
+        Player player;
+        private Camera camera;
+        Inventory inventory;
+        public LootManager lootManager;
 
 
 
@@ -39,6 +44,13 @@ namespace GameStateManagement
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
+            inventory = new Inventory();
+            map = new Map();
+            player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
+            camera = new Camera();
+            if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
+            if (lootManager == null) lootManager = new LootManager();
+
         }
 
         /// <summary>
@@ -46,11 +58,20 @@ namespace GameStateManagement
         /// </summary>
         public override void LoadContent()
         {
+
+
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
-
             gameFont = content.Load<SpriteFont>("gamefont");
 
+
+            Sprite.Content = content;
+
+            Tiles.Content = content;
+            lootManager.LoadContent(content);
+            inventory.LoadContent(content, "Inventar");
+            map.generateMap3();
+            player.generatePlayer();
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
@@ -95,7 +116,10 @@ namespace GameStateManagement
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
 
-
+                player.updatePosition(gameTime, map);
+                camera.Follow(player);
+                
+                //lootManager.Update(gameTime);
 
             }
         }
@@ -145,7 +169,12 @@ namespace GameStateManagement
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(transformMatrix: camera.Transform);
+
+            map.Draw(spriteBatch);
+            player.Draw(spriteBatch);
+            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
 
 
