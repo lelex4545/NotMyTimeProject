@@ -34,10 +34,10 @@ namespace GameStateManagement
             Manapoints += 25;
             CurrentLP = Lifepoints;
             CurrentMP = Manapoints;
-            Damage += 5;
-            Strength += 1;
-            Agility += 1;
-            Intelligence += 1;
+            Damage += 2;
+            Strength += 2;
+            Agility += 2;
+            Intelligence += 4;
         }
     }
 }

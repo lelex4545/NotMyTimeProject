@@ -22,7 +22,7 @@ namespace GameStateManagement
         int a = 0;
         int b = 0;
         int timeSinceLastFrame = 0;
-        int millisecondsPerFrame = 150;
+        int millisecondsPerFrame = 125;
 
         Vector2 targetPosition;
 

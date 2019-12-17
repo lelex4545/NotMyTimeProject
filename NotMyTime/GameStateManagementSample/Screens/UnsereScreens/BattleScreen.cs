@@ -777,22 +777,22 @@ namespace GameStateManagement
             {
                 //World1
                 case "goblin":
-                    enemy = new EnemyFighter("Goblin", 1, 100, 50, 5, 5, 15, 5, 25, 25);
+                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 15, 5, 35, 20);
                     EnemyStandingPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "ripper":
-                    enemy = new EnemyFighter("Ripper", 2, 60, 60, 8, 8, 8, 8, 40, 50);
+                    enemy = new EnemyFighter("Ripper", 2, 75, 75, 8, 8, 8, 8, 45, 30);
                     EnemyStandingPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "demon":
-                    enemy = new EnemyFighter("Demon", 3, 75, 75, 10, 10, 10, 5, 65, 75);
+                    enemy = new EnemyFighter("Demon", 3, 90, 90, 10, 10, 10, 5, 67, 40);
                     EnemyStandingPosition = new Vector2(560, 500);
                     EnemyActualPosition = new Vector2(-40, 500);
                     break;
                 case "ddragon":
-                    enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115, 25);
+                    enemy = new EnemyFighter("Draggy", 4, 250, 100, 15, 10, 15, 15, 200, 100);
                     EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
@@ -800,18 +800,18 @@ namespace GameStateManagement
                 //World2
                 case "knight":
                     enemy = new EnemyFighter("Knight", 4, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandingPosition = new Vector2(560, 560);
-                    EnemyActualPosition = new Vector2(-40, 560);
+                    EnemyStandingPosition = new Vector2(560, 480);
+                    EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "knightmaster":
                     enemy = new EnemyFighter("Knightmaster", 5, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandingPosition = new Vector2(560, 560);
-                    EnemyActualPosition = new Vector2(-40, 560);
+                    EnemyStandingPosition = new Vector2(560, 480);
+                    EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "knightchief":
                     enemy = new EnemyFighter("Knightchief", 6, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandingPosition = new Vector2(560, 560);
-                    EnemyActualPosition = new Vector2(-40, 560);
+                    EnemyStandingPosition = new Vector2(560, 480);
+                    EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "runicgolem":
                     enemy = new EnemyFighter("Runic Golem", 7, 700, 500, 50, 80, 10, 10, 350, 25);
@@ -924,6 +924,12 @@ namespace GameStateManagement
                 case 1: //Keule
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");   
                     break;
+                case 2: //Schwert
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon2");
+                    break;
+                case 3: //Morgen
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon3");
+                    break;
                 default: //Hand
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");            
                     break;
@@ -931,13 +937,18 @@ namespace GameStateManagement
         }
         public void DrawMainChar(SpriteBatch spriteBatch)
         {
-            debugger = weaponType + "";
             switch (weaponType)
             {
                 case 0: //Speer
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 case 1: //Keule
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case 2: //Schwert
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case 3: //Morgen
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 default: //Hand
