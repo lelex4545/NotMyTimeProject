@@ -53,7 +53,7 @@ namespace GameStateManagement
 
             inventory = new Inventory();
             map = new Map();
-
+            
             randomPositions = new Vector2[6][];
 
             for (int i = 0; i < 6; i++)
@@ -100,6 +100,7 @@ namespace GameStateManagement
             player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
             if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
+            mainChar.currentWorldID = 2;
             if (lootManager == null) lootManager = new LootManager();
             gui = new GUI();
         }
