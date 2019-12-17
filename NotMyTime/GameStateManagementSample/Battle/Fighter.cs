@@ -69,7 +69,7 @@ namespace GameStateManagement
         }
         public override int AttackCalc()
         {
-            return Stats.Strength + Stats.Damage + Stats.Agility / 2;
+            return Stats.Strength + Stats.Damage + Stats.Agility / 2 + GetWeaponDamage();
         }
 
         public new string Ausgabe()
@@ -85,6 +85,19 @@ namespace GameStateManagement
         public int GetGold()
         {
             return gold;
+        }
+
+        public int GetWeaponDamage()
+        {
+            if (currentWeaponID == -1)
+            {
+
+            }
+            else if(currentWeaponID == 0)
+            {
+
+            }
+            return 0;
         }
 
         public void SetGold(EnemyFighter enemy)
