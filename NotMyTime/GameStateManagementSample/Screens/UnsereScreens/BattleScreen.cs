@@ -67,7 +67,7 @@ namespace GameStateManagement
         /*     Animationsvariablen      */
         Vector2 MainStandinPosition;
         Vector2 MainActualPosition;
-        Vector2 EnemyStandinPosition;
+        Vector2 EnemyStandingPosition;
         Vector2 EnemyActualPosition;
         bool hasEntered = false;
         bool attackAnimationIsPlaying = false;
@@ -81,19 +81,7 @@ namespace GameStateManagement
         bool battleOver = false;
 
         /*  MAGIC ANIMATION LOGIC */
-        bool magicAnimationRunning = false;
-        bool heroIsCasting = false;
-        bool enemyIsCasting = false;
-
-        /* ICEANIMATION */
-        Texture2D magic_ice;
-        Rectangle[,] iceAnimation;
-        Rectangle currentIceAnimation;
-        int a;
-        int b;
-        int timeSinceLastFrame = 0;
-        int millisecondsPerFrame = 200;
-        int elapsedTime;
+        Boolean magicAnimationRunning = false;
 
         /*   RANDOM NUMBER GENERATOR       */
         private static readonly Random random = new Random();
@@ -141,19 +129,6 @@ namespace GameStateManagement
 
             MainStandinPosition = new Vector2(1216, 540);
             MainActualPosition = new Vector2(1960, 540);
-
-            //ICE_ANIMATION
-            iceAnimation = new Rectangle[5,5];
-            int x = 192;
-            int y = 192;
-            for(int i = 0; i < 5; i++)
-            {
-                for(int j = 0; j < 5; j++)
-                {
-                    iceAnimation[i,j] = new Rectangle(new Point(x*i,y*j),new Point(192));
-                }
-            }
-
             LoadEnemy();
         }
 
@@ -199,8 +174,6 @@ namespace GameStateManagement
 
             enemy.StatFont = content.Load<SpriteFont>("Arial");
 
-            magic_ice = content.Load<Texture2D>("Battle/Animations/Ice5");
-
             //TO DO Model mit korrekter Waffe laden
             LoadMainCharTexture();
 
@@ -241,10 +214,9 @@ namespace GameStateManagement
 
             if (IsActive && !battleOver)
             {
-                elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
                 if (!hasEntered)        //Die Kämpfer werden von außen nach innen eingeblendet
                 {
-                    if (EnemyActualPosition.X != EnemyStandinPosition.X && MainActualPosition.X != MainStandinPosition.X)
+                    if (EnemyActualPosition.X != EnemyStandingPosition.X && MainActualPosition.X != MainStandinPosition.X)
                     {
                         MainActualPosition.X -= 24;
                         EnemyActualPosition.X += 20;
@@ -390,18 +362,6 @@ namespace GameStateManagement
             if (enemy.Stats.CurrentLP > 0)
                 DrawEnemy(spriteBatch);
 
-            if (magicAnimationRunning)
-            {
-                if (heroIsCasting)
-                {
-                    spriteBatch.Draw(magic_ice, EnemyStandinPosition, currentIceAnimation, Color.White,0f,new Vector2(),1.5f,SpriteEffects.None,0f);
-                }
-                else if (enemyIsCasting)
-                {
-
-                }
-            }
-
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.
@@ -503,7 +463,7 @@ namespace GameStateManagement
         {
             if (!attackHit)
             {
-                if (MainActualPosition.X >= EnemyStandinPosition.X)
+                if (MainActualPosition.X >= EnemyStandingPosition.X)
                 {
                     MainActualPosition.X -= 25;
                 }
@@ -547,27 +507,30 @@ namespace GameStateManagement
                 else
                 {
                     magicAnimationRunning = true;
-                    if (magicAnimationRunning)
+                    if (i == 1)
                     {
-                        heroIsCasting = true;
-                        timeSinceLastFrame += elapsedTime;
-                        if (timeSinceLastFrame > millisecondsPerFrame)
-                        {
-                            timeSinceLastFrame -= millisecondsPerFrame;
-                            currentIceAnimation = iceAnimation[a, b++];
-                        }
-                        if (b == 5)
-                        {
-                            a++;
-                            b = 0;
-                        }
-                        if (a == 5) magicAnimationRunning = false;
+                        ScreenManager.AddScreen(new HealingAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (i == 2)
+                    {s
+                        ScreenManager.AddScreen(new FireAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (i == 3)
+                    {
+                        ScreenManager.AddScreen(new IceAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (i == 4)
+                    {
+                        ScreenManager.AddScreen(new ThunderAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
                     }
                     if (!magicAnimationRunning)
                     {
                         main.Attack(enemy, i);
                         attackHit = true;
-                        heroIsCasting = false;
                     }
                 }
             }
@@ -610,7 +573,7 @@ namespace GameStateManagement
             }
             else
             {
-                if (EnemyActualPosition.X >= EnemyStandinPosition.X)
+                if (EnemyActualPosition.X >= EnemyStandingPosition.X)
                 {
                     EnemyActualPosition.X -= 25;
                 }
@@ -635,7 +598,7 @@ namespace GameStateManagement
         {
             if (!attackHit)
             {
-                if (EnemyActualPosition.X <= EnemyStandinPosition.X + 200)
+                if (EnemyActualPosition.X <= EnemyStandingPosition.X + 200)
                 {
                     EnemyActualPosition.X += 8;
                 }
@@ -647,7 +610,7 @@ namespace GameStateManagement
             }
             else
             {
-                if (EnemyActualPosition.X >= EnemyStandinPosition.X)
+                if (EnemyActualPosition.X >= EnemyStandingPosition.X)
                 {
                     EnemyActualPosition.X -= 8;
                 }
@@ -764,53 +727,53 @@ namespace GameStateManagement
             switch (enemyName)
             {
                 case "goblin":
-                    enemy = new EnemyFighter("Goblin", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 520);
+                    enemy = new EnemyFighter("Goblin", 1, 100, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "ripper":
                     enemy = new EnemyFighter("Ripper", 2, 60, 60, 8, 8, 8, 8, 40, 50);
-                    EnemyStandinPosition = new Vector2(560, 520);
+                    EnemyStandingPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "demon":
                     enemy = new EnemyFighter("Demon", 3, 75, 75, 10, 10, 10, 5, 65, 75);
-                    EnemyStandinPosition = new Vector2(560, 500);
+                    EnemyStandingPosition = new Vector2(560, 500);
                     EnemyActualPosition = new Vector2(-40, 500);
                     break;
                 case "knight":
-                    enemy = new EnemyFighter("Knight", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                    enemy = new EnemyFighter("Knight", 4, 50, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
                 case "knightmaster":
-                    enemy = new EnemyFighter("Knightmaster", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                    enemy = new EnemyFighter("Knightmaster", 5, 50, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
-                case "demon1":
-                    enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                case "knightmaster2":
+                    enemy = new EnemyFighter("Knightmaster", 5, 50, 50, 5, 5, 15, 5, 25, 25);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
                 case "ddragon":
                     enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115, 25);
-                    EnemyStandinPosition = new Vector2(560, 290);
+                    EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
                 case "runic":
                     enemy = new EnemyFighter("StoneBoy", 7, 700, 500, 50, 80, 10, 10, 350, 25);
-                    EnemyStandinPosition = new Vector2(560, 290);
+                    EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
                 case "queen":
                     enemy = new EnemyFighter("Dark Queen", 10, 1000, 1000, 100, 50, 50, 50, 1000, 25);
-                    EnemyStandinPosition = new Vector2(460, 390);
+                    EnemyStandingPosition = new Vector2(460, 390);
                     EnemyActualPosition = new Vector2(-140, 390);
                     break;
                 default:
                     enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50, 25);
-                    EnemyStandinPosition = new Vector2(560, 560);
+                    EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
             }
@@ -897,7 +860,6 @@ namespace GameStateManagement
                     MainActualPosition.Y -= 50;
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
-
                     break;
                 case 1: //Keule
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");
