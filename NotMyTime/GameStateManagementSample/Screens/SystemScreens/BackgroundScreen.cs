@@ -31,6 +31,11 @@ namespace GameStateManagement
 
         private ContentManager content;
         private Texture2D backgroundTexture;
+        private Texture2D backgroundText;
+
+        float mScaleValue = 1;
+        float mScaleIncrement = 0.005f;
+        double mScaleDelay = 0.05;
 
         #endregion Fields
 
@@ -58,6 +63,7 @@ namespace GameStateManagement
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             backgroundTexture = content.Load<Texture2D>("background");
+            backgroundText = content.Load<Texture2D>("background_font");
         }
 
         /// <summary>
@@ -98,6 +104,30 @@ namespace GameStateManagement
 
             spriteBatch.Draw(backgroundTexture, fullscreen,
                              new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+
+            mScaleDelay -= gameTime.ElapsedGameTime.TotalSeconds;
+
+            //If the Fade delays has dropped below zero, then it is time to 
+            //fade in/fade out the image a little bit more.
+            if (mScaleDelay <= 0)
+            {
+                //Reset the Fade delay
+                mScaleDelay = 0.05;
+
+                //Increment/Decrement the fade value for the image
+                mScaleValue += mScaleIncrement;
+
+                //If the AlphaValue is equal or above the max Alpha value or
+                //has dropped below or equal to the min Alpha value, then 
+                //reverse the fade
+                if (mScaleValue >= 1.05f || mScaleValue <= 0.95f)
+                {
+                    mScaleIncrement *= -1;
+                }
+            }
+
+            spriteBatch.Draw(backgroundText, new Vector2(viewport.Width/2,viewport.Height/2 - 250), null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha),
+                0f, new Vector2(backgroundText.Width / 2, backgroundText.Height / 2), mScaleValue, SpriteEffects.None, 0f);
 
             spriteBatch.End();
         }

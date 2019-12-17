@@ -727,7 +727,7 @@ namespace GameStateManagement
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
-                case "demon2":
+                case "demon":
                     enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
@@ -773,7 +773,7 @@ namespace GameStateManagement
                 case "demon1":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon1");
                     break;
-                case "demon2":
+                case "demon":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon2");
                     break;
                 case "ddragon":
@@ -809,7 +809,7 @@ namespace GameStateManagement
                 case "demon1":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
-                case "demon2":
+                case "demon":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 case "ddragon":
