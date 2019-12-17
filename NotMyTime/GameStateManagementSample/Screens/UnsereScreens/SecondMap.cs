@@ -209,7 +209,7 @@ namespace GameStateManagement
                     portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager);
 
                 if (boss1 != null && !boss1.IsAlive) boss1 = null;
-                if (boss1 != null) boss1.updateSpecial(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
+                if (boss1 != null) boss1.updateSpecial(gameTime, map, player, ScreenManager, ControllingPlayer, boss1);
 
                 lootManager.Update(gameTime);
 
@@ -273,7 +273,7 @@ namespace GameStateManagement
 
 
             if (boss != null) boss.Draw(spriteBatch);
-            if (boss != null) boss1.Draw(spriteBatch);
+            if (boss1 != null) boss1.Draw(spriteBatch);
 
             if (boss == null)
                 portal.Draw(spriteBatch);
