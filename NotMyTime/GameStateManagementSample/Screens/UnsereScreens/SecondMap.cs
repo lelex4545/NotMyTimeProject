@@ -23,9 +23,7 @@ namespace GameStateManagement
         private SpriteFont gameFont;
         private Random random = new Random();
         private float pauseAlpha;
-
-        public static MainFighter mainChar;
-        public static LootManager lootManager;
+        public LootManager lootManager;
 
 
         Map map;                       //Map
@@ -35,7 +33,7 @@ namespace GameStateManagement
         public Boss boss;
         Inventory inventory;
         private Camera camera;
-        
+        GUI gui;
 
 
 
@@ -55,10 +53,13 @@ namespace GameStateManagement
             map = new Map();
             player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
-            mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
-            //lootManager = lootManager1;
-            //mainChar = mainChar1;
-
+            if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
+            if (lootManager == null) lootManager = new LootManager();
+            gui = new GUI();
+        }
+        public SecondMap(LootManager lootManager) : this()
+        {
+            this.lootManager = lootManager;
         }
 
         /// <summary>
@@ -73,10 +74,10 @@ namespace GameStateManagement
             Sprite.Content = content;
 
             Tiles.Content = content;
-
+            lootManager.LoadContent(content);
             inventory.LoadContent(content, "Inventar");
             map.generateMap2();
-
+            gui.LoadContent(content);
             player.generatePlayer();
 
             
@@ -126,9 +127,7 @@ namespace GameStateManagement
                 // it by inserting something more interesting in this space :-)
                 player.updatePosition(gameTime, map);
                 camera.Follow(player);
-
-                //if (lootManager.lootList.Count != 0)
-                   // lootManager.update(gameTime);
+                lootManager.Update(gameTime);
 
             }
         }
@@ -185,7 +184,8 @@ namespace GameStateManagement
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
-            //lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gui.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.

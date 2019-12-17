@@ -55,11 +55,11 @@ namespace GameStateManagement
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
             mainChar = new MainFighter("Bruce", 100, 100, 15, 10, 10, 10);
-            lootManager = new LootManager(mainChar);
+            lootManager = new LootManager();
             
             loot1 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon");
             loot2 = new Loot(1, 1400, 850, 50, 100, 1450, 900, 0.5f, 1.0f, 924, 412, "weapon2");
-            gui = new GUI(mainChar);
+            gui = new GUI();
             gold1 = new Gold(100, 1250, 850, 50, 50, 1300, 900, 1.0f);
             gold2 = new Gold(150, 1150, 1000, 50, 50, 1200, 1100, 1.0f);
 
@@ -202,13 +202,10 @@ namespace GameStateManagement
                 for (int i = 0; i<enemyList.Length; i++)
                     if(enemyList[i]!=null)enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
 
-                if (boss != null && !boss.IsAlive)
-                {
-                    boss = null;
-                }
+                if (boss != null && !boss.IsAlive) boss = null;
                 if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
                 if(boss == null)
-                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, mainChar, lootManager);
+                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager);
 
                 camera.Follow(player);
                 //inventory.openInventory(gameTime);
@@ -223,7 +220,7 @@ namespace GameStateManagement
                 gold2.updateFont(gameTime);
                 //lootManager updaten
                 if(lootManager.lootList.Count != 0)
-                    lootManager.update(gameTime);
+                    lootManager.Update(gameTime);
 
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)

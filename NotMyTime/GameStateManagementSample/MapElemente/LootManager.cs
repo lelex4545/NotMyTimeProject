@@ -15,7 +15,6 @@ namespace GameStateManagement
     {
         public ArrayList lootList { get; set; }
         public Loot currentLoot { get; set; }
-        MainFighter mainChar;
         public int nr = 0;
 
         public float lastChange;
@@ -44,13 +43,12 @@ namespace GameStateManagement
         }
 
         //---------------------------------------------------------------- 
-        public LootManager(MainFighter mainChar)
+        public LootManager()
         {
             lootList = new ArrayList();
             lootList.Add(new Loot(-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "Battle/emptyLoot"));
             currentLoot = (Loot)lootList[nr];
-            this.mainChar = mainChar;
-            mainChar.currentWeaponID = currentLoot.id;
+            GameScreen.mainChar.currentWeaponID = currentLoot.id;
         }
 
         public void Draw(SpriteBatch spriteBatch, int x, int y)
@@ -65,7 +63,7 @@ namespace GameStateManagement
             }
         }
 
-        public void update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (Keyboard.GetState().IsKeyUp(Keys.Q))
@@ -79,7 +77,7 @@ namespace GameStateManagement
                     {
                         nr = (nr+1) % lootList.Count;
                         currentLoot = (Loot)lootList[nr];
-                        mainChar.currentWeaponID = currentLoot.id;
+                        GameScreen.mainChar.currentWeaponID = currentLoot.id;
                     }
                     keyBlock = false;
                 }
