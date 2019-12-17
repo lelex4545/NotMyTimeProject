@@ -47,8 +47,9 @@ namespace GameStateManagement
         Vector2[] magicBtnPos;
         Vector2 actualMagicBtn;
 
-        float elapsedTime;  //Zeitlogik f�r die Tasten
-        float delay = 150f;
+        bool keyBlock;
+        float lastChange;
+
 
         SpriteFont font;
         string debugger = "";
@@ -81,7 +82,7 @@ namespace GameStateManagement
         bool battleOver = false;
 
         /*  MAGIC ANIMATION LOGIC */
-        Boolean magicAnimationRunning = false;
+        bool magicAnimationRunning = false;
 
         /*   RANDOM NUMBER GENERATOR       */
         private static readonly Random random = new Random();
@@ -235,8 +236,12 @@ namespace GameStateManagement
                 }
                 else if (attackAnimationIsPlaying == false)         //Men� einblenden + Keine Kampfanimation
                 {
-                    elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if (elapsedTime >= delay)
+                    lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up)|| Keyboard.GetState().IsKeyDown(Keys.Down)|| Keyboard.GetState().IsKeyDown(Keys.Enter)|| Keyboard.GetState().IsKeyDown(Keys.Back))
+                    {
+                        keyBlock = true;
+                    }
+                    if (lastChange >= 0.1f && keyBlock)
                     {
                         if (!magicMenu)
                         {
@@ -250,7 +255,7 @@ namespace GameStateManagement
                                 btnIndex = (int)Mod(btnIndex + 1, 2);
                                 actualBtn = btnPos[btnIndex];
                             }
-                            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
+                            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                             {
                                 if (btnIndex == 0)
                                 {
@@ -286,7 +291,7 @@ namespace GameStateManagement
                                 actualBtn = btnPos[btnIndex];
                                 magicMenu = false;
                             }
-                            if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
+                            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                             {
                                 //TO DO es sollten nur F�higkeiten Ausw�hlbar sein, wof�r der Char gen�gend Mana hat -> nicht m�gliche F�higkeiten ausgrauen
                                 if (mainChar.Stats.CurrentMP >= 25)
@@ -300,8 +305,9 @@ namespace GameStateManagement
                                     actualBtn = btnPos[btnIndex];
                                 }
                             }
+                            keyBlock = false;
                         }
-                        elapsedTime = 0;
+                        lastChange = 0f;
                     }
                 }
                 else if (attackAnimationIsPlaying)

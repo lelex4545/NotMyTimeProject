@@ -89,13 +89,25 @@ namespace GameStateManagement
 
         public int GetWeaponDamage()
         {
-            if (currentWeaponID == -1)
+            if(currentWeaponID == 0)
             {
-
+                return 10;
             }
-            else if(currentWeaponID == 0)
+            else if (currentWeaponID == 1)
             {
-
+                return 5;
+            }
+            else if (currentWeaponID == 2)
+            {
+                return 20;
+            }
+            else if (currentWeaponID == 3)
+            {
+                return 40;
+            }
+            else if (currentWeaponID == 4)
+            {
+                return 75;
             }
             return 0;
         }
