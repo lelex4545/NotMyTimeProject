@@ -28,7 +28,7 @@ namespace GameStateManagement
 
         public LootManager lootManager;
         Map map;                       //Map
-        Vector2[][][] randomPositions;
+        Vector2[][] randomPositions;
         Player player;                 //Spielcharakter
         public Enemy[] enemyList;      //Spielgegner
         public Boss boss;              // Bossgegner
@@ -65,43 +65,40 @@ namespace GameStateManagement
 
             inventory = new Inventory();
             map = new Map();
-            randomPositions = new Vector2[3][][];
-            for (int i = 0; i < 3; i++)
-                randomPositions[i] = new Vector2[6][];
+            randomPositions = new Vector2[6][];
+            
+                for (int i = 0; i < 6; i++)
+                    randomPositions[i] = new Vector2[2];
 
-            for (int i = 0; i < 3; i++)
-                for (int j = 0; j < 6; j++)
-                    randomPositions[i][j] = new Vector2[2];
-
-            randomPositions[0][0][0] = new Vector2(11, 7);
-            randomPositions[0][0][1] = new Vector2(15, 10);
-            randomPositions[0][1][0] = new Vector2(12, 23);
-            randomPositions[0][1][1] = new Vector2(19, 31);
-            randomPositions[0][2][0] = new Vector2(31, 37);
-            randomPositions[0][2][1] = new Vector2(36, 41);
-            randomPositions[0][3][0] = new Vector2(30, 8);
-            randomPositions[0][3][1] = new Vector2(40, 13);
-            randomPositions[0][4][0] = new Vector2(50, 34);
-            randomPositions[0][4][1] = new Vector2(57, 38);
-            randomPositions[0][5][0] = new Vector2(61, 34);
-            randomPositions[0][5][1] = new Vector2(70, 37);
+            randomPositions[0][0] = new Vector2(11, 7);
+            randomPositions[0][1] = new Vector2(15, 10);
+            randomPositions[1][0] = new Vector2(12, 23);
+            randomPositions[1][1] = new Vector2(19, 31);
+            randomPositions[2][0] = new Vector2(31, 37);
+            randomPositions[2][1] = new Vector2(36, 41);
+            randomPositions[3][0] = new Vector2(30, 8);
+            randomPositions[3][1] = new Vector2(40, 13);
+            randomPositions[4][0] = new Vector2(50, 34);
+            randomPositions[4][1] = new Vector2(57, 38);
+            randomPositions[5][0] = new Vector2(61, 34);
+            randomPositions[5][1] = new Vector2(70, 37);
 
             
             enemyList = new Enemy[20];
             // enemyList[0] = new Enemy(new Rectangle(13 * 100, 11 * 100, 100, 100));
-            enemyList[0] = new Enemy(randomPositions[0][0]);
-            enemyList[1] = new Enemy(randomPositions[0][1]);
-            enemyList[2] = new Enemy(randomPositions[0][1]);
-            enemyList[3] = new Enemy(randomPositions[0][1]);
-            enemyList[4] = new Enemy(randomPositions[0][2]);
-            enemyList[5] = new Enemy(randomPositions[0][2]);
-            enemyList[6] = new Enemy(randomPositions[0][3]);
-            enemyList[7] = new Enemy(randomPositions[0][3]);
-            enemyList[8] = new Enemy(randomPositions[0][3]);
-            enemyList[9] = new Enemy(randomPositions[0][4]);
-            enemyList[10] = new Enemy(randomPositions[0][4]);
-            enemyList[11] = new Enemy(randomPositions[0][5]);
-            enemyList[12] = new Enemy(randomPositions[0][5]);
+            enemyList[0] = new Enemy(randomPositions[0]);
+            enemyList[1] = new Enemy(randomPositions[1]);
+            enemyList[2] = new Enemy(randomPositions[1]);
+            enemyList[3] = new Enemy(randomPositions[1]);
+            enemyList[4] = new Enemy(randomPositions[2]);
+            enemyList[5] = new Enemy(randomPositions[2]);
+            enemyList[6] = new Enemy(randomPositions[3]);
+            enemyList[7] = new Enemy(randomPositions[3]);
+            enemyList[8] = new Enemy(randomPositions[3]);
+            enemyList[9] = new Enemy(randomPositions[4]);
+            enemyList[10] = new Enemy(randomPositions[4]);
+            enemyList[11] = new Enemy(randomPositions[5]);
+            enemyList[12] = new Enemy(randomPositions[5]);
 
             boss = new Boss(new Rectangle(5400, 800, 200, 200), "ddragon");
             portal = new Portal(new Rectangle(5400, 800, 100, 100), "portalblue");

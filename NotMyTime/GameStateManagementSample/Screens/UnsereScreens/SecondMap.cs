@@ -27,10 +27,12 @@ namespace GameStateManagement
 
 
         Map map;                       //Map
-        Vector2[][][] randomPositions;
+        Vector2[][] randomPositions;
         Player player;                 //Spielcharakter
         public Enemy[] enemyList;      //Spielgegner
         public Boss boss;
+        public Boss boss1;
+        public Portal portal;
         Inventory inventory;
         private Camera camera;
         GUI gui;
@@ -51,6 +53,50 @@ namespace GameStateManagement
 
             inventory = new Inventory();
             map = new Map();
+
+            randomPositions = new Vector2[6][];
+
+            for (int i = 0; i < 6; i++)
+                randomPositions[i] = new Vector2[2];
+
+            randomPositions[0][0] = new Vector2(14, 1);
+            randomPositions[0][1] = new Vector2(24, 12);
+            randomPositions[1][0] = new Vector2(2, 24);
+            randomPositions[1][1] = new Vector2(9, 34);
+            randomPositions[2][0] = new Vector2(11, 32);
+            randomPositions[2][1] = new Vector2(28, 34);
+            randomPositions[3][0] = new Vector2(36, 23);
+            randomPositions[3][1] = new Vector2(43, 34);
+            randomPositions[4][0] = new Vector2(26, 1);
+            randomPositions[4][1] = new Vector2(33, 12);
+            randomPositions[5][0] = new Vector2(47, 29);
+            randomPositions[5][1] = new Vector2(58, 34);
+            enemyList = new Enemy[20];
+
+            enemyList[0] = new Enemy(randomPositions[0]);
+            enemyList[1] = new Enemy(randomPositions[0]);
+            enemyList[2] = new Enemy(randomPositions[0]);
+            enemyList[3] = new Enemy(randomPositions[0]);
+            enemyList[4] = new Enemy(randomPositions[0]);
+            enemyList[5] = new Enemy(randomPositions[1]);
+            enemyList[6] = new Enemy(randomPositions[1]);
+            enemyList[7] = new Enemy(randomPositions[1]);
+            enemyList[8] = new Enemy(randomPositions[2]);
+            enemyList[9] = new Enemy(randomPositions[2]);
+            enemyList[10] = new Enemy(randomPositions[3]);
+            enemyList[11] = new Enemy(randomPositions[3]);
+            enemyList[12] = new Enemy(randomPositions[3]);
+            enemyList[13] = new Enemy(randomPositions[4]);
+            enemyList[14] = new Enemy(randomPositions[4]);
+            enemyList[15] = new Enemy(randomPositions[4]);
+            enemyList[16] = new Enemy(randomPositions[5]);
+            enemyList[17] = new Enemy(randomPositions[5]);
+            enemyList[18] = new Enemy(randomPositions[5]);
+
+            boss = new Boss(new Rectangle(5200, 100, 200, 200), "runicgolem");
+            boss1 = new Boss(new Rectangle(5300, 1400, 100, 100), "knightchief");
+            portal = new Portal(new Rectangle(5200, 100, 100, 100), "portalred");
+
             player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
             if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
@@ -79,8 +125,35 @@ namespace GameStateManagement
             map.generateMap2();
             gui.LoadContent(content);
             player.generatePlayer();
+            //raum1
+            enemyList[0].generateEnemy("knight");
+            enemyList[1].generateEnemy("knight");
+            enemyList[2].generateEnemy("knight");
+            enemyList[3].generateEnemy("knight");
+            enemyList[4].generateEnemy("knight");
+            //raum2
+            enemyList[5].generateEnemy("knight");
+            enemyList[6].generateEnemy("knight");
+            enemyList[7].generateEnemy("knight");
+            //raum3
+            enemyList[8].generateEnemy("knight");
+            enemyList[9].generateEnemy("knight");
 
-            
+            enemyList[10].generateEnemy("knight");
+            enemyList[11].generateEnemy("knight");
+            enemyList[12].generateEnemy("knightmaster");
+            //raum5
+            enemyList[13].generateEnemy("knight");
+            enemyList[14].generateEnemy("knight");
+            enemyList[15].generateEnemy("knightmaster");
+            //raum6 vor bossraum
+            enemyList[16].generateEnemy("knightmaster");
+            enemyList[17].generateEnemy("knightmaster");
+            enemyList[18].generateEnemy("knightmaster");
+
+            boss.generateBoss();
+            boss1.generateSpecial();
+            portal.generatePortal();
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -127,6 +200,17 @@ namespace GameStateManagement
                 // it by inserting something more interesting in this space :-)
                 player.updatePosition(gameTime, map);
                 camera.Follow(player);
+                for (int i = 0; i < enemyList.Length; i++)
+                    if (enemyList[i] != null) enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
+
+                if (boss != null && !boss.IsAlive) boss = null;
+                if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
+                if (boss == null)
+                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager);
+
+                if (boss1 != null && !boss1.IsAlive) boss1 = null;
+                if (boss1 != null) boss1.updateSpecial(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
+
                 lootManager.Update(gameTime);
 
             }
@@ -183,6 +267,17 @@ namespace GameStateManagement
 
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
+
+            for (int i = 0; i < enemyList.Length; i++)
+                if (enemyList[i] != null) enemyList[i].Draw(spriteBatch);
+
+
+            if (boss != null) boss.Draw(spriteBatch);
+            if (boss != null) boss1.Draw(spriteBatch);
+
+            if (boss == null)
+                portal.Draw(spriteBatch);
+
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gui.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);

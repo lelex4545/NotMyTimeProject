@@ -20,8 +20,11 @@ namespace GameStateManagement
 
         public Boss(Rectangle rectangle,String name)
         {
-            bigRectangle = new Rectangle[4];
-            loadBigRectangle(rectangle);
+            if (rectangle.Height == 200)
+            {
+                bigRectangle = new Rectangle[4];
+                loadBigRectangle(rectangle);
+            }  
             this.rectangle = rectangle;
             this.name = name;
             moving = new Texture2D[3];
@@ -37,7 +40,20 @@ namespace GameStateManagement
             moving[1] = Content.Load<Texture2D>(name + "2");
             moving[2] = Content.Load<Texture2D>(name + "3");
         }
+        public void generateSpecial()
+        {
+            texture = Content.Load<Texture2D>(name);
+        }
 
+        public void updateSpecial(GameTime gametime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer, Boss boss)
+        {
+            
+                if (RectangleHelper.TouchCheck(this.rectangle, player.rectangle, 0))
+                {
+                    screenManager.AddScreen(new BattleScreen(boss), controllingPlayer);
+                }
+            
+        }
         public void updateBoss(GameTime gametime, Map map, Player player, ScreenManager screenManager, PlayerIndex? controllingPlayer, Boss boss)
         {
             move += (float)gametime.ElapsedGameTime.TotalSeconds;
