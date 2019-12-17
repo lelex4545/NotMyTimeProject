@@ -58,16 +58,18 @@ namespace GameStateManagement
     {
         public Levelsystem Level;
         public int currentWeaponID { get; set; }
+        public int currentWorldID { get; set; }
         private int gold;
         public MainFighter(String name, int lp, int mp, int dmg, int str, int ag, int intel) : base(name)
         {
             Stats = new Stats(lp, mp, dmg, str, ag, intel);
             Level = new Levelsystem(this);
             gold = 0;
+            currentWorldID = 1;
         }
         public override int AttackCalc()
         {
-            return Stats.Strength + Stats.Damage + Stats.Agility / 2;
+            return Stats.Strength + Stats.Damage + Stats.Agility / 2 + GetWeaponDamage();
         }
 
         public new string Ausgabe()
@@ -83,6 +85,31 @@ namespace GameStateManagement
         public int GetGold()
         {
             return gold;
+        }
+
+        public int GetWeaponDamage()
+        {
+            if(currentWeaponID == 0)
+            {
+                return 10;
+            }
+            else if (currentWeaponID == 1)
+            {
+                return 5;
+            }
+            else if (currentWeaponID == 2)
+            {
+                return 20;
+            }
+            else if (currentWeaponID == 3)
+            {
+                return 40;
+            }
+            else if (currentWeaponID == 4)
+            {
+                return 75;
+            }
+            return 0;
         }
 
         public void SetGold(EnemyFighter enemy)

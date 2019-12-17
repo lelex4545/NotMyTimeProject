@@ -34,12 +34,10 @@ namespace GameStateManagement
         private ContentManager content;
         private SpriteFont gameFont;
 
-        Texture2D fight_menu;   //Menüelmenete
+        Texture2D fight_menu;   //Menï¿½elmenete
         Texture2D menu_button;
         Texture2D magic_button;
-
-        bool keyBlock;
-        float lastChange;
+        Texture2D battlebackground;
 
         Vector2[] btnPos;
         int btnIndex = 0;
@@ -48,6 +46,10 @@ namespace GameStateManagement
         bool magicMenu = false;
         Vector2[] magicBtnPos;
         Vector2 actualMagicBtn;
+
+        bool keyBlock;
+        float lastChange;
+
 
         SpriteFont font;
         string debugger = "";
@@ -64,6 +66,8 @@ namespace GameStateManagement
         bool isBoss = false;
         Boss boss;
 
+        int randomEnemyMagic = 0;
+
         /*     Animationsvariablen      */
         Vector2 MainStandinPosition;
         Vector2 MainActualPosition;
@@ -73,7 +77,6 @@ namespace GameStateManagement
         bool attackAnimationIsPlaying = false;
         bool firstAttackAnimation = true;
         bool attackHit = false;
-
         int choosenAttack;
         int randomAttackPercentage = 0;
         int randomFight;// = 0;
@@ -81,7 +84,7 @@ namespace GameStateManagement
         bool battleOver = false;
 
         /*  MAGIC ANIMATION LOGIC */
-        Boolean magicAnimationRunning = false;
+        bool magicAnimationRunning = false;
 
         /*   RANDOM NUMBER GENERATOR       */
         private static readonly Random random = new Random();
@@ -153,6 +156,7 @@ namespace GameStateManagement
 
             gameFont = content.Load<SpriteFont>("gamefont");
 
+            LoadBackground(content);
 
             fight_menu = content.Load<Texture2D>("Battle/fight_menu3");
 
@@ -169,7 +173,7 @@ namespace GameStateManagement
             //Song song = Content.Load<Song>("Battle_Theme_01");
             //MediaPlayer.Play(song);
 
-            //TO DO Interface überarbeiten
+            //TO DO Interface ï¿½berarbeiten
             mainChar.StatFont = content.Load<SpriteFont>("Arial");
 
             enemy.StatFont = content.Load<SpriteFont>("Arial");
@@ -181,6 +185,15 @@ namespace GameStateManagement
             LoadEnemyTexture();
 
 
+
+            // A real game would probably have more content than this sample, so
+            // it would take longer to load. We simulate that by delaying for a
+            // while, giving you a chance to admire the beautiful loading screen.
+            //Thread.Sleep(1000);
+
+            // once the load has finished, we use ResetElapsedTime to tell the game's
+            // timing mechanism that we have just finished a very long frame, and that
+            // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
         }
 
@@ -209,12 +222,12 @@ namespace GameStateManagement
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
-            else if (!battleOver)
+            else
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
 
             if (IsActive && !battleOver)
             {
-                if (!hasEntered)        //Die Kämpfer werden von außen nach innen eingeblendet
+                if (!hasEntered)        //Die Kï¿½mpfer werden von auï¿½en nach innen eingeblendet
                 {
                     if (EnemyActualPosition.X != EnemyStandingPosition.X && MainActualPosition.X != MainStandinPosition.X)
                     {
@@ -223,14 +236,14 @@ namespace GameStateManagement
                     }
                     else hasEntered = true;
                 }
-                else if (attackAnimationIsPlaying == false)         //Menü einblenden + Keine Kampfanimation
+                else if (attackAnimationIsPlaying == false)         //Menï¿½ einblenden + Keine Kampfanimation
                 {
                     lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    if (Keyboard.GetState().IsKeyUp(Keys.Enter) || Keyboard.GetState().IsKeyUp(Keys.Down) || Keyboard.GetState().IsKeyUp(Keys.Up) || Keyboard.GetState().IsKeyUp(Keys.Back) || Keyboard.GetState().IsKeyUp(Keys.Left))
-                        //if (Keyboard.GetState().IsKeyUp(Keys.Down))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up)|| Keyboard.GetState().IsKeyDown(Keys.Down)|| Keyboard.GetState().IsKeyDown(Keys.Enter)|| Keyboard.GetState().IsKeyDown(Keys.Back))
+                    {
                         keyBlock = true;
-
-                    if (lastChange >= 0.11f && keyBlock)
+                    }
+                    if (lastChange >= 0.1f && keyBlock)
                     {
                         if (!magicMenu)
                         {
@@ -249,6 +262,7 @@ namespace GameStateManagement
                                 if (btnIndex == 0)
                                 {
                                     attackAnimationIsPlaying = true;
+                                    randomEnemyMagic = RandomNumber(2, 4);
                                     randomAttackPercentage = RandomNumber(1, 101);
                                     if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex;
@@ -282,10 +296,11 @@ namespace GameStateManagement
                             }
                             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                             {
-                                //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
+                                //TO DO es sollten nur Fï¿½higkeiten Auswï¿½hlbar sein, wofï¿½r der Char genï¿½gend Mana hat -> nicht mï¿½gliche Fï¿½higkeiten ausgrauen
                                 if (mainChar.Stats.CurrentMP >= 25)
                                 {
                                     attackAnimationIsPlaying = true;
+                                    randomEnemyMagic = RandomNumber(2, 4);
                                     randomAttackPercentage = RandomNumber(1, 101);
                                     if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex + 1;
@@ -304,7 +319,7 @@ namespace GameStateManagement
                     Fight(mainChar, enemy, choosenAttack);
                 }
             }
-            else if (IsActive && battleOver)
+            else if(IsActive && battleOver)
             {
                 ExitScreen();
             }
@@ -354,6 +369,8 @@ namespace GameStateManagement
 
             spriteBatch.Begin();
 
+            spriteBatch.Draw(battlebackground, new Vector2(0, 0), Color.White);
+
             DrawLayout(spriteBatch);
 
             if (mainChar.Stats.CurrentLP > 0)
@@ -378,7 +395,7 @@ namespace GameStateManagement
         #region Other Methods
         void Fight(MainFighter main, EnemyFighter enemy, int i)
         {
-            //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen + nicht klickbar machen
+            //TO DO es sollten nur Fï¿½higkeiten Auswï¿½hlbar sein, wofï¿½r der Char genï¿½gend Mana hat -> nicht mï¿½gliche Fï¿½higkeiten ausgrauen + nicht klickbar machen
             int result = main.compareSpeed(enemy);
             if (result == 1)
             {
@@ -569,6 +586,7 @@ namespace GameStateManagement
                 {
                     enemy.Attack(main);
                     attackHit = true;
+                    
                 }
             }
             else
@@ -604,8 +622,29 @@ namespace GameStateManagement
                 }
                 else
                 {
-                    enemy.Magic(main, RandomNumber(2, 4));
-                    attackHit = true;
+                    magicAnimationRunning = true;
+                    if (randomEnemyMagic == 2)
+                    {
+                        ScreenManager.AddScreen(new FireAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (randomEnemyMagic == 3)
+                    {
+                        ScreenManager.AddScreen(new IceAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    else if (randomEnemyMagic == 4)
+                    {
+                        ScreenManager.AddScreen(new ThunderAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                        magicAnimationRunning = false;
+                    }
+                    if (!magicAnimationRunning)
+                    {
+                        enemy.Magic(main, randomEnemyMagic);
+                        attackHit = true;
+                    }
+                    
+                    
                 }
             }
             else
@@ -715,6 +754,16 @@ namespace GameStateManagement
                 new Vector2(109, 160), Color.White);
         }
 
+        void LoadBackground(ContentManager content)
+        {
+            if(mainChar.currentWorldID == 1)
+                battlebackground = content.Load<Texture2D>("battlebackground1");
+            if (mainChar.currentWorldID == 2)
+                battlebackground = content.Load<Texture2D>("battlebackground2");
+            if (mainChar.currentWorldID == 3)
+                battlebackground = content.Load<Texture2D>("battlebackground1");
+        }
+
         public double Mod(double a, double b)
         {
             return a - b * Math.Floor(a / b);
@@ -726,6 +775,7 @@ namespace GameStateManagement
         {
             switch (enemyName)
             {
+                //World1
                 case "goblin":
                     enemy = new EnemyFighter("Goblin", 1, 100, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandingPosition = new Vector2(560, 520);
@@ -741,6 +791,13 @@ namespace GameStateManagement
                     EnemyStandingPosition = new Vector2(560, 500);
                     EnemyActualPosition = new Vector2(-40, 500);
                     break;
+                case "ddragon":
+                    enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115, 25);
+                    EnemyStandingPosition = new Vector2(560, 290);
+                    EnemyActualPosition = new Vector2(-40, 290);
+                    break;
+
+                //World2
                 case "knight":
                     enemy = new EnemyFighter("Knight", 4, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandingPosition = new Vector2(560, 560);
@@ -751,26 +808,20 @@ namespace GameStateManagement
                     EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
-                case "knightmaster2":
-                    enemy = new EnemyFighter("Knightmaster", 5, 50, 50, 5, 5, 15, 5, 25, 25);
+                case "knightchief":
+                    enemy = new EnemyFighter("Knightchief", 6, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandingPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
                     break;
-                case "ddragon":
-                    enemy = new EnemyFighter("Draggy", 4, 100, 100, 1, 1, 10, 10, 115, 25);
+                case "runicgolem":
+                    enemy = new EnemyFighter("Runic Golem", 7, 700, 500, 50, 80, 10, 10, 350, 25);
                     EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
-                case "runic":
-                    enemy = new EnemyFighter("StoneBoy", 7, 700, 500, 50, 80, 10, 10, 350, 25);
-                    EnemyStandingPosition = new Vector2(560, 290);
-                    EnemyActualPosition = new Vector2(-40, 290);
-                    break;
-                case "queen":
-                    enemy = new EnemyFighter("Dark Queen", 10, 1000, 1000, 100, 50, 50, 50, 1000, 25);
-                    EnemyStandingPosition = new Vector2(460, 390);
-                    EnemyActualPosition = new Vector2(-140, 390);
-                    break;
+
+                //World3
+
+
                 default:
                     enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50, 25);
                     EnemyStandingPosition = new Vector2(560, 560);
@@ -782,6 +833,7 @@ namespace GameStateManagement
         {
             switch (enemyName)
             {
+                //World1
                 case "goblin":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/goblin");
                     break;
@@ -791,24 +843,29 @@ namespace GameStateManagement
                 case "demon":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon2");
                     break;
+                case "ddragon":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Dragon_Huanglong");
+                    break;
+
+
+                //World2
                 case "knight":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/knight");
                     break;
                 case "knightmaster":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/knightmaster");
                     break;
-                case "demon1":
-                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon1");
+                case "knightchief":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/knightchief");
                     break;
-                case "ddragon":
-                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Dragon_Huanglong");
+                case "runicgolem":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/runicgolem");
                     break;
-                case "runic":
-                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Runic_Stone");
-                    break;
-                case "queen":
-                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/Boss_Dark_Queen");
-                    break;
+
+
+                //World3
+
+
                 default:
                     enemy.Model = content.Load<Texture2D>("Hohlenmensch_Right");
                     break;
@@ -818,19 +875,11 @@ namespace GameStateManagement
         {
             switch (enemyName)
             {
+                //World1
                 case "goblin":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 case "ripper":
-                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
-                    break;
-                case "knight":
-                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
-                    break;
-                case "knightmaster":
-                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
-                    break;
-                case "demon1":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 case "demon":
@@ -839,12 +888,23 @@ namespace GameStateManagement
                 case "ddragon":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
                     break;
-                case "runic":
-                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
-                    break;
-                case "queen":
+
+                //World2
+                case "knight":
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
+                case "knightmaster":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "knightchief":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case "runicgolem":
+                    spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 0.75f, SpriteEffects.None, 0f);
+                    break;
+
+                //World3
+
                 default:
                     spriteBatch.Draw(enemy.Model, EnemyActualPosition, null, Color.White, 0f, new Vector2(), 1.2f, SpriteEffects.None, 0f);
                     break;
@@ -855,22 +915,23 @@ namespace GameStateManagement
             switch (weaponType)
             {
                 case 0: //Speer
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");   
                     MainStandinPosition.Y -= 50;
                     MainActualPosition.Y -= 50;
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
                     break;
                 case 1: //Keule
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");   
                     break;
                 default: //Hand
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");            
                     break;
             }
         }
         public void DrawMainChar(SpriteBatch spriteBatch)
         {
+            debugger = weaponType + "";
             switch (weaponType)
             {
                 case 0: //Speer
@@ -879,7 +940,6 @@ namespace GameStateManagement
                 case 1: //Keule
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
-
                 default: //Hand
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1.3f, SpriteEffects.None, 0f);
                     break;

@@ -48,7 +48,8 @@ namespace GameStateManagement
             map = new Map();
             player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
-            //if (lootManager == null) lootManager = new LootManager();
+            if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
+            if (lootManager == null) lootManager = new LootManager();
 
         }
 
@@ -67,7 +68,7 @@ namespace GameStateManagement
             Sprite.Content = content;
 
             Tiles.Content = content;
-            //lootManager.LoadContent(content);
+            lootManager.LoadContent(content);
             inventory.LoadContent(content, "Inventar");
             map.generateMap3();
             player.generatePlayer();
@@ -173,7 +174,7 @@ namespace GameStateManagement
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
-            //lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
 
 
