@@ -75,7 +75,7 @@ namespace GameStateManagement
         public void Draw(SpriteBatch spriteBatch, int x, int y)
         {
             //gold anzahl
-            spriteBatch.DrawString(font, "Gold: " + score, new Vector2(x + 730, y + 430), Color.Gold);
+            spriteBatch.DrawString(font, "Gold: " + GameScreen.mainChar.GetGold(), new Vector2(x + 730, y + 430), Color.Gold);
             //koordinaten
             spriteBatch.DrawString(font, x + " " + y, new Vector2(x + 730, y + 500), Color.White);
 

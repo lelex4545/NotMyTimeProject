@@ -38,6 +38,9 @@ namespace GameStateManagement
         Texture2D menu_button;
         Texture2D magic_button;
 
+        bool keyBlock;
+        float lastChange;
+
         Vector2[] btnPos;
         int btnIndex = 0;
         Vector2 actualBtn;
@@ -45,9 +48,6 @@ namespace GameStateManagement
         bool magicMenu = false;
         Vector2[] magicBtnPos;
         Vector2 actualMagicBtn;
-
-        float elapsedTime;  //Zeitlogik für die Tasten
-        float delay = 150f;
 
         SpriteFont font;
         string debugger = "";
@@ -73,11 +73,27 @@ namespace GameStateManagement
         bool attackAnimationIsPlaying = false;
         bool firstAttackAnimation = true;
         bool attackHit = false;
+
         int choosenAttack;
         int randomAttackPercentage = 0;
         int randomFight;// = 0;
 
         bool battleOver = false;
+
+        /*  MAGIC ANIMATION LOGIC */
+        bool magicAnimationRunning = false;
+        bool heroIsCasting = false;
+        bool enemyIsCasting = false;
+
+        /* ICEANIMATION */
+        Texture2D magic_ice;
+        Rectangle[,] iceAnimation;
+        Rectangle currentIceAnimation;
+        int a;
+        int b;
+        int timeSinceLastFrame = 0;
+        int millisecondsPerFrame = 200;
+        int elapsedTime;
 
         /*   RANDOM NUMBER GENERATOR       */
         private static readonly Random random = new Random();
@@ -126,6 +142,18 @@ namespace GameStateManagement
             MainStandinPosition = new Vector2(1216, 540);
             MainActualPosition = new Vector2(1960, 540);
 
+            //ICE_ANIMATION
+            iceAnimation = new Rectangle[5,5];
+            int x = 192;
+            int y = 192;
+            for(int i = 0; i < 5; i++)
+            {
+                for(int j = 0; j < 5; j++)
+                {
+                    iceAnimation[i,j] = new Rectangle(new Point(x*i,y*j),new Point(192));
+                }
+            }
+
             LoadEnemy();
         }
 
@@ -171,6 +199,7 @@ namespace GameStateManagement
 
             enemy.StatFont = content.Load<SpriteFont>("Arial");
 
+            magic_ice = content.Load<Texture2D>("Battle/Animations/Ice5");
 
             //TO DO Model mit korrekter Waffe laden
             LoadMainCharTexture();
@@ -179,15 +208,6 @@ namespace GameStateManagement
             LoadEnemyTexture();
 
 
-
-            // A real game would probably have more content than this sample, so
-            // it would take longer to load. We simulate that by delaying for a
-            // while, giving you a chance to admire the beautiful loading screen.
-            //Thread.Sleep(1000);
-
-            // once the load has finished, we use ResetElapsedTime to tell the game's
-            // timing mechanism that we have just finished a very long frame, and that
-            // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
         }
 
@@ -216,11 +236,12 @@ namespace GameStateManagement
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
-            else
+            else if (!battleOver)
                 pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
 
             if (IsActive && !battleOver)
             {
+                elapsedTime = gameTime.ElapsedGameTime.Milliseconds;
                 if (!hasEntered)        //Die Kämpfer werden von außen nach innen eingeblendet
                 {
                     if (EnemyActualPosition.X != EnemyStandinPosition.X && MainActualPosition.X != MainStandinPosition.X)
@@ -232,8 +253,12 @@ namespace GameStateManagement
                 }
                 else if (attackAnimationIsPlaying == false)         //Menü einblenden + Keine Kampfanimation
                 {
-                    elapsedTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if (elapsedTime >= delay)
+                    lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (Keyboard.GetState().IsKeyUp(Keys.Enter) || Keyboard.GetState().IsKeyUp(Keys.Down) || Keyboard.GetState().IsKeyUp(Keys.Up) || Keyboard.GetState().IsKeyUp(Keys.Back) || Keyboard.GetState().IsKeyUp(Keys.Left))
+                        //if (Keyboard.GetState().IsKeyUp(Keys.Down))
+                        keyBlock = true;
+
+                    if (lastChange >= 0.11f && keyBlock)
                     {
                         if (!magicMenu)
                         {
@@ -247,7 +272,7 @@ namespace GameStateManagement
                                 btnIndex = (int)Mod(btnIndex + 1, 2);
                                 actualBtn = btnPos[btnIndex];
                             }
-                            if ((Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
+                            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                             {
                                 if (btnIndex == 0)
                                 {
@@ -283,7 +308,7 @@ namespace GameStateManagement
                                 actualBtn = btnPos[btnIndex];
                                 magicMenu = false;
                             }
-                            if ((Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.Right)) == true)
+                            if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                             {
                                 //TO DO es sollten nur Fähigkeiten Auswählbar sein, wofür der Char genügend Mana hat -> nicht mögliche Fähigkeiten ausgrauen
                                 if (mainChar.Stats.CurrentMP >= 25)
@@ -297,8 +322,9 @@ namespace GameStateManagement
                                     actualBtn = btnPos[btnIndex];
                                 }
                             }
+                            keyBlock = false;
                         }
-                        elapsedTime = 0;
+                        lastChange = 0f;
                     }
                 }
                 else if (attackAnimationIsPlaying)
@@ -306,7 +332,7 @@ namespace GameStateManagement
                     Fight(mainChar, enemy, choosenAttack);
                 }
             }
-            else if(IsActive && battleOver)
+            else if (IsActive && battleOver)
             {
                 ExitScreen();
             }
@@ -363,6 +389,18 @@ namespace GameStateManagement
 
             if (enemy.Stats.CurrentLP > 0)
                 DrawEnemy(spriteBatch);
+
+            if (magicAnimationRunning)
+            {
+                if (heroIsCasting)
+                {
+                    spriteBatch.Draw(magic_ice, EnemyStandinPosition, currentIceAnimation, Color.White,0f,new Vector2(),1.5f,SpriteEffects.None,0f);
+                }
+                else if (enemyIsCasting)
+                {
+
+                }
+            }
 
             spriteBatch.End();
 
@@ -508,8 +546,29 @@ namespace GameStateManagement
                 }
                 else
                 {
-                    main.Attack(enemy, i);
-                    attackHit = true;
+                    magicAnimationRunning = true;
+                    if (magicAnimationRunning)
+                    {
+                        heroIsCasting = true;
+                        timeSinceLastFrame += elapsedTime;
+                        if (timeSinceLastFrame > millisecondsPerFrame)
+                        {
+                            timeSinceLastFrame -= millisecondsPerFrame;
+                            currentIceAnimation = iceAnimation[a, b++];
+                        }
+                        if (b == 5)
+                        {
+                            a++;
+                            b = 0;
+                        }
+                        if (a == 5) magicAnimationRunning = false;
+                    }
+                    if (!magicAnimationRunning)
+                    {
+                        main.Attack(enemy, i);
+                        attackHit = true;
+                        heroIsCasting = false;
+                    }
                 }
             }
             else
@@ -547,7 +606,6 @@ namespace GameStateManagement
                 {
                     enemy.Attack(main);
                     attackHit = true;
-                    
                 }
             }
             else
@@ -711,9 +769,14 @@ namespace GameStateManagement
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "ripper":
-                    enemy = new EnemyFighter("Ripper", 1, 50, 50, 5, 5, 15, 5, 25, 25);
+                    enemy = new EnemyFighter("Ripper", 2, 60, 60, 8, 8, 8, 8, 40, 50);
                     EnemyStandinPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
+                    break;
+                case "demon":
+                    enemy = new EnemyFighter("Demon", 3, 75, 75, 10, 10, 10, 5, 65, 75);
+                    EnemyStandinPosition = new Vector2(560, 500);
+                    EnemyActualPosition = new Vector2(-40, 500);
                     break;
                 case "knight":
                     enemy = new EnemyFighter("Knight", 1, 50, 50, 5, 5, 15, 5, 25, 25);
@@ -724,11 +787,6 @@ namespace GameStateManagement
                     enemy = new EnemyFighter("Knightmaster", 1, 50, 50, 5, 5, 15, 5, 25, 25);
                     EnemyStandinPosition = new Vector2(560, 560);
                     EnemyActualPosition = new Vector2(-40, 560);
-                    break;
-                case "demon":
-                    enemy = new EnemyFighter("Demon", 3, 75, 75, 10, 10, 5, 5, 50, 25);
-                    EnemyStandinPosition = new Vector2(560, 500);
-                    EnemyActualPosition = new Vector2(-40, 500);
                     break;
                 case "demon1":
                     enemy = new EnemyFighter("Demon", 1, 50, 50, 5, 5, 15, 5, 25, 25);
@@ -767,14 +825,14 @@ namespace GameStateManagement
                 case "ripper":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/ripper");
                     break;
+                case "demon":
+                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon2");
+                    break;
                 case "knight":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/knight");
                     break;
                 case "knightmaster":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/knightmaster");
-                    break;
-                case "demon":
-                    enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon2");
                     break;
                 case "demon1":
                     enemy.Model = content.Load<Texture2D>("Battle/Enemy/demon1");
@@ -834,25 +892,23 @@ namespace GameStateManagement
             switch (weaponType)
             {
                 case 0: //Speer
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");   
-                    
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");
                     MainStandinPosition.Y -= 50;
                     MainActualPosition.Y -= 50;
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
-                    
+
                     break;
                 case 1: //Keule
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");   
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");
                     break;
                 default: //Hand
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");            
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");
                     break;
             }
         }
         public void DrawMainChar(SpriteBatch spriteBatch)
         {
-            debugger = weaponType + "";
             switch (weaponType)
             {
                 case 0: //Speer
