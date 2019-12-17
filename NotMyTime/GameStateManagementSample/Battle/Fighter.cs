@@ -52,6 +52,23 @@ namespace GameStateManagement
         {
             return this.Stats.CurrentLP > 0 ? true : false;
         }
+        public int GetHeal()
+        {
+            return this.Stats.Intelligence * 2;
+        }
+        public int GetFire()
+        {
+            return Stats.Intelligence * 3;
+        }
+        public int GetThunder()
+        {
+            return this.Stats.Intelligence * 2;
+        }
+        public int GetIce()
+        {
+            return this.Stats.Intelligence * 2;
+        }
+
     }
 
     public class MainFighter : Fighter

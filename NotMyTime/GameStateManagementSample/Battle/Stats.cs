@@ -37,7 +37,7 @@ namespace GameStateManagement
             Damage += 2;
             Strength += 2;
             Agility += 2;
-            Intelligence += 4;
+            Intelligence += 3;
         }
     }
 }

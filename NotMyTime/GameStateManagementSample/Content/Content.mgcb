@@ -216,6 +216,18 @@
 /processorParam:TextureFormat=Color
 /build:Battle/Enemy/Boss_Runic_Stone.png;Battle/Enemy/runicgolem.png
 
+#begin Battle/Enemy/deathbringer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/Enemy/deathbringer.png
+
 #begin Battle/Enemy/demon1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -239,6 +251,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Battle/Enemy/demon2.png
+
+#begin Battle/Enemy/evilknight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/Enemy/evilknight.png
 
 #begin Battle/Enemy/goblin.png
 /importer:TextureImporter
@@ -311,6 +335,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Battle/Enemy/ripper.png
+
+#begin Battle/Enemy/skeleton.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/Enemy/skeleton.png
 
 #begin Battle/fight_menu3.png
 /importer:TextureImporter

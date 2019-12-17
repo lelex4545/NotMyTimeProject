@@ -296,8 +296,18 @@ namespace GameStateManagement
                             }
                             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                             {
-                                //TO DO es sollten nur F�higkeiten Ausw�hlbar sein, wof�r der Char gen�gend Mana hat -> nicht m�gliche F�higkeiten ausgrauen
-                                if (mainChar.Stats.CurrentMP >= 25)
+                                if(btnIndex <= 1 && mainChar.Stats.CurrentMP >= 50)
+                                {
+                                    attackAnimationIsPlaying = true;
+                                    randomEnemyMagic = RandomNumber(2, 4);
+                                    randomAttackPercentage = RandomNumber(1, 101);
+                                    if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
+                                    choosenAttack = btnIndex + 1;
+                                    magicMenu = false;
+                                    btnIndex = 0;
+                                    actualBtn = btnPos[btnIndex];
+                                }
+                                if (mainChar.Stats.CurrentMP >= 25 && btnIndex>=2)
                                 {
                                     attackAnimationIsPlaying = true;
                                     randomEnemyMagic = RandomNumber(2, 4);
@@ -683,17 +693,23 @@ namespace GameStateManagement
                 spriteBatch.Draw(magic_button, actualMagicBtn, null, Color.White);
                 if (mainChar.Stats.CurrentMP >= 25)
                 {
-                    spriteBatch.DrawString(font, "Heal               25MP", new Vector2(1000, 780), Color.AntiqueWhite);
-                    spriteBatch.DrawString(font, "Fire                 25MP", new Vector2(1000, 816), Color.AntiqueWhite);
-                    spriteBatch.DrawString(font, "Ice                    25MP", new Vector2(1000, 851), Color.AntiqueWhite);
-                    spriteBatch.DrawString(font, "Thunder    25MP", new Vector2(1000, 886), Color.AntiqueWhite);
+                    spriteBatch.DrawString(font, "Ice                   25MP " + "DMG:  " + mainChar.GetIce(), new Vector2(1000, 851), Color.AntiqueWhite);
+                    spriteBatch.DrawString(font, "Thunder       25MP " + "DMG:  " + mainChar.GetThunder(), new Vector2(1000, 886), Color.AntiqueWhite);
                 }
                 else
                 {
-                    spriteBatch.DrawString(font, "Heal               25MP", new Vector2(1000, 780), Color.Gray);
-                    spriteBatch.DrawString(font, "Fire                 25MP", new Vector2(1000, 816), Color.Gray);
-                    spriteBatch.DrawString(font, "Ice                    25MP", new Vector2(1000, 851), Color.Gray);
-                    spriteBatch.DrawString(font, "Thunder    25MP", new Vector2(1000, 886), Color.Gray);
+                    spriteBatch.DrawString(font, "Ice                   25MP " + "DMG:  " + mainChar.GetIce(), new Vector2(1000, 851), Color.Gray);
+                    spriteBatch.DrawString(font, "Thunder       25MP " + "DMG:  " + mainChar.GetThunder(), new Vector2(1000, 886), Color.Gray);
+                }
+                if (mainChar.Stats.CurrentMP >= 50)
+                {
+                    spriteBatch.DrawString(font, "Heal               50MP " + "Heal:  " + mainChar.GetHeal(), new Vector2(1000, 780), Color.AntiqueWhite);
+                    spriteBatch.DrawString(font, "Fire                 50MP " + "DMG: " + mainChar.GetFire(), new Vector2(1000, 816), Color.AntiqueWhite);
+                }
+                else
+                {
+                    spriteBatch.DrawString(font, "Heal               50MP " + "Heal:  " + mainChar.GetHeal(), new Vector2(1000, 780), Color.Gray);
+                    spriteBatch.DrawString(font, "Fire                 50MP " + "DMG: " + mainChar.GetFire(), new Vector2(1000, 816), Color.Gray);
                 }
             }
 
@@ -792,29 +808,29 @@ namespace GameStateManagement
                     EnemyActualPosition = new Vector2(-40, 500);
                     break;
                 case "ddragon":
-                    enemy = new EnemyFighter("Draggy", 4, 250, 100, 15, 10, 15, 15, 200, 100);
+                    enemy = new EnemyFighter("Draggy", 4, 250, 100, 25, 10, 15, 20, 200, 100);
                     EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;
 
                 //World2
                 case "knight":
-                    enemy = new EnemyFighter("Knight", 4, 50, 50, 5, 5, 15, 5, 25, 25);
+                    enemy = new EnemyFighter("Knight", 4, 100, 50, 12, 12, 15, 5, 55, 85); //770
                     EnemyStandingPosition = new Vector2(560, 480);
                     EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "knightmaster":
-                    enemy = new EnemyFighter("Knightmaster", 5, 50, 50, 5, 5, 15, 5, 25, 25);
+                    enemy = new EnemyFighter("Knightmaster", 5, 125, 50, 25, 5, 15, 5, 106, 100);
                     EnemyStandingPosition = new Vector2(560, 480);
                     EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "knightchief":
-                    enemy = new EnemyFighter("Knightchief", 6, 50, 50, 5, 5, 15, 5, 25, 25);
+                    enemy = new EnemyFighter("Knightchief", 6, 200, 100, 40, 0, 30, 5, 200, 250);
                     EnemyStandingPosition = new Vector2(560, 480);
                     EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "runicgolem":
-                    enemy = new EnemyFighter("Runic Golem", 7, 700, 500, 50, 80, 10, 10, 350, 25);
+                    enemy = new EnemyFighter("Runic Golem", 7, 500, 100, 25, 20, 5, 20, 400, 300);
                     EnemyStandingPosition = new Vector2(560, 290);
                     EnemyActualPosition = new Vector2(-40, 290);
                     break;

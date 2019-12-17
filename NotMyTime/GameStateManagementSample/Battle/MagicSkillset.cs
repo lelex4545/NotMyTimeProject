@@ -33,28 +33,28 @@ namespace GameStateManagement
         }
         public int Heal(Fighter f1)
         {
-            f1.Stats.CurrentLP += 10 + f1.Stats.Intelligence;
+            f1.Stats.CurrentLP += f1.Stats.Intelligence*2;
             f1.Stats.CurrentLP = (int)Microsoft.Xna.Framework.MathHelper.Clamp(f1.Stats.CurrentLP, 0, f1.Stats.Lifepoints);
-            f1.Stats.CurrentMP -= 25;
-            return 10 + f1.Stats.Intelligence;
+            f1.Stats.CurrentMP -= 50;
+            return f1.Stats.Intelligence * 2;
         }
         public int Fire(Fighter f1, Fighter f2)
         {
             f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 3);
-            f1.Stats.CurrentMP -= 25;
+            f1.Stats.CurrentMP -= 50;
             return f1.Stats.Intelligence * 3;
         }
         public int Ice(Fighter f1, Fighter f2)
         {
-            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 3);
+            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 2);
             f1.Stats.CurrentMP -= 25;
-            return f1.Stats.Intelligence * 3;
+            return f1.Stats.Intelligence * 2;
         }
         public int Thunder(Fighter f1, Fighter f2)
         {
-            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 3);
+            f2.Stats.CurrentLP = f2.Stats.CurrentLP - (f1.Stats.Intelligence * 2);
             f1.Stats.CurrentMP -= 25;
-            return f1.Stats.Intelligence * 3;
+            return f1.Stats.Intelligence * 2;
         }
         public int LuckyShot(Fighter f1, Fighter f2)
         {
