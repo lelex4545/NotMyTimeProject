@@ -135,7 +135,7 @@ namespace GameStateManagement
 
         public void SetGold(EnemyFighter enemy)
         {
-            this.gold = enemy.GivenGold;
+            this.gold += enemy.GivenGold;
         }
 
         public void Killed(EnemyFighter enemy)

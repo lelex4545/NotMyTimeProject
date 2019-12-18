@@ -793,7 +793,7 @@ namespace GameStateManagement
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;
                 case "ripper":
-                    enemy = new EnemyFighter("Ripper", 2, 75, 75, 8, 8, 8, 8, 45, 30);
+                    enemy = new EnemyFighter("Ripper", 2, 65, 65, 8, 8, 8, 8, 45, 30);
                     EnemyStandingPosition = new Vector2(560, 520);
                     EnemyActualPosition = new Vector2(-40, 520);
                     break;

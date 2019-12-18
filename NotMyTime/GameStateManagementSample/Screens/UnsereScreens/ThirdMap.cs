@@ -33,6 +33,8 @@ namespace GameStateManagement
         public Enemy[] enemyList;      //Spielgegner
         public Boss boss;
         public Portal portal;
+        public Loot loot5;
+        Gold gold1;
 
         GUI gui;
 
@@ -51,9 +53,15 @@ namespace GameStateManagement
             inventory = new Inventory();
             map = new Map();
             player = new Player(new Rectangle(11 * 100, 118 * 100, 100, 100));
+            loot5 = new Loot(4, 1500, 6400, 50, 100, 1550, 6450, 0.35f, 0.60f, 925, 410, "weapon5");
+            gold1 = new Gold(25, -1000, -1000, 50, 50, -1000, -1000, 1.0f);
             camera = new Camera();
             if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 1000, 20, 10, 20);
             mainChar.currentWorldID = 3;
+            mainChar.Stats.Lifepoints = 400;
+            mainChar.Stats.Manapoints = 400;
+            mainChar.Stats.CurrentLP = mainChar.Stats.Lifepoints;
+            mainChar.Stats.CurrentMP = mainChar.Stats.Manapoints;
             if (lootManager == null) lootManager = new LootManager();
 
             randomPositions = new Vector2[5][];
@@ -116,6 +124,9 @@ namespace GameStateManagement
             Sprite.Content = content;
 
             Tiles.Content = content;
+
+            loot5.LoadContent(content);
+            gold1.LoadContent(content, "gold");
             lootManager.LoadContent(content);
             inventory.LoadContent(content, "Inventar");
             map.generateMap3();
@@ -202,6 +213,8 @@ namespace GameStateManagement
                 if (boss == null)
                     portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager,2);
 
+                loot5.Collison(player);
+                gold1.Collison(player);
                 lootManager.Update(gameTime);
 
             }
@@ -266,8 +279,10 @@ namespace GameStateManagement
                 portal.Draw(spriteBatch);
 
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            loot5.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, lootManager);
             lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gui.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             spriteBatch.End();
 
