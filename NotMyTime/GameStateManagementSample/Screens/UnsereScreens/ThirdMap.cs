@@ -29,7 +29,10 @@ namespace GameStateManagement
         private Camera camera;
         Inventory inventory;
         public LootManager lootManager;
-
+        Vector2[][] randomPositions;
+        public Enemy[] enemyList;      //Spielgegner
+        public Boss boss;
+        public Portal portal;
 
 
         #endregion Fields
@@ -46,11 +49,48 @@ namespace GameStateManagement
 
             inventory = new Inventory();
             map = new Map();
-            player = new Player(new Rectangle(15 * 100, 115 * 100, 100, 100));
+            player = new Player(new Rectangle(11 * 100, 118 * 100, 100, 100));
             camera = new Camera();
             if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
             mainChar.currentWorldID = 3;
             if (lootManager == null) lootManager = new LootManager();
+
+            randomPositions = new Vector2[5][];
+
+            for (int i = 0; i < 5; i++)
+                randomPositions[i] = new Vector2[2];
+
+            randomPositions[0][0] = new Vector2(11, 113);
+            randomPositions[0][1] = new Vector2(20, 117);
+            randomPositions[1][0] = new Vector2(10, 98);
+            randomPositions[1][1] = new Vector2(21, 109);
+            randomPositions[2][0] = new Vector2(10, 87);
+            randomPositions[2][1] = new Vector2(16, 93);
+            randomPositions[3][0] = new Vector2(13, 52);
+            randomPositions[3][1] = new Vector2(18, 65);
+            randomPositions[4][0] = new Vector2(17, 29);
+            randomPositions[4][1] = new Vector2(21, 36);
+            
+
+            enemyList = new Enemy[20];
+            enemyList[0] = new Enemy(randomPositions[0]);
+            enemyList[1] = new Enemy(randomPositions[0]);
+            enemyList[2] = new Enemy(randomPositions[1]);
+            enemyList[3] = new Enemy(randomPositions[1]);
+            enemyList[4] = new Enemy(randomPositions[1]);
+            enemyList[5] = new Enemy(randomPositions[1]);
+            enemyList[6] = new Enemy(randomPositions[2]);
+            enemyList[7] = new Enemy(randomPositions[2]);
+            enemyList[8] = new Enemy(randomPositions[3]);
+            enemyList[9] = new Enemy(randomPositions[3]);
+            enemyList[10] = new Enemy(randomPositions[3]);
+            enemyList[11] = new Enemy(randomPositions[3]);
+            enemyList[12] = new Enemy(randomPositions[4]);
+            enemyList[13] = new Enemy(randomPositions[4]);
+            
+
+            boss = new Boss(new Rectangle(1500, 600, 200, 200), "deathbringer");
+            portal = new Portal(new Rectangle(1500, 600, 100, 100), "portalblue");
 
         }
 
@@ -73,6 +113,32 @@ namespace GameStateManagement
             inventory.LoadContent(content, "Inventar");
             map.generateMap3();
             player.generatePlayer();
+
+            //raum1
+            enemyList[0].generateEnemy("skeleton");
+            enemyList[1].generateEnemy("skeleton");
+            //raum2
+            enemyList[2].generateEnemy("skeleton");
+            enemyList[3].generateEnemy("skeleton");
+            enemyList[4].generateEnemy("skeleton");
+            enemyList[5].generateEnemy("skeleton");
+
+            //raum3
+            enemyList[6].generateEnemy("skeleton");
+            enemyList[7].generateEnemy("evilknight");
+
+            //raum4
+            enemyList[8].generateEnemy("evilknight");
+            enemyList[9].generateEnemy("evilknight");
+            enemyList[10].generateEnemy("evilknight");
+            enemyList[11].generateEnemy("evilknight");
+
+            //raum5
+            enemyList[12].generateEnemy("evilknight");
+            enemyList[13].generateEnemy("evilknight");
+
+            boss.generateBoss();
+            portal.generatePortal();
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
@@ -119,7 +185,15 @@ namespace GameStateManagement
 
                 player.updatePosition(gameTime, map);
                 camera.Follow(player);
-                
+
+                for (int i = 0; i < enemyList.Length; i++)
+                    if (enemyList[i] != null) enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
+
+                if (boss != null && !boss.IsAlive) boss = null;
+                if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
+                if (boss == null)
+                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager);
+
                 //lootManager.Update(gameTime);
 
             }
@@ -177,8 +251,12 @@ namespace GameStateManagement
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
+            for (int i = 0; i < enemyList.Length; i++)
+                if (enemyList[i] != null) enemyList[i].Draw(spriteBatch);
 
-
+            if (boss != null) boss.Draw(spriteBatch);
+            if (boss == null)
+                portal.Draw(spriteBatch);
 
             spriteBatch.End();
 
