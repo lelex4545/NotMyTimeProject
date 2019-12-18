@@ -39,6 +39,8 @@ namespace GameStateManagement
                     LoadingScreen.Load(screenManager, true, controllingPlayer, new SecondMap(lootManager));
                 if(change == 1)
                     LoadingScreen.Load(screenManager, true, controllingPlayer, new ThirdMap());
+                if (change == 2)
+                    LoadingScreen.Load(screenManager, true, controllingPlayer, new TheEndScreen());
             }
 
             if (move >= 0.25f)

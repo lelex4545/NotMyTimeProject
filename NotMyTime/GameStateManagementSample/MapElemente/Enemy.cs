@@ -196,6 +196,7 @@ namespace GameStateManagement
                     }
                     if (help == 4)
                     {
+
                         rectangle.X = rectangle.X + size;
                         texture = right[2];
                         which = 0;
@@ -209,15 +210,14 @@ namespace GameStateManagement
                     {
                         if (which == 0)
                         {
+                            texture = bottom[1];
                             tmp = new Rectangle(rectangle.X, rectangle.Y + size2, rectangle.Width, rectangle.Height);
                             if (RectangleHelper.TouchCheck(tmp, player.rectangle, 0))
                             {
                                 screenManager.AddScreen(new BattleScreen(enemyList, i), controllingPlayer);
                             }
-
-
                             rectangle.Y = rectangle.Y + size;
-                            texture = bottom[1];
+   
                             help = 1;
                             lastMove = 0f;
                             wait = 0f;
