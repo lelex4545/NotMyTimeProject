@@ -16,7 +16,7 @@ namespace GameStateManagement
     /// placeholder to get the idea across: you'll probably want to
     /// put some more interesting gameplay in here!
     /// </summary>
-    internal class FirstMap : GameScreen
+    internal class FirstMap : GameScreen    //Thomas,Selim und Robar :S
     {
         #region Fields
 
