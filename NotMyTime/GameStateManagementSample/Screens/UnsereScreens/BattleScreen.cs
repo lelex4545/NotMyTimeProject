@@ -817,7 +817,7 @@ namespace GameStateManagement
                     EnemyActualPosition = new Vector2(-40, 480);
                     break;
                 case "knightchief":
-                    enemy = new EnemyFighter("Knightchief", 6, 200, 100, 40, 0, 30, 5, 200, 250);
+                    enemy = new EnemyFighter("Knightchief", 6, 200, 100, 40, 0, 30, 5, 300, 250);
                     EnemyStandingPosition = new Vector2(560, 480);
                     EnemyActualPosition = new Vector2(-40, 480);
                     break;
@@ -829,23 +829,22 @@ namespace GameStateManagement
 
                 //World3
                 case "skeleton":
-                    enemy = new EnemyFighter("Burning Skeleton", 8, 100, 100, 40, 0, 30, 25, 200, 250);
+                    enemy = new EnemyFighter("Burning Skeleton", 8, 100, 100, 40, 0, 30, 25, 100, 250);
                     EnemyStandingPosition = new Vector2(560, 415);
                     EnemyActualPosition = new Vector2(-40, 415);
                     magicPercentage = 40;
                     break;
                 case "evilknight":
-                    enemy = new EnemyFighter("Knight of the Death", 9, 250, 100, 35, 5, 10, 15, 106, 100);
+                    enemy = new EnemyFighter("Knight of the Death", 9, 250, 100, 35, 5, 10, 15, 143, 100);
                     EnemyStandingPosition = new Vector2(560, 460);
                     EnemyActualPosition = new Vector2(-40, 460);
                     magicPercentage = 40;
                     break;
                 case "deathbringer":
-                    enemy = new EnemyFighter("DeathBringer", 10, 750, 250, 50, 10, 30, 30, 200, 250);
+                    enemy = new EnemyFighter("DeathBringer", 10, 1000, 250, 50, 10, 30, 30, 1000, 250);
                     EnemyStandingPosition = new Vector2(560, 315);
                     EnemyActualPosition = new Vector2(-40, 315);
                     break;
-
                 default:
                     enemy = new EnemyFighter("Stony", 1, 100, 100, 10, 10, 10, 10, 50, 25);
                     EnemyStandingPosition = new Vector2(560, 560);
@@ -979,8 +978,8 @@ namespace GameStateManagement
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
                     break;
-                case 4: //Best
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon3");
+                case 4: //Blue
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon4");
                     MainStandinPosition.Y -= 50;
                     MainActualPosition.Y -= 50;
                     MainStandinPosition.X -= 50;
@@ -1004,7 +1003,10 @@ namespace GameStateManagement
                 case 2: //Schwert
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
-                case 3: //Best
+                case 3: //Morgen
+                    spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
+                    break;
+                case 4: //Blue
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 default: //Hand

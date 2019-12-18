@@ -74,9 +74,9 @@ namespace GameStateManagement
             spriteBatch.DrawString(font, "Lvl: " + GameScreen.mainChar.Level.GetLevel(), new Vector2(x - 770, y - 435), Color.AntiqueWhite);
 
             spriteBatch.DrawString(font, "Dmg: " + GameScreen.mainChar.AttackCalc(), new Vector2(x - 770, y - 415), Color.AntiqueWhite);
-            spriteBatch.DrawString(font, "Str: " + GameScreen.mainChar.Stats.Strength, new Vector2(x - 690, y - 415), Color.AntiqueWhite);
-            spriteBatch.DrawString(font, "Agi: " + GameScreen.mainChar.Stats.Agility, new Vector2(x - 620, y - 415), Color.AntiqueWhite);
-            spriteBatch.DrawString(font, "Int: " + GameScreen.mainChar.Stats.Intelligence, new Vector2(x - 540, y - 415), Color.AntiqueWhite);
+            spriteBatch.DrawString(font, "Str: " + GameScreen.mainChar.Stats.Strength, new Vector2(x - 670, y - 415), Color.AntiqueWhite);
+            spriteBatch.DrawString(font, "Agi: " + GameScreen.mainChar.Stats.Agility, new Vector2(x - 600, y - 415), Color.AntiqueWhite);
+            spriteBatch.DrawString(font, "Int: " + GameScreen.mainChar.Stats.Intelligence, new Vector2(x - 520, y - 415), Color.AntiqueWhite);
         }
 
 

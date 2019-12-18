@@ -432,6 +432,18 @@
 /processorParam:TextureFormat=Color
 /build:Battle/figureweapon3.png
 
+#begin Battle/figureweapon4.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Battle/figureweapon4.png
+
 #begin Battle/health_white.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2485,4 +2497,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:weapon4.png
+
+#begin weapon5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:weapon5.png
 

@@ -34,6 +34,7 @@ namespace GameStateManagement
         public Boss boss;
         public Portal portal;
 
+        GUI gui;
 
         #endregion Fields
 
@@ -92,6 +93,12 @@ namespace GameStateManagement
             boss = new Boss(new Rectangle(1500, 600, 200, 200), "deathbringer");
             portal = new Portal(new Rectangle(1500, 600, 100, 100), "portalblue");
 
+            gui = new GUI();
+        }
+
+        public ThirdMap(LootManager lootManager) : this()
+        {
+            this.lootManager = lootManager;
         }
 
         /// <summary>
@@ -114,6 +121,7 @@ namespace GameStateManagement
             map.generateMap3();
             player.generatePlayer();
 
+            gui.LoadContent(content);
             //raum1
             enemyList[0].generateEnemy("skeleton");
             enemyList[1].generateEnemy("skeleton");
@@ -194,7 +202,7 @@ namespace GameStateManagement
                 if (boss == null)
                     portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager,2);
 
-                //lootManager.Update(gameTime);
+                lootManager.Update(gameTime);
 
             }
         }
@@ -248,8 +256,7 @@ namespace GameStateManagement
 
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
-            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
-            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+
 
             for (int i = 0; i < enemyList.Length; i++)
                 if (enemyList[i] != null) enemyList[i].Draw(spriteBatch);
@@ -257,6 +264,10 @@ namespace GameStateManagement
             if (boss != null) boss.Draw(spriteBatch);
             if (boss == null)
                 portal.Draw(spriteBatch);
+
+            inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gui.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             spriteBatch.End();
 

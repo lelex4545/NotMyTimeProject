@@ -122,7 +122,7 @@ namespace GameStateManagement
 
             player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
-            if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
+            if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 1000, 20, 10, 20);
             mainChar.currentWorldID = 2;
             mainChar.Stats.CurrentLP = mainChar.Stats.Lifepoints;
             mainChar.Stats.CurrentMP = mainChar.Stats.Manapoints;
