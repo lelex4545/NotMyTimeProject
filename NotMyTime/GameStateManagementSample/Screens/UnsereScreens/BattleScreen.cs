@@ -777,7 +777,7 @@ namespace GameStateManagement
             if (mainChar.currentWorldID == 2)
                 battlebackground = content.Load<Texture2D>("battlebackground2");
             if (mainChar.currentWorldID == 3)
-                battlebackground = content.Load<Texture2D>("battlebackground1");
+                battlebackground = content.Load<Texture2D>("battlebackground3");
         }
 
         public double Mod(double a, double b)
