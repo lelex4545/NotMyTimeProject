@@ -291,7 +291,7 @@ namespace GameStateManagement
                                 if(btnIndex <= 1 && mainChar.Stats.CurrentMP >= 50)
                                 {
                                     attackAnimationIsPlaying = true;
-                                    randomEnemyMagic = RandomNumber(2, 4);
+                                    randomEnemyMagic = RandomNumber(2, 5);
                                     randomAttackPercentage = RandomNumber(1, 101);
                                     if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex + 1;
@@ -302,7 +302,7 @@ namespace GameStateManagement
                                 if (mainChar.Stats.CurrentMP >= 25 && btnIndex>=2)
                                 {
                                     attackAnimationIsPlaying = true;
-                                    randomEnemyMagic = RandomNumber(2, 4);
+                                    randomEnemyMagic = RandomNumber(2, 5);
                                     randomAttackPercentage = RandomNumber(1, 101);
                                     if (mainChar.compareSpeed(enemy) == 0) randomFight = RandomNumber(0, 2);
                                     choosenAttack = btnIndex + 1;
@@ -769,7 +769,7 @@ namespace GameStateManagement
             if (mainChar.currentWorldID == 2)
                 battlebackground = content.Load<Texture2D>("battlebackground2");
             if (mainChar.currentWorldID == 3)
-                battlebackground = content.Load<Texture2D>("battlebackground1");
+                battlebackground = content.Load<Texture2D>("battlebackground3");
         }
 
         public double Mod(double a, double b)

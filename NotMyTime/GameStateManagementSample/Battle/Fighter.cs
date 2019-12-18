@@ -161,7 +161,7 @@ namespace GameStateManagement
         }
         public new string Ausgabe()
         {
-            return base.Ausgabe() + "Level: " + Level;
+            return base.Ausgabe() + "Level: " + Level + "   Damage: " + AttackCalc();
         }
     }
 
