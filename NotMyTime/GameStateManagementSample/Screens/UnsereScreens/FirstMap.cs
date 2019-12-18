@@ -54,7 +54,7 @@ namespace GameStateManagement
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
-            mainChar = new MainFighter("Bruce", 100, 50, 5, 10, 10, 15);
+            mainChar = new MainFighter("Bruce", 100, 100, 8, 10, 10, 15);
             lootManager = new LootManager();
             
             loot1 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon");
