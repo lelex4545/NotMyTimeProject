@@ -101,8 +101,8 @@ namespace GameStateManagement
             boss1 = new Boss(new Rectangle(5300, 1400, 100, 100), "knightchief");
             portal = new Portal(new Rectangle(5200, 100, 100, 100), "portalred");
 
-            loot3 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon3");
-            loot4 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon4");
+            //loot3 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon3");
+            //loot4 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon4");
 
             player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
