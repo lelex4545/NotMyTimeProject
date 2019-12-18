@@ -58,8 +58,8 @@ namespace GameStateManagement
             camera = new Camera();
             if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 1000, 20, 10, 20);
             mainChar.currentWorldID = 3;
-            mainChar.Stats.Lifepoints = 400;
-            mainChar.Stats.Manapoints = 400;
+            mainChar.Stats.Lifepoints = 600;
+            mainChar.Stats.Manapoints = 600;
             mainChar.Stats.CurrentLP = mainChar.Stats.Lifepoints;
             mainChar.Stats.CurrentMP = mainChar.Stats.Manapoints;
             if (lootManager == null) lootManager = new LootManager();

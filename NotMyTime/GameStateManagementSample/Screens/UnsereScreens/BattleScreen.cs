@@ -231,6 +231,7 @@ namespace GameStateManagement
                 else if (attackAnimationIsPlaying == false)         //Men� einblenden + Keine Kampfanimation
                 {
                     lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    
                     if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.Back))
                     {
                         keyBlock = true;
@@ -238,7 +239,7 @@ namespace GameStateManagement
                     if (lastChange >= 0.1f && keyBlock)
                     {
                         if (!magicMenu)
-                        {
+                        {   
                             if (Keyboard.GetState().IsKeyDown(Keys.Up) == true)
                             {
                                 btnIndex = (int)Mod(btnIndex - 1, 2);
@@ -838,13 +839,14 @@ namespace GameStateManagement
                     magicPercentage = 40;
                     break;
                 case "evilknight":
-                    enemy = new EnemyFighter("Knight of the Death", 9, 250, 100, 35, 5, 10, 15, 143, 100);
+                    enemy = new EnemyFighter("Knight of the Death", 9, 250, 100, 35, 5, 10, 15, 200, 100);
                     EnemyStandingPosition = new Vector2(560, 460);
                     EnemyActualPosition = new Vector2(-40, 460);
                     magicPercentage = 40;
                     break;
                 case "deathbringer":
-                    enemy = new EnemyFighter("DeathBringer", 10, 1000, 250, 50, 10, 30, 30, 1000, 250);
+                    enemy = new EnemyFighter("DeathBringer", 10, 750, 250, 50, 10, 30, 30, 1000, 250);
+                    magicPercentage = 40;
                     EnemyStandingPosition = new Vector2(560, 315);
                     EnemyActualPosition = new Vector2(-40, 315);
                     break;
