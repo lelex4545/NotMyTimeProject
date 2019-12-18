@@ -35,8 +35,16 @@ namespace GameStateManagement
         public Portal portal;
         Inventory inventory;
 
-        Loot loot3;
-        Loot loot4;
+        public Loot loot3;
+        public Loot loot4;
+
+        Gold gold1;
+        Gold gold2;
+        Gold gold3;
+        Gold gold4;
+        Gold gold5;
+        Gold gold6;
+        Gold gold7;
 
         private Camera camera;
         GUI gui;
@@ -101,8 +109,16 @@ namespace GameStateManagement
             boss1 = new Boss(new Rectangle(5300, 1400, 100, 100), "knightchief");
             portal = new Portal(new Rectangle(5200, 100, 100, 100), "portalred");
 
-            //loot3 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon3");
-            //loot4 = new Loot(0, 4900, 4050, 50, 100, 4950, 4100, 1.0f, 1.0f, 925, 410, "weapon4");
+            loot3 = new Loot(2, 100, 600, 50, 100, 150, 647, 0.5f, 1.0f, 925, 410, "weapon3");
+            loot4 = new Loot(3, 5300, 2200, 50, 100, 5350, 2250, 0.5f, 1.0f, 925, 410, "weapon4");
+
+            gold1 = new Gold(25, 850, 600, 50, 50, 900, 650, 1.0f);
+            gold2 = new Gold(100, 1100, 1700, 50, 50, 1150, 1750, 1.0f);
+            gold3 = new Gold(100, 1200, 1700, 50, 50, 1250, 1750, 1.0f);
+            gold4 = new Gold(50, 1900, 3000, 50, 50, 1950, 3050, 1.0f);
+            gold5 = new Gold(25, 2400, 3000, 50, 50, 2450, 3050, 1.0f);
+            gold6 = new Gold(50, 3000, 3400, 50, 50, 3050, 3450, 1.0f);
+            gold7 = new Gold(100, 3100, 3400, 50, 50, 3150, 3450, 1.0f);
 
             player = new Player(new Rectangle(2 * 100, 1 * 100, 100, 100));
             camera = new Camera();
@@ -130,6 +146,18 @@ namespace GameStateManagement
             Sprite.Content = content;
 
             Tiles.Content = content;
+
+            loot3.LoadContent(content);
+            loot4.LoadContent(content);
+
+            gold1.LoadContent(content, "gold");
+            gold2.LoadContent(content, "gold");
+            gold3.LoadContent(content, "gold");
+            gold4.LoadContent(content, "gold");
+            gold5.LoadContent(content, "gold");
+            gold6.LoadContent(content, "gold");
+            gold7.LoadContent(content, "gold");
+
             lootManager.LoadContent(content);
             inventory.LoadContent(content, "Inventar");
             map.generateMap2();
@@ -208,7 +236,28 @@ namespace GameStateManagement
             {
                 // TODO: this game isn't very fun! You could probably improve
                 // it by inserting something more interesting in this space :-)
+
                 player.updatePosition(gameTime, map);
+
+                loot3.Collison(player);
+                loot4.Collison(player);
+
+                gold1.Collison(player);
+                gold2.Collison(player);
+                gold3.Collison(player);
+                gold4.Collison(player);
+                gold5.Collison(player);
+                gold6.Collison(player);
+                gold7.Collison(player);
+
+                gold1.updateFont(gameTime);
+                gold2.updateFont(gameTime);
+                gold3.updateFont(gameTime);
+                gold4.updateFont(gameTime);
+                gold5.updateFont(gameTime);
+                gold6.updateFont(gameTime);
+                gold7.updateFont(gameTime);
+
                 camera.Follow(player);
                 for (int i = 0; i < enemyList.Length; i++)
                     if (enemyList[i] != null) enemyList[i].moveOne(gameTime, map, player, ScreenManager, ControllingPlayer, enemyList, i);
@@ -278,6 +327,17 @@ namespace GameStateManagement
             map.Draw(spriteBatch);
             player.Draw(spriteBatch);
 
+            loot3.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, lootManager);
+            loot4.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, lootManager);
+
+            gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold3.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold4.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold5.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold6.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            gold7.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+
             for (int i = 0; i < enemyList.Length; i++)
                 if (enemyList[i] != null) enemyList[i].Draw(spriteBatch);
 
@@ -291,6 +351,8 @@ namespace GameStateManagement
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gui.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+
+
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.
