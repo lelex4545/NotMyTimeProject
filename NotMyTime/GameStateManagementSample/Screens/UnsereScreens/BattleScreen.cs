@@ -129,7 +129,7 @@ namespace GameStateManagement
             this.enemyName = enemy;
 
             // TODO: MainChar wird mitgegeben + WeaponType wird mitgegeben
-            if(mainChar==null) mainChar = new MainFighter("Bruce", 100, 50, 5, 10, 10, 15);
+            if (mainChar == null) mainChar = new MainFighter("Bruce", 100, 50, 5, 10, 10, 15);
             this.weaponType = mainChar.currentWeaponID;
 
             MainStandinPosition = new Vector2(1216, 540);
@@ -231,7 +231,7 @@ namespace GameStateManagement
                 else if (attackAnimationIsPlaying == false)         //Men� einblenden + Keine Kampfanimation
                 {
                     lastChange += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    if (Keyboard.GetState().IsKeyDown(Keys.Up)|| Keyboard.GetState().IsKeyDown(Keys.Down)|| Keyboard.GetState().IsKeyDown(Keys.Enter)|| Keyboard.GetState().IsKeyDown(Keys.Back))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.Enter) || Keyboard.GetState().IsKeyDown(Keys.Back))
                     {
                         keyBlock = true;
                     }
@@ -288,7 +288,7 @@ namespace GameStateManagement
                             }
                             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
                             {
-                                if(btnIndex <= 1 && mainChar.Stats.CurrentMP >= 50)
+                                if (btnIndex <= 1 && mainChar.Stats.CurrentMP >= 50)
                                 {
                                     attackAnimationIsPlaying = true;
                                     randomEnemyMagic = RandomNumber(2, 5);
@@ -299,7 +299,7 @@ namespace GameStateManagement
                                     btnIndex = 0;
                                     actualBtn = btnPos[btnIndex];
                                 }
-                                if (mainChar.Stats.CurrentMP >= 25 && btnIndex>=2)
+                                if (mainChar.Stats.CurrentMP >= 25 && btnIndex >= 2)
                                 {
                                     attackAnimationIsPlaying = true;
                                     randomEnemyMagic = RandomNumber(2, 5);
@@ -321,7 +321,7 @@ namespace GameStateManagement
                     Fight(mainChar, enemy, choosenAttack);
                 }
             }
-            else if(IsActive && battleOver)
+            else if (IsActive && battleOver)
             {
                 ExitScreen();
             }
@@ -522,31 +522,34 @@ namespace GameStateManagement
                 if (MainActualPosition.X >= 960)
                 {
                     MainActualPosition.X -= 8;
+                    magicAnimationRunning = true;
                 }
                 else
                 {
-                    magicAnimationRunning = true;
-                    if (i == 1)
+                    if (magicAnimationRunning)
                     {
-                        ScreenManager.AddScreen(new HealingAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
-                        magicAnimationRunning = false;
+                        if (i == 1)
+                        {
+                            ScreenManager.AddScreen(new HealingAnimation(new Vector2(MainActualPosition.X - 50, MainActualPosition.Y - 50)), ControllingPlayer);
+                            magicAnimationRunning = false;
+                        }
+                        else if (i == 2)
+                        {
+                            ScreenManager.AddScreen(new FireAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                            magicAnimationRunning = false;
+                        }
+                        else if (i == 3)
+                        {
+                            ScreenManager.AddScreen(new IceAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                            magicAnimationRunning = false;
+                        }
+                        else if (i == 4)
+                        {
+                            ScreenManager.AddScreen(new ThunderAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
+                            magicAnimationRunning = false;
+                        }
                     }
-                    else if (i == 2)
-                    {
-                        ScreenManager.AddScreen(new FireAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
-                        magicAnimationRunning = false;
-                    }
-                    else if (i == 3)
-                    {
-                        ScreenManager.AddScreen(new IceAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
-                        magicAnimationRunning = false;
-                    }
-                    else if (i == 4)
-                    {
-                        ScreenManager.AddScreen(new ThunderAnimation(new Vector2(EnemyActualPosition.X - 50, EnemyActualPosition.Y - 50)), ControllingPlayer);
-                        magicAnimationRunning = false;
-                    }
-                    if (!magicAnimationRunning)
+                    else if (!magicAnimationRunning)
                     {
                         main.Attack(enemy, i);
                         attackHit = true;
@@ -588,7 +591,7 @@ namespace GameStateManagement
                 {
                     enemy.Attack(main);
                     attackHit = true;
-                    
+
                 }
             }
             else
@@ -645,8 +648,8 @@ namespace GameStateManagement
                         enemy.Magic(main, randomEnemyMagic);
                         attackHit = true;
                     }
-                    
-                    
+
+
                 }
             }
             else
@@ -764,7 +767,7 @@ namespace GameStateManagement
 
         void LoadBackground(ContentManager content)
         {
-            if(mainChar.currentWorldID == 1)
+            if (mainChar.currentWorldID == 1)
                 battlebackground = content.Load<Texture2D>("battlebackground1");
             if (mainChar.currentWorldID == 2)
                 battlebackground = content.Load<Texture2D>("battlebackground2");
@@ -955,14 +958,14 @@ namespace GameStateManagement
             switch (weaponType)
             {
                 case 0: //Speer
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");   
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon1");
                     MainStandinPosition.Y -= 50;
                     MainActualPosition.Y -= 50;
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
                     break;
                 case 1: //Keule
-                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");   
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon0");
                     break;
                 case 2: //Schwert
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon2");
