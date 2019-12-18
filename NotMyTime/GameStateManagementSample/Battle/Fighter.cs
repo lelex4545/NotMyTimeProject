@@ -103,6 +103,10 @@ namespace GameStateManagement
         {
             return gold;
         }
+        public void SetGold(int value)
+        {
+            gold += value;
+        }
 
         public int GetWeaponDamage()
         {
