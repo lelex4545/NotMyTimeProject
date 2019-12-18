@@ -979,6 +979,13 @@ namespace GameStateManagement
                     MainStandinPosition.X -= 50;
                     MainActualPosition.X -= 50;
                     break;
+                case 4: //Best
+                    mainChar.Model = content.Load<Texture2D>("Battle/figureweapon3");
+                    MainStandinPosition.Y -= 50;
+                    MainActualPosition.Y -= 50;
+                    MainStandinPosition.X -= 50;
+                    MainActualPosition.X -= 50;
+                    break;
                 default: //Hand
                     mainChar.Model = content.Load<Texture2D>("Battle/figureweapon-1");
                     break;
@@ -997,7 +1004,7 @@ namespace GameStateManagement
                 case 2: //Schwert
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
-                case 3: //Morgen
+                case 3: //Best
                     spriteBatch.Draw(mainChar.Model, MainActualPosition, null, Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0f);
                     break;
                 default: //Hand

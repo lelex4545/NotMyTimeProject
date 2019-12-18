@@ -108,7 +108,7 @@ namespace GameStateManagement
         {
             if(currentWeaponID == 0)
             {
-                return 10;
+                return 12;
             }
             else if (currentWeaponID == 1)
             {
@@ -116,15 +116,15 @@ namespace GameStateManagement
             }
             else if (currentWeaponID == 2)
             {
-                return 20;
+                return 25;
             }
             else if (currentWeaponID == 3)
             {
-                return 40;
+                return 50;
             }
             else if (currentWeaponID == 4)
             {
-                return 75;
+                return 100;
             }
             return 0;
         }
