@@ -90,7 +90,7 @@ namespace GameStateManagement
                 if(!fontUpdate)
                     spriteBatch.DrawString(font1, "+" + value, new Vector2(posX-25, posY-25), Color.Black);
                 if (pickup == false)
-                    score += value;
+                    GameScreen.mainChar.SetGold(value);
                 pickup = true;
             }
         }

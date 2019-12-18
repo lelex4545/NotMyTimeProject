@@ -112,7 +112,7 @@ namespace GameStateManagement
             loot3 = new Loot(2, 100, 600, 50, 100, 150, 647, 0.5f, 1.0f, 925, 410, "weapon3");
             loot4 = new Loot(3, 5300, 2200, 50, 100, 5350, 2250, 0.5f, 1.0f, 925, 410, "weapon4");
 
-            gold1 = new Gold(25, 850, 600, 50, 50, 900, 650, 1.0f);
+            gold1 = new Gold(25, -1000, -1000, 50, 50, -1000, -1000, 1.0f);
             gold2 = new Gold(100, 1100, 1700, 50, 50, 1150, 1750, 1.0f);
             gold3 = new Gold(100, 1200, 1700, 50, 50, 1250, 1750, 1.0f);
             gold4 = new Gold(50, 1900, 3000, 50, 50, 1950, 3050, 1.0f);
@@ -330,7 +330,7 @@ namespace GameStateManagement
             loot3.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, lootManager);
             loot4.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y, lootManager);
 
-            gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
+            
             gold2.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gold3.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gold4.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
@@ -351,7 +351,7 @@ namespace GameStateManagement
             inventory.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             lootManager.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
             gui.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
-
+            gold1.Draw(spriteBatch, player.rectangle.X, player.rectangle.Y);
 
             spriteBatch.End();
 
