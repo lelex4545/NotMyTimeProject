@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameStateManagement.Fighter" Collapsed="true">
+    <Position X="1.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MBAAEIAAAABAAAAAEABAAAQAAIBAAAAIAAgEiAEAAAA=</HashCode>
+      <FileName>Battle\Fighter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.MainFighter" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACAQAAQAAAAAAAEBAAAAEAAIAAAAARAAAACAAAAAA=</HashCode>
+      <FileName>Battle\Fighter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.EnemyFighter" Collapsed="true">
+    <Position X="2.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAEAAAAgAAAAAAAAABAAAACAAAAAA=</HashCode>
+      <FileName>Battle\Fighter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Levelsystem" Collapsed="true">
+    <Position X="42.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAACAJAAEAAAAAAQAAAAAAAIA=</HashCode>
+      <FileName>Battle\Levelsystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.MagicSkillset" Collapsed="true">
+    <Position X="47.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAQCAAAAAAAAAAAAEAAAEAAAAAAAAQAA=</HashCode>
+      <FileName>Battle\MagicSkillset.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Stats" Collapsed="true">
+    <Position X="42.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAACAABAAEAAAABAABAAAAAAAABAAAAACA=</HashCode>
+      <FileName>Battle\Stats.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.GameStateManagementGame" Collapsed="true">
+    <Position X="42.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAgAAAAAAAAAAAAAAAAgAAAAAAEAAAAQ=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Program" Collapsed="true">
+    <Position X="46" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Game.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Boss" Collapsed="true">
+    <Position X="0.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAgAAAAAAACAACAAAAAAAAAAQAEAIAEQAACCAABAAA=</HashCode>
+      <FileName>MapElemente\Boss.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Camera" Collapsed="true">
+    <Position X="40.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>MapElemente\Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Enemy" Collapsed="true">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAIgAAAIAgJAAAoAAAQgARAAMAAAGAAAAAAAAhAA=</HashCode>
+      <FileName>MapElemente\Enemy.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Gold" Collapsed="true">
+    <Position X="44.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAggAAAgQAIAAIACACAEBgAiCAAAAAwAAQAAQ=</HashCode>
+      <FileName>MapElemente\Gold.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.GUI" Collapsed="true">
+    <Position X="46" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAgAAAgQAAwAAAAAAAAAEAgADABAgAAAAAAQ=</HashCode>
+      <FileName>MapElemente\GUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Inventory" Collapsed="true">
+    <Position X="40.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAgAAAgAAAAAAACAAAAAgAgAAQEAAAAAAEAQ=</HashCode>
+      <FileName>MapElemente\Inventory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Loot" Collapsed="true">
+    <Position X="44.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAgAACgQAIAAAAKACAABgAgAAAAAAwAAAAgQ=</HashCode>
+      <FileName>MapElemente\Loot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.LootManager" Collapsed="true">
+    <Position X="46" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCAAAAAwAAAgAAAAAAAKACAEAgAAABQEBgAAAAAAQ=</HashCode>
+      <FileName>MapElemente\LootManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Map" Collapsed="true">
+    <Position X="40.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEEAEAAAAAggAAQIAAAEAAAAAAACAAAQAAAEAABAQ=</HashCode>
+      <FileName>MapElemente\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Portal" Collapsed="true">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAACAAQAAAAAAQAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MapElemente\Portal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.RectangleHelper" Collapsed="true">
+    <Position X="47.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAA=</HashCode>
+      <FileName>MapElemente\RectangleHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Sprite" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAAAgAAAgAAAAAAACAAAAAgAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>MapElemente\Sprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Player" Collapsed="true">
+    <Position X="7.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAgAJAAAIAAAQgABAAIACAGAAAIAAACgAA=</HashCode>
+      <FileName>MapElemente\Sprite.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.Tiles" Collapsed="true">
+    <Position X="5.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACEAAAAgAAAgAAAAAAACAAAAAgAgAAIAAAAAAAAAQ=</HashCode>
+      <FileName>MapElemente\TileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.CollisionTiles" Collapsed="true">
+    <Position X="5.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MapElemente\TileMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.GameScreen" Collapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAEBCAAARQAgAEEAIAAAAADAAAAA4AAgAHAkYIBAY=</HashCode>
+      <FileName>ScreenManager\GameScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.InputState" Collapsed="true">
+    <Position X="47.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAAUBAAAAAAAAAAAACQAAFYAAAAAEAIAAAEAAAAEA=</HashCode>
+      <FileName>ScreenManager\InputState.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.ScreenManager" Collapsed="true">
+    <Position X="40.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAVEAgAAAgAwAAAAAAAAAAAAAAiBAERAAAgAACCEQ=</HashCode>
+      <FileName>ScreenManager\ScreenManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.BackgroundScreen" Collapsed="true">
+    <Position X="36" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQQCEAAAAAAABgQAAAAAAAAAAAAAIBAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Screens\SystemScreens\BackgroundScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.LoadingScreen" Collapsed="true">
+    <Position X="2.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAgAAAAAAAAgAAAAAQAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Screens\SystemScreens\LoadingScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.MainMenuScreen" Collapsed="true">
+    <Position X="15.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAiAAAAAAAAAAAAAAAAAAAAAABAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Screens\SystemScreens\MainMenuScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.MenuEntry" Collapsed="true">
+    <Position X="42.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAgAAAAJABAAAAAAAAIAAAACEQAAAI=</HashCode>
+      <FileName>Screens\SystemScreens\MenuEntry.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.MenuScreen" Collapsed="true">
+    <Position X="18" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQQAACGAAAAAAgAAAAAAgAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Screens\SystemScreens\MenuScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.MessageBoxScreen" Collapsed="true">
+    <Position X="27" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQQCAACAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAACQ=</HashCode>
+      <FileName>Screens\SystemScreens\MessageBoxScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.OptionsMenuScreen" Collapsed="true">
+    <Position X="18" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBABAAAgAAAQAggAAAgAQAAAAAAABAAAAAAAABIACAA=</HashCode>
+      <FileName>Screens\SystemScreens\OptionsMenuScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.PauseMenuScreen" Collapsed="true">
+    <Position X="20.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Screens\SystemScreens\PauseMenuScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.PlayerIndexEventArgs" Collapsed="true">
+    <Position X="44.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Screens\SystemScreens\PlayerIndexEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.FireAnimation" Collapsed="true">
+    <Position X="6.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCEAAAABAAAgQAAACAAAAAAAAAAAAgAwACIEAAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\Animation\FireAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.HealingAnimation" Collapsed="true">
+    <Position X="11.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCEAAAABAAAgQAAACAAAAAAAAAAAAgAwACIEAAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\Animation\HealingAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.IceAnimation" Collapsed="true">
+    <Position X="22.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCEAAAABAAAgQAAACAAAAAAAAAAAAgAwACIEAAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\Animation\IceAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.ThunderAnimation" Collapsed="true">
+    <Position X="29.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCEAAAABAAAgQAAACAAAAAAAAAAAAgAwACIEAAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\Animation\ThunderAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.BattlePopup" Collapsed="true">
+    <Position X="33.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCEQSACAAAAgAAAACAAAAAAAAAgAAAAAAAAAUAAgQ=</HashCode>
+      <FileName>Screens\UnsereScreens\BattlePopup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.BattleScreen" Collapsed="true">
+    <Position X="38.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgaCEgOABAIJYgAQEASEEVhAINQQGQQAYEQQlMOQiIc=</HashCode>
+      <FileName>Screens\UnsereScreens\BattleScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.FirstMap" Collapsed="true">
+    <Position X="4.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASCEADAAgAAAgAAAACAQEAAAAQAICADIAUAABEAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\FirstMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.GameOverScreen" Collapsed="true">
+    <Position X="9" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYCEACACAAAAgAAAACAAAAAAAAAggAAAAQAAAUAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\GameOverScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.SecondMap" Collapsed="true">
+    <Position X="13.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASKOADAAgAAAgAAAACAQEAAAAQAIACDIAUAEEFAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\SecondMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.TheEndScreen" Collapsed="true">
+    <Position X="24.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYCEACAAAAAAiAAAACAQAAAACAAAgAAAAQAAAEAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\TheEndScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameStateManagement.ThirdMap" Collapsed="true">
+    <Position X="31.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASCEADAAgAAAgAAAACAAEABAAQAIAADIAUAAAEAAAQ=</HashCode>
+      <FileName>Screens\UnsereScreens\ThirdMap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="GameStateManagement.ScreenState" Collapsed="true">
+    <Position X="40.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAgAAAIAAAEAAA=</HashCode>
+      <FileName>ScreenManager\GameScreen.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
