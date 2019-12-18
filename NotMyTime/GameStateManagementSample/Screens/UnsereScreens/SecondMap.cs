@@ -265,7 +265,7 @@ namespace GameStateManagement
                 if (boss != null && !boss.IsAlive) boss = null;
                 if (boss != null) boss.updateBoss(gameTime, map, player, ScreenManager, ControllingPlayer, boss);
                 if (boss == null)
-                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager);
+                    portal.updatePortal(gameTime, map, player, ScreenManager, ControllingPlayer, lootManager,1);
 
                 if (boss1 != null && !boss1.IsAlive) boss1 = null;
                 if (boss1 != null) boss1.updateSpecial(gameTime, map, player, ScreenManager, ControllingPlayer, boss1);
