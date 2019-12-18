@@ -38,7 +38,7 @@ namespace GameStateManagement
 
             gameFont = content.Load<SpriteFont>("gamefont");
 
-            endScreen = content.Load<Texture2D>("Battle/deathScreen");
+            endScreen = content.Load<Texture2D>("Battle/end");
             font = content.Load<SpriteFont>("Arial");
 
             // once the load has finished, we use ResetElapsedTime to tell the game's

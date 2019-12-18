@@ -51,7 +51,7 @@ namespace GameStateManagement
             map = new Map();
             player = new Player(new Rectangle(11 * 100, 118 * 100, 100, 100));
             camera = new Camera();
-            if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 25, 20, 10, 20);
+            if (mainChar == null) mainChar = new MainFighter("Bruce", 200, 200, 1000, 20, 10, 20);
             mainChar.currentWorldID = 3;
             if (lootManager == null) lootManager = new LootManager();
 
